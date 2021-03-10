@@ -6,4 +6,5 @@ data class Color(val r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) 
     operator fun times(scalar: Float): Color {
         return Color(r * scalar, g * scalar, b * scalar)
     }
+    //dummy comment
 }
