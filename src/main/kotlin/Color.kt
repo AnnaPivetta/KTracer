@@ -1,3 +1,5 @@
+import kotlin.math.abs
+
 data class Color(val r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) {
     /* RGB Color
     params:
@@ -12,4 +14,7 @@ data class Color(val r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) 
         return Color(r + other.r, g + other.g, b + other.b)
     }
 
+    fun is_close (other: Color, epsilon: Float = 1e-10F): Boolean {
+        return abs(r-other.r) < epsilon && abs(g-other.g) < epsilon && abs(b-other.b) < epsilon
+    }
 }
