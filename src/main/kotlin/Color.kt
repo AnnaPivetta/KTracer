@@ -8,7 +8,9 @@ data class Color(val r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) 
         b --> Level of Blue
     functions:
         overload of operator "+" --> sum of respective params of two colors
-        is_close                 --> verifies the equality of
+        is_close                 --> verifies the equality of two colors within an epsilon
+        overload of operator "*" --> (scalar) multiplication of params for the same scalar float
+                                     (other)  scalar product between RGB vectors
      */
     operator fun plus(other: Color): Color {
         return Color(r + other.r, g + other.g, b + other.b)
