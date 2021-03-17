@@ -1,5 +1,7 @@
+import java.io.FileOutputStream
 import java.io.OutputStream
 import java.nio.ByteBuffer
+import java.nio.ByteOrder
 
 class HdrImage(
     private val width: Int = 0,
@@ -11,24 +13,26 @@ class HdrImage(
         return true
 
     }
+
     fun pixelOffset(x: Int, y: Int): Int {
         assert(validCoordinates(x, y))
         return y * width + x
     }
+
     fun getPixel(x: Int, y: Int): Color {
         return pixels[pixelOffset(x, y)]
     }
 
     fun setPixel(x: Int, y: Int, newColor: Color) {
-        pixels.set(pixelOffset(x, y), newColor)
+        pixels[pixelOffset(x, y)] = newColor
     }
 
     fun writePfm(stream: OutputStream) {
-        val endianness = 1.0
+        val endianness = -1.0
         val header = "PF\n$width $height\n$endianness\n"
         stream.write(header.toByteArray())
 
-        for (y in height-1 downTo 0) {
+        for (y in (height - 1) downTo 0) {
             for (x in 0 until width) {
                 val color = getPixel(x, y)
                 writeFloatToStream(stream, color.r)
@@ -38,8 +42,18 @@ class HdrImage(
         }
     }
 
-    private fun writeFloatToStream(stream: OutputStream, value: Float) {
-        stream.write(ByteBuffer.allocate(4).putFloat(value).array())
+    fun writeOnFile(filename: String) {
+        FileOutputStream(filename).use { outStream ->
+            writePfm(outStream)
+        }
     }
+
+    private fun writeFloatToStream(stream: OutputStream, value: Float) {
+        val buf = ByteBuffer.allocate(4)
+        buf.order(ByteOrder.LITTLE_ENDIAN)
+        //stream.write(ByteBuffer.allocate(4).putFloat(value).array())
+        stream.write(buf.putFloat(value).array())
+    }
+
 }
 
