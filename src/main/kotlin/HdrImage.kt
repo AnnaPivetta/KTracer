@@ -7,4 +7,5 @@ class HdrImage(
         assert(validCoordinates(x, y))
         return y * width + x
     }
+
 }
