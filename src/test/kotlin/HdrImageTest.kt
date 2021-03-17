@@ -2,8 +2,6 @@ import org.junit.Test
 
 import org.junit.Assert.*
 import java.io.ByteArrayOutputStream
-import java.io.FileInputStream
-import java.io.InputStream
 
 class HdrImageTest {
 
@@ -28,9 +26,9 @@ class HdrImageTest {
         assertTrue(img.getPixel(0,0) == col)
     }
 
-  /*  @Test
-    fun setPixel() {
-       val img = HdrImage(3, 2)
+    @Test
+    fun writePfm() {
+        val img = HdrImage(3, 2)
 
         img.setPixel(0, 0, Color(1.0e1F, 2.0e1F, 3.0e1F)) // Each component is
         img.setPixel(1, 0, Color(4.0e1F, 5.0e1F, 6.0e1F)) // different from any
@@ -39,20 +37,20 @@ class HdrImageTest {
         img.setPixel(1, 1, Color(4.0e2F, 5.0e2F, 6.0e2F))
         img.setPixel(2, 1, Color(7.0e2F, 8.0e2F, 9.0e2F))
 
-        val referenceBytes = arrayOf<String> (
+        val referenceBytes = arrayOf (
             "0x50", "0x46", "0x0a", "0x33", "0x20", "0x32", "0x0a", "0x2d", "0x31", "0x2e", "0x30", "0x0a",
             "0x00", "0x00", "0xc8", "0x42", "0x00", "0x00", "0x48", "0x43", "0x00", "0x00", "0x96", "0x43",
             "0x00"," 0x00", "0xc8", "0x43", "0x00", "0x00", "0xfa", "0x43", "0x00", "0x00", "0x16", "0x44",
             "0x00", "0x00", "0x2f", "0x44", "0x00", "0x00", "0x48", "0x44", "0x00", "0x00", "0x61", "0x44",
             "0x00", "0x00", "0x20", "0x41", "0x00", "0x00", "0xa0", "0x41", "0x00", "0x00", "0xf0", "0x41",
             "0x00", "0x00", "0x20", "0x42", "0x00", "0x00", "0x48", "0x42", "0x00", "0x00", "0x70", "0x42",
-            "0x00", "0x00", "0xc8", "0x42", "0x00", "0x00", "0x48", "0x43", "0x00", "0x00", "0x96", "0x43")
-        //val inStream : FileInputStream
-        //val referenceBytes = inStream.read()
-       // val buf : ByteArrayOutputStream() = referenceBytes
-        //img.writePfm(buf)
-        //assertTrue(buf.getFloat() == referenceBytes)
+            "0x00", "0x00", "0xc8", "0x42", "0x00", "0x00", "0x48", "0x43", "0x00", "0x00", "0x96", "0x43"
+        )
 
 
-    }*/
+        val buf = ByteArrayOutputStream()
+        img.writePfm(buf)
+        assertTrue(buf.toByteArray().equals(referenceBytes))
+
+    }
 }
