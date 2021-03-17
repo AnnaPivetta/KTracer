@@ -2,5 +2,6 @@ class HdrImage (private val width : Int = 0, private val height: Int = 0, var pi
     fun validCoordinates (x:Int, y:Int) : Boolean {
         assert(0<=x && x<width && 0<=y && y<height)
         return true
+
     }
 }
