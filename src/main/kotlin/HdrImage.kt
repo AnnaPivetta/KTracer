@@ -13,5 +13,9 @@ class HdrImage(
         assert(validCoordinates(x, y))
         return y * width + x
     }
+
+    fun setPixel(x:Int, y:Int, newColor:Color) {
+        pixels.set(pixelOffset(x, y), newColor)
+    }
 }
 
