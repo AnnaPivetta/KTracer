@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="HdrImageTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2021-03-17T10:11:23" hostname="MacBook-Pro-di-Matteo" time="0.003">
+<testsuite name="HdrImageTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-03-17T13:56:33" hostname="MacBook-Pro-di-Matteo" time="0.002">
   <properties/>
-  <testcase name="pixelOffset" classname="HdrImageTest" time="0.003"/>
-  <testcase name="validCoordinates" classname="HdrImageTest" time="0.0"/>
+  <testcase name="setPixel" classname="HdrImageTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
