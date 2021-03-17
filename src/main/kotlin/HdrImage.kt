@@ -17,5 +17,6 @@ class HdrImage(
     fun setPixel(x:Int, y:Int, newColor:Color) {
         pixels.set(pixelOffset(x, y), newColor)
     }
+
 }
 
