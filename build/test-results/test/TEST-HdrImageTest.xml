@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="HdrImageTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-03-17T09:58:25" hostname="cln-173-247.eduroam.unimi.it" time="0.002">
+  <properties/>
+  <testcase name="validCoordinates" classname="HdrImageTest" time="0.002"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
