@@ -4,4 +4,5 @@ class HdrImage (private val width : Int = 0, private val height: Int = 0, var pi
         return true
 
     }
+
 }
