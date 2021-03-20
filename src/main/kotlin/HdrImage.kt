@@ -28,7 +28,7 @@ class HdrImage(
     }
 
     fun writePfm(stream: OutputStream) {
-        val endianness = -1.0
+        val endianness = 1.0
         val header = "PF\n$width $height\n$endianness\n"
         stream.write(header.toByteArray())
 
@@ -49,10 +49,7 @@ class HdrImage(
     }
 
     private fun writeFloatToStream(stream: OutputStream, value: Float) {
-        val buf = ByteBuffer.allocate(4)
-        buf.order(ByteOrder.LITTLE_ENDIAN)
-        //stream.write(ByteBuffer.allocate(4).putFloat(value).array())
-        stream.write(buf.putFloat(value).array())
+        stream.write(ByteBuffer.allocate(4).putFloat(value).array())
     }
 
 }
