@@ -2,6 +2,7 @@ import org.junit.Test
 
 import org.junit.Assert.*
 import java.io.ByteArrayOutputStream
+import java.util.*
 
 class HdrImageTest {
 
@@ -49,11 +50,16 @@ class HdrImageTest {
             0x8c, 0x00, 0x00, 0x42, 0xa0, 0x00, 0x00, 0x42, 0xb4, 0x00, 0x00
 
         )
-
+        //copy referenceBytes in a ByteArray
+        val test = ByteArray (referenceBytes.size)
+        for (i in 0..(referenceBytes.size -1)) {
+            test[i]= referenceBytes[i].toByte()
+        }
         val buf = ByteArrayOutputStream()
         img.writePfm(buf)
-        assertTrue(buf.toByteArray().equals(referenceBytes))
-
+        print(buf)
+        //assertTrue(buf.toByteArray().equals(test))
+        Arrays.equals(buf.toByteArray(), test)
 
     }
 }
