@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="HdrImageTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-03-20T18:14:00" hostname="MBP-di-Anna.lan" time="0.005">
+<testsuite name="HdrImageTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-03-20T18:17:47" hostname="MacBook-Pro-di-Matteo" time="0.006">
   <properties/>
-  <testcase name="writePfm" classname="HdrImageTest" time="0.005"/>
-  <system-out><![CDATA[PF
-3 2
-1.0
-B�??CH??C�??C�??C�??D???D/??DH??Da??A ??A�??A�??B ??BH??Bp??B�??B�??B�??]]></system-out>
+  <testcase name="writePfm" classname="HdrImageTest" time="0.006"/>
+  <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

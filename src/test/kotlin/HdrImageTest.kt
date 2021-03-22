@@ -52,14 +52,12 @@ class HdrImageTest {
         )
         //copy referenceBytes in a ByteArray
         val test = ByteArray (referenceBytes.size)
-        for (i in 0..(referenceBytes.size -1)) {
-            test[i]= referenceBytes[i].toByte()
-        }
+        for (i in 0 until referenceBytes.size) test[i]= referenceBytes[i].toByte()
+
         val buf = ByteArrayOutputStream()
         img.writePfm(buf)
-        print(buf)
         //assertTrue(buf.toByteArray().equals(test))
-        Arrays.equals(buf.toByteArray(), test)
+        assertTrue(Arrays.equals(buf.toByteArray(), test))
 
     }
 }

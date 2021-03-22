@@ -6,12 +6,11 @@ import java.nio.ByteOrder
 class HdrImage(
     private val width: Int = 0,
     private val height: Int = 0,
-    var pixels: Array<Color> = Array(width * height) { Color(0F, 0F, 0F) }
+    var pixels: Array<Color> = Array(width * height) { Color(0.0F, 0.0F, 0.0F) }
 ) {
     fun validCoordinates(x: Int, y: Int): Boolean {
         assert(x in 0..width && y in 0..height)
         return true
-
     }
 
     fun pixelOffset(x: Int, y: Int): Int {
