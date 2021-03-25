@@ -33,7 +33,7 @@ class HdrImageTest {
     }
 
     @Test
-    fun writePfm() {
+    fun writePfmFile() {
         val img = HdrImage(3, 2)
 
         img.setPixel(0, 0, Color(1.0e1F, 2.0e1F, 3.0e1F)) // Each component is
@@ -55,10 +55,10 @@ class HdrImageTest {
         )
         //copy referenceBytes in a ByteArray
         val test = ByteArray (referenceBytes.size)
-        for (i in 0 until referenceBytes.size) test[i]= referenceBytes[i].toByte()
+        for (i in referenceBytes.indices) test[i]= referenceBytes[i].toByte()
 
         val buf = ByteArrayOutputStream()
-        img.writePfm(buf)
+        img.writePfmFile(buf)
         //assertTrue(buf.toByteArray().equals(test))
         assertTrue(Arrays.equals(buf.toByteArray(), test))
 
@@ -68,11 +68,9 @@ class HdrImageTest {
     fun readLine() {
         val img = HdrImage(3, 2)
         val mystring = "Hello\nWorld!"
-        val mystream=mystring.byteInputStream()
-        println("ciao")
-        println(img.readLine(mystream))
-        println("ciao2")
-        assertTrue(img.readLine(mystream).equals("Hello"))
-
+        val mystream = mystring.byteInputStream()
+        assertTrue(img.readLine(mystream) == "Hello")
+        assertTrue(img.readLine(mystream) == "World!")
+        assertTrue(img.readLine(mystream) == "")
     }
 }

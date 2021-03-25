@@ -1,22 +1,41 @@
+import java.io.FileOutputStream
+import java.io.OutputStream
+import java.nio.ByteBuffer
+import java.nio.ByteOrder
+import java.util.*
+
 //import sun.nio.cs.UTF_8
 //import java.io.FileInputStream
 import java.io.*
 //import java.lang.StringBuilder
-import java.nio.ByteBuffer
-import java.util.*
-
-
-//import java.nio.ByteOrder
 //import java.nio.charset.Charset
+
 
 class HdrImage(
     private val width: Int = 0,
     private val height: Int = 0,
     var pixels: Array<Color> = Array(width * height) { Color(0.0F, 0.0F, 0.0F) }
 ) {
+
+    fun readPfmFile(fileIN : String) {
+
+    }
+
+    fun readFloatFromStream (stream : InputStream, endianness : String = "BE"): Float{
+        try {
+            val bb = ByteBuffer.wrap(stream.readNBytes(4))
+            if (endianness=="BE") bb.order(ByteOrder.BIG_ENDIAN)
+            else bb.order(ByteOrder.LITTLE_ENDIAN)
+           return bb.getFloat()
+        }
+        catch (e: java.nio.BufferUnderflowException) {
+            throw InvalidPfmFileFormat("Not enough bytes left")
+        }
+    }
+
+    fun parseEndianness() : String {return "BE"}
     fun validCoordinates(x: Int, y: Int): Boolean {
-        if (x in 0..width && y in 0..height) return true
-        else return false
+        return (x in 0 until width && y in 0 until height)
     }
 
     fun pixelOffset(x: Int, y: Int): Int {
@@ -32,7 +51,7 @@ class HdrImage(
         pixels[pixelOffset(x, y)] = newColor
     }
 
-    fun writePfm(stream: OutputStream) {
+    fun writePfmFile(stream: OutputStream) {
         val endianness = 1.0
         val header = "PF\n$width $height\n$endianness\n"
         stream.write(header.toByteArray())
@@ -47,9 +66,9 @@ class HdrImage(
         }
     }
 
-    fun writeOnFile(filename: String) {
+    fun saveImg(filename: String) {
         FileOutputStream(filename).use { outStream ->
-            writePfm(outStream)
+            writePfmFile(outStream)
         }
     }
 
@@ -57,8 +76,15 @@ class HdrImage(
         stream.write(ByteBuffer.allocate(4).putFloat(value).array())
     }
 
-    fun readLine (stream: InputStream) : String {
-        return stream.bufferedReader().readLine()
+    fun readLine (stream: InputStream) : String? {
+        //return stream.bufferedReader().readLine()
+        var result = byteArrayOf()
+        while (true) {
+            val curbyte = stream.readNBytes(1)
+            if (Arrays.equals(curbyte,"".toByteArray()) || curbyte[0] == '\n'.toByte()) return String(result)
+            result += curbyte[0]
+        }
+
 
         //stream.bufferedReader().close() NB forse il problema è qui, ma anche chiudendo non funziona
         // capire se chiudendo poi riparte a leggere dalla prima riga
