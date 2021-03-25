@@ -1,7 +1,13 @@
-import java.io.FileOutputStream
-import java.io.OutputStream
+//import sun.nio.cs.UTF_8
+//import java.io.FileInputStream
+import java.io.*
+//import java.lang.StringBuilder
 import java.nio.ByteBuffer
-import java.nio.ByteOrder
+import java.util.*
+
+
+//import java.nio.ByteOrder
+//import java.nio.charset.Charset
 
 class HdrImage(
     private val width: Int = 0,
@@ -49,6 +55,36 @@ class HdrImage(
 
     private fun writeFloatToStream(stream: OutputStream, value: Float) {
         stream.write(ByteBuffer.allocate(4).putFloat(value).array())
+    }
+
+    fun readLine (stream: InputStream) : String {
+        return stream.bufferedReader().readLine()
+
+        //stream.bufferedReader().close() NB forse il problema è qui, ma anche chiudendo non funziona
+        // capire se chiudendo poi riparte a leggere dalla prima riga
+
+
+        //val reader = BufferedReader(stream.reader())
+        //return reader.readLine()
+
+        //val reader = BufferedReader(InputStreamReader(stream))
+        //return reader.readLine()
+
+        //val scan = Scanner (stream)
+        //return scan.next()
+
+
+       /* val content = StringBuilder()
+        var bool = true
+        while (bool==true) {
+            var currentByte = stream.read().toByte()
+            if (currentByte != "\n".toByte(hashCode())) {
+                content.append(currentByte.toString())
+                //bool = true
+            }
+            else bool = false
+        }
+        return content.toString()*/
     }
 
 }

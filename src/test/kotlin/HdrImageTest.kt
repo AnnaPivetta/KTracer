@@ -1,7 +1,10 @@
 import org.junit.Test
 
 import org.junit.Assert.*
+import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
+import java.io.InputStream
+import java.nio.charset.Charset
 import java.util.*
 
 class HdrImageTest {
@@ -58,6 +61,18 @@ class HdrImageTest {
         img.writePfm(buf)
         //assertTrue(buf.toByteArray().equals(test))
         assertTrue(Arrays.equals(buf.toByteArray(), test))
+
+    }
+
+    @Test
+    fun readLine() {
+        val img = HdrImage(3, 2)
+        val mystring = "Hello\nWorld!"
+        val mystream=mystring.byteInputStream()
+        println("ciao")
+        println(img.readLine(mystream))
+        println("ciao2")
+        assertTrue(img.readLine(mystream).equals("Hello"))
 
     }
 }
