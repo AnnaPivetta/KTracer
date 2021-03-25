@@ -4,8 +4,10 @@ import org.junit.Assert.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
+import java.nio.ByteOrder
 import java.nio.charset.Charset
 import java.util.*
+import kotlin.test.assertFailsWith
 
 class HdrImageTest {
 
@@ -72,5 +74,17 @@ class HdrImageTest {
         assertTrue(img.readLine(mystream) == "Hello")
         assertTrue(img.readLine(mystream) == "World!")
         assertTrue(img.readLine(mystream) == "")
+    }
+
+    @Test
+    fun parseEndianness() {
+        val img = HdrImage()
+        //Test if correct Endianness is read
+        assertTrue(img.parseEndianness("1.0") == ByteOrder.BIG_ENDIAN)
+        assertTrue(img.parseEndianness("-1.0") == ByteOrder.LITTLE_ENDIAN)
+
+        //Test if correct exception is thrown when something goes wrong
+        assertFailsWith<InvalidPfmFileFormat> {img.parseEndianness("2.0")}
+        assertFailsWith<InvalidPfmFileFormat> {img.parseEndianness("a")}
     }
 }

@@ -21,19 +21,30 @@ class HdrImage(
 
     }
 
-    fun readFloatFromStream (stream : InputStream, endianness : String = "BE"): Float{
+    fun readFloatFromStream (stream : InputStream, endianness : ByteOrder = ByteOrder.BIG_ENDIAN): Float{
         try {
             val bb = ByteBuffer.wrap(stream.readNBytes(4))
-            if (endianness=="BE") bb.order(ByteOrder.BIG_ENDIAN)
-            else bb.order(ByteOrder.LITTLE_ENDIAN)
-           return bb.getFloat()
+            bb.order(endianness)
+           return bb.float
         }
         catch (e: java.nio.BufferUnderflowException) {
             throw InvalidPfmFileFormat("Not enough bytes left")
         }
     }
 
-    fun parseEndianness() : String {return "BE"}
+    fun parseEndianness(line: String) : ByteOrder {
+        val end : Float
+        try {
+            end = line.toFloat()
+        }
+        catch (e: NumberFormatException){
+            throw InvalidPfmFileFormat("Endianness specification not found")
+        }
+        if (end == 1.0F) return ByteOrder.BIG_ENDIAN
+        else if (end == -1.0F) return ByteOrder.LITTLE_ENDIAN
+        else throw InvalidPfmFileFormat("Invalid Endiannes specification. Value must be 1.0(BE) or -1.0(LE)")
+    }
+
     fun validCoordinates(x: Int, y: Int): Boolean {
         return (x in 0 until width && y in 0 until height)
     }
