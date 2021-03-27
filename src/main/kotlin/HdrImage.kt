@@ -81,6 +81,7 @@ class HdrImage(
             if (Arrays.equals(cb, "".toByteArray()) || cb[0] == '\n'.toByte()) return String(result)
             result += cb[0]
         }
+
     }
     fun parseEndianness(line: String): ByteOrder {
         val end: Float
