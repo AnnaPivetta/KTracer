@@ -87,5 +87,15 @@ class HdrImageTest {
         //Test if correct exception is thrown when something goes wrong
         assertFailsWith<InvalidPfmFileFormat> { img.parseEndianness("2.0") }
         assertFailsWith<InvalidPfmFileFormat> { img.parseEndianness("a") }
+        //Test if correct exception is thrown when something goes wrong
+        assertFailsWith<InvalidPfmFileFormat> {img.parseEndianness("2.0")}
+        assertFailsWith<InvalidPfmFileFormat> {img.parseEndianness("a")}
+    }
+
+    @Test
+    fun parseImgSize() {
+        val img = HdrImage()
+        println(img.parseImgSize("18 20"))
+        assertTrue(img.parseImgSize("18 20") == Pair(18,20))
     }
 }
