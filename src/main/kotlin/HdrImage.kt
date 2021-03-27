@@ -7,9 +7,9 @@ import java.io.*
 
 
 class HdrImage(
-    private val width: Int = 0,
-    private val height: Int = 0,
-    var pixels: Array<Color> = Array(width * height) { Color(0.0F, 0.0F, 0.0F) }
+    private var width: Int = 0,
+    private var height: Int = 0,
+    private var pixels: Array<Color> = Array(width * height) { Color(0.0F, 0.0F, 0.0F) }
 ) {
 
     /*
@@ -22,7 +22,7 @@ class HdrImage(
         Supporting I/O Functions
             readLine            --> read one line at a time from InputStream
             parseEndianness     --> read Endianness from Pfm File Format and check if valid
-            parseImageSize      --> read width and height from Pfm File Format and check if valid
+            parseImgSize      --> read width and height from Pfm File Format and check if valid
 
         (P) readFloatFromStream --> read one float at a time from InputStream
         (P) writeFloatToStream  --> write the param:Float to OutputStream
@@ -34,7 +34,9 @@ class HdrImage(
         val magic = readLine(stream)
         if (magic != "PF") throw InvalidPfmFileFormat("Invalid magic in PFM file")
 
-        //(width, height) = parseImageSize(readLine(stream))
+        val (w, h) = parseImgSize(readLine(stream))
+        width = w
+        height = h
         val endianness = parseEndianness(readLine(stream))
         pixels = Array(width * height) { Color(0.0F, 0.0F, 0.0F) }
         for (y in (height - 1) downTo 0) {
@@ -90,24 +92,28 @@ class HdrImage(
         } catch (e: NumberFormatException) {
             throw InvalidPfmFileFormat("Endianness specification not found")
         }
-        if (end == 1.0F) return ByteOrder.BIG_ENDIAN
-        else if (end == -1.0F) return ByteOrder.LITTLE_ENDIAN
-        else throw InvalidPfmFileFormat("Invalid Endianness specification. Value must be 1.0(BE) or -1.0(LE)")
+        when (end) {
+            1.0F -> return ByteOrder.BIG_ENDIAN
+            -1.0F -> return ByteOrder.LITTLE_ENDIAN
+            else -> throw InvalidPfmFileFormat("Invalid Endianness specification. Value must be 1.0(BE) or -1.0(LE)")
+        }
     }
 
     fun parseImgSize(line : String) : Pair<Int, Int> {
         val elements = line.split(" ")
-        if (elements.size != 2) {throw InvalidPfmFileFormat ("invalid image size specification")}
+        if (elements.size != 2) {throw InvalidPfmFileFormat ("Invalid image size specification")}
+        val w : Int
+        val h : Int
         try {
-            val width = elements[0].toInt()
-            val height = elements[1].toInt()
-            if (width<0 || height<0) {throw InvalidPfmFileFormat ("invalid image size specification: width and height must be >=0")}
+            w = elements[0].toInt()
+            h = elements[1].toInt()
+            if (width<0 || height<0) {throw InvalidPfmFileFormat ("Invalid image size specification: width and height must be >=0")}
 
         }
         catch (e: NumberFormatException) {
-            throw InvalidPfmFileFormat("invalid image size specification")
+            throw InvalidPfmFileFormat("Invalid image size specification")
         }
-        return Pair(width,height)
+        return Pair(w,h)
     }
 
 
@@ -131,6 +137,8 @@ class HdrImage(
     Access methods
         setPixel    --> implements the setter for 1 pixel in image
         getPixel    --> implements the getter for 1 pixel in image
+        getWidth    --> implements the getter for image width
+        getHeight   --> implements the getter for image height
 
         Supporting I/O Functions
             validCoordinates   --> check the validity of given coordinates (x, y)
@@ -153,6 +161,14 @@ class HdrImage(
 
     fun setPixel(x: Int, y: Int, newColor: Color) {
         pixels[pixelOffset(x, y)] = newColor
+    }
+
+    fun getWidth() : Int {
+        return width
+    }
+
+    fun getHeight() : Int {
+        return height
     }
 }
 
