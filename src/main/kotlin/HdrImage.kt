@@ -30,7 +30,6 @@ class HdrImage(
 
     */
     fun readPfmFile(stream: InputStream) {
-
         val magic = readLine(stream)
         if (magic != "PF") throw InvalidPfmFileFormat("Invalid magic in PFM file")
 
