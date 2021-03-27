@@ -7,8 +7,8 @@ import java.io.*
 
 
 class HdrImage(
-    private val width: Int = 0,
-    private val height: Int = 0,
+    private var width: Int = 0,
+    private var height: Int = 0,
     var pixels: Array<Color> = Array(width * height) { Color(0.0F, 0.0F, 0.0F) }
 ) {
 
