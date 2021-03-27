@@ -85,6 +85,8 @@ class HdrImage(
     fun parseEndianness(line: String): ByteOrder {
         val end: Float
         try {
+
+
             end = line.toFloat()
         } catch (e: NumberFormatException) {
             throw InvalidPfmFileFormat("Endianness specification not found")
