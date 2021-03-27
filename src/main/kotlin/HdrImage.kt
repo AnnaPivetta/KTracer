@@ -95,6 +95,21 @@ class HdrImage(
         else throw InvalidPfmFileFormat("Invalid Endianness specification. Value must be 1.0(BE) or -1.0(LE)")
     }
 
+    fun parseImgSize(line : String) : Pair<Int, Int> {
+        val elements = line.split(" ")
+        if (elements.size != 2) {throw InvalidPfmFileFormat ("invalid image size specification")}
+        try {
+            val width = elements[0].toInt()
+            val height = elements[1].toInt()
+            if (width<0 || height<0) {throw InvalidPfmFileFormat ("invalid image size specification: width and height must be >=0")}
+
+        }
+        catch (e: NumberFormatException) {
+            throw InvalidPfmFileFormat("invalid image size specification")
+        }
+        return Pair(width,height)
+    }
+
 
     private fun readFloatFromStream(stream: InputStream, endianness: ByteOrder = ByteOrder.BIG_ENDIAN): Float {
         try {
