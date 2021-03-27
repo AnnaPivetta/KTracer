@@ -4,8 +4,10 @@ import org.junit.Assert.*
 import java.io.ByteArrayInputStream
 import java.io.ByteArrayOutputStream
 import java.io.InputStream
+import java.nio.ByteOrder
 import java.nio.charset.Charset
 import java.util.*
+import kotlin.test.assertFailsWith
 
 class HdrImageTest {
 
@@ -15,6 +17,7 @@ class HdrImageTest {
         assertTrue(img.validCoordinates(0, 2))
 
     }
+
     @Test
     fun pixelOffset() {
         val img = HdrImage(10, 20)
@@ -29,11 +32,11 @@ class HdrImageTest {
         val col2 = Color(5.0e1F, 6.0e1F, 7.0e1F)
         img.setPixel(0, 0, col1)
         img.setPixel(1, 1, col2)
-        assertTrue(img.getPixel(1,1) == col2)
+        assertTrue(img.getPixel(1, 1) == col2)
     }
 
     @Test
-    fun writePfm() {
+    fun writePfmFile() {
         val img = HdrImage(3, 2)
 
         img.setPixel(0, 0, Color(1.0e1F, 2.0e1F, 3.0e1F)) // Each component is
@@ -54,12 +57,11 @@ class HdrImageTest {
 
         )
         //copy referenceBytes in a ByteArray
-        val test = ByteArray (referenceBytes.size)
-        for (i in 0 until referenceBytes.size) test[i]= referenceBytes[i].toByte()
+        val test = ByteArray(referenceBytes.size)
+        for (i in referenceBytes.indices) test[i] = referenceBytes[i].toByte()
 
         val buf = ByteArrayOutputStream()
-        img.writePfm(buf)
-        //assertTrue(buf.toByteArray().equals(test))
+        img.writePfmFile(buf)
         assertTrue(Arrays.equals(buf.toByteArray(), test))
 
     }
@@ -68,11 +70,22 @@ class HdrImageTest {
     fun readLine() {
         val img = HdrImage(3, 2)
         val mystring = "Hello\nWorld!"
-        val mystream=mystring.byteInputStream()
-        println("ciao")
-        println(img.readLine(mystream))
-        println("ciao2")
-        assertTrue(img.readLine(mystream).equals("Hello"))
+        val mystream = mystring.byteInputStream()
+        assertTrue(img.readLine(mystream) == "Hello")
+        assertTrue(img.readLine(mystream) == "World!")
+        assertTrue(img.readLine(mystream) == "")
+        mystream.close()
+    }
 
+    @Test
+    fun parseEndianness() {
+        val img = HdrImage()
+        //Test if correct Endianness is read
+        assertTrue(img.parseEndianness("1.0") == ByteOrder.BIG_ENDIAN)
+        assertTrue(img.parseEndianness("-1.0") == ByteOrder.LITTLE_ENDIAN)
+
+        //Test if correct exception is thrown when something goes wrong
+        assertFailsWith<InvalidPfmFileFormat> { img.parseEndianness("2.0") }
+        assertFailsWith<InvalidPfmFileFormat> { img.parseEndianness("a") }
     }
 }
