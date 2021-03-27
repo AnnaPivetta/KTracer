@@ -3,12 +3,7 @@ import java.io.OutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.*
-
-//import sun.nio.cs.UTF_8
-//import java.io.FileInputStream
 import java.io.*
-//import java.lang.StringBuilder
-//import java.nio.charset.Charset
 
 
 class HdrImage(
@@ -17,49 +12,44 @@ class HdrImage(
     var pixels: Array<Color> = Array(width * height) { Color(0.0F, 0.0F, 0.0F) }
 ) {
 
-    fun readPfmFile(fileIN : String) {
+    /*
+    I/O Functions
+        readPfmFile     --> read file Pfm from generic InputStream
+        readImg         --> Implements the API for reading Image from file
+        writePfmFile    --> write file in Pfm format to generic OutputStream
+        saveImg         --> Implements the API for writing Image to file
 
-    }
+        Supporting I/O Functions
+            readLine            --> read one line at a time from InputStream
+            parseEndianness     --> read Endianness from Pfm File Format and check if valid
+            parseImageSize      --> read width and height from Pfm File Format and check if valid
 
-    fun readFloatFromStream (stream : InputStream, endianness : ByteOrder = ByteOrder.BIG_ENDIAN): Float{
-        try {
-            val bb = ByteBuffer.wrap(stream.readNBytes(4))
-            bb.order(endianness)
-           return bb.float
+        (P) readFloatFromStream --> read one float at a time from InputStream
+        (P) writeFloatToStream  --> write the param:Float to OutputStream
+
+
+    */
+    fun readPfmFile(stream: InputStream) {
+
+        val magic = readLine(stream)
+        if (magic != "PF") throw InvalidPfmFileFormat("Invalid magic in PFM file")
+
+        //(width, height) = parseImageSize(readLine(stream))
+        val endianness = parseEndianness(readLine(stream))
+        pixels = Array(width * height) { Color(0.0F, 0.0F, 0.0F) }
+        for (y in (height - 1) downTo 0) {
+            for (x in 0 until width) {
+                val r = readFloatFromStream(stream, endianness)
+                val g = readFloatFromStream(stream, endianness)
+                val b = readFloatFromStream(stream, endianness)
+                setPixel(x, y, Color(r, g, b))
+            }
         }
-        catch (e: java.nio.BufferUnderflowException) {
-            throw InvalidPfmFileFormat("Not enough bytes left")
+    }
+    fun readImg(fileIN: String) {
+        FileInputStream(fileIN).use { INStream ->
+            readPfmFile(INStream)
         }
-    }
-
-    fun parseEndianness(line: String) : ByteOrder {
-        val end : Float
-        try {
-            end = line.toFloat()
-        }
-        catch (e: NumberFormatException){
-            throw InvalidPfmFileFormat("Endianness specification not found")
-        }
-        if (end == 1.0F) return ByteOrder.BIG_ENDIAN
-        else if (end == -1.0F) return ByteOrder.LITTLE_ENDIAN
-        else throw InvalidPfmFileFormat("Invalid Endiannes specification. Value must be 1.0(BE) or -1.0(LE)")
-    }
-
-    fun validCoordinates(x: Int, y: Int): Boolean {
-        return (x in 0 until width && y in 0 until height)
-    }
-
-    fun pixelOffset(x: Int, y: Int): Int {
-        assert(validCoordinates(x, y))
-        return y * width + x
-    }
-
-    fun getPixel(x: Int, y: Int): Color {
-        return pixels[pixelOffset(x, y)]
-    }
-
-    fun setPixel(x: Int, y: Int, newColor: Color) {
-        pixels[pixelOffset(x, y)] = newColor
     }
 
     fun writePfmFile(stream: OutputStream) {
@@ -83,46 +73,70 @@ class HdrImage(
         }
     }
 
+    fun readLine(stream: InputStream): String {
+        //return stream.bufferedReader().readLine()
+        var result = byteArrayOf()
+        while (true) {
+            val cb = stream.readNBytes(1)   //read Current Byte
+            if (Arrays.equals(cb, "".toByteArray()) || cb[0] == '\n'.toByte()) return String(result)
+            result += cb[0]
+        }
+    }
+    fun parseEndianness(line: String): ByteOrder {
+        val end: Float
+        try {
+            end = line.toFloat()
+        } catch (e: NumberFormatException) {
+            throw InvalidPfmFileFormat("Endianness specification not found")
+        }
+        if (end == 1.0F) return ByteOrder.BIG_ENDIAN
+        else if (end == -1.0F) return ByteOrder.LITTLE_ENDIAN
+        else throw InvalidPfmFileFormat("Invalid Endianness specification. Value must be 1.0(BE) or -1.0(LE)")
+    }
+
+
+    private fun readFloatFromStream(stream: InputStream, endianness: ByteOrder = ByteOrder.BIG_ENDIAN): Float {
+        try {
+            val bb = ByteBuffer.wrap(stream.readNBytes(4))
+            bb.order(endianness)
+            return bb.float
+        } catch (e: java.nio.BufferUnderflowException) {
+            throw InvalidPfmFileFormat("Not enough bytes left")
+        }
+    }
+
+
     private fun writeFloatToStream(stream: OutputStream, value: Float) {
         stream.write(ByteBuffer.allocate(4).putFloat(value).array())
     }
 
-    fun readLine (stream: InputStream) : String? {
-        //return stream.bufferedReader().readLine()
-        var result = byteArrayOf()
-        while (true) {
-            val curbyte = stream.readNBytes(1)
-            if (Arrays.equals(curbyte,"".toByteArray()) || curbyte[0] == '\n'.toByte()) return String(result)
-            result += curbyte[0]
-        }
+
+    /*
+    Access methods
+        setPixel    --> implements the setter for 1 pixel in image
+        getPixel    --> implements the getter for 1 pixel in image
+
+        Supporting I/O Functions
+            validCoordinates   --> check the validity of given coordinates (x, y)
+            pixelOffset        --> returns the position in the Pixel Array for the given coordinates
 
 
-        //stream.bufferedReader().close() NB forse il problema è qui, ma anche chiudendo non funziona
-        // capire se chiudendo poi riparte a leggere dalla prima riga
-
-
-        //val reader = BufferedReader(stream.reader())
-        //return reader.readLine()
-
-        //val reader = BufferedReader(InputStreamReader(stream))
-        //return reader.readLine()
-
-        //val scan = Scanner (stream)
-        //return scan.next()
-
-
-       /* val content = StringBuilder()
-        var bool = true
-        while (bool==true) {
-            var currentByte = stream.read().toByte()
-            if (currentByte != "\n".toByte(hashCode())) {
-                content.append(currentByte.toString())
-                //bool = true
-            }
-            else bool = false
-        }
-        return content.toString()*/
+     */
+    fun validCoordinates(x: Int, y: Int): Boolean {
+        return (x in 0 until width && y in 0 until height)
     }
 
+    fun pixelOffset(x: Int, y: Int): Int {
+        assert(validCoordinates(x, y))
+        return y * width + x
+    }
+
+    fun getPixel(x: Int, y: Int): Color {
+        return pixels[pixelOffset(x, y)]
+    }
+
+    fun setPixel(x: Int, y: Int, newColor: Color) {
+        pixels[pixelOffset(x, y)] = newColor
+    }
 }
 

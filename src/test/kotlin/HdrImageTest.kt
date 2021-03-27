@@ -17,6 +17,7 @@ class HdrImageTest {
         assertTrue(img.validCoordinates(0, 2))
 
     }
+
     @Test
     fun pixelOffset() {
         val img = HdrImage(10, 20)
@@ -31,7 +32,7 @@ class HdrImageTest {
         val col2 = Color(5.0e1F, 6.0e1F, 7.0e1F)
         img.setPixel(0, 0, col1)
         img.setPixel(1, 1, col2)
-        assertTrue(img.getPixel(1,1) == col2)
+        assertTrue(img.getPixel(1, 1) == col2)
     }
 
     @Test
@@ -56,12 +57,11 @@ class HdrImageTest {
 
         )
         //copy referenceBytes in a ByteArray
-        val test = ByteArray (referenceBytes.size)
-        for (i in referenceBytes.indices) test[i]= referenceBytes[i].toByte()
+        val test = ByteArray(referenceBytes.size)
+        for (i in referenceBytes.indices) test[i] = referenceBytes[i].toByte()
 
         val buf = ByteArrayOutputStream()
         img.writePfmFile(buf)
-        //assertTrue(buf.toByteArray().equals(test))
         assertTrue(Arrays.equals(buf.toByteArray(), test))
 
     }
@@ -74,6 +74,7 @@ class HdrImageTest {
         assertTrue(img.readLine(mystream) == "Hello")
         assertTrue(img.readLine(mystream) == "World!")
         assertTrue(img.readLine(mystream) == "")
+        mystream.close()
     }
 
     @Test
@@ -84,7 +85,7 @@ class HdrImageTest {
         assertTrue(img.parseEndianness("-1.0") == ByteOrder.LITTLE_ENDIAN)
 
         //Test if correct exception is thrown when something goes wrong
-        assertFailsWith<InvalidPfmFileFormat> {img.parseEndianness("2.0")}
-        assertFailsWith<InvalidPfmFileFormat> {img.parseEndianness("a")}
+        assertFailsWith<InvalidPfmFileFormat> { img.parseEndianness("2.0") }
+        assertFailsWith<InvalidPfmFileFormat> { img.parseEndianness("a") }
     }
 }
