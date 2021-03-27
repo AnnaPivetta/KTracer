@@ -97,17 +97,19 @@ class HdrImage(
 
     fun parseImgSize(line : String) : Pair<Int, Int> {
         val elements = line.split(" ")
-        if (elements.size != 2) {throw InvalidPfmFileFormat ("invalid image size specification")}
+        if (elements.size != 2) {throw InvalidPfmFileFormat ("invalid image size specification: two arguments must be specified")}
+        var w :Int = 0
+        var h :Int = 0
         try {
-            val width = elements[0].toInt()
-            val height = elements[1].toInt()
-            if (width<0 || height<0) {throw InvalidPfmFileFormat ("invalid image size specification: width and height must be >=0")}
+            w = elements[0].toInt()
+            h = elements[1].toInt()
+            if (w<0 || h<0) {throw InvalidPfmFileFormat ("invalid image size specification: width and height must be >=0")}
 
         }
         catch (e: NumberFormatException) {
             throw InvalidPfmFileFormat("invalid image size specification")
         }
-        return Pair(width,height)
+        return Pair(w,h)
     }
 
 

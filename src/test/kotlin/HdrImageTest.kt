@@ -95,7 +95,9 @@ class HdrImageTest {
     @Test
     fun parseImgSize() {
         val img = HdrImage()
-        println(img.parseImgSize("18 20"))
+        //println(img.parseImgSize("2.3 18"))
         assertTrue(img.parseImgSize("18 20") == Pair(18,20))
+        assertFailsWith<InvalidPfmFileFormat> { img.parseImgSize("-2 18") }
+        assertFailsWith<InvalidPfmFileFormat> { img.parseImgSize("car") }
     }
 }
