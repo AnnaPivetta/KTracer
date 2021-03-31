@@ -1,9 +1,11 @@
+import java.awt.image.BufferedImage
 import java.io.FileOutputStream
 import java.io.OutputStream
 import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.*
 import java.io.*
+import javax.imageio.ImageIO
 import kotlin.math.log10
 import kotlin.math.pow
 
@@ -19,7 +21,7 @@ class HdrImage(
         readPfmFile     --> read file Pfm from generic InputStream
         readImg         --> Implements the API for reading Image from file
         writePfmFile    --> write file in Pfm format to generic OutputStream
-        saveImg         --> Implements the API for writing Image to file
+        saveHDRImg         --> Implements the API for writing Image to file in HDR
 
         Supporting I/O Functions
             readLine            --> read one line at a time from InputStream
@@ -70,7 +72,7 @@ class HdrImage(
         }
     }
 
-    fun saveImg(filename: String) {
+    fun saveHDRImg(filename: String) {
         FileOutputStream(filename).use { outStream ->
             writePfmFile(outStream)
         }
@@ -128,15 +130,6 @@ class HdrImage(
         }
     }
 
-    fun averageLuminosity(delta : Float = 1e-10F) : Float {
-        var sum = 0.0F
-        for (pix in pixels) {
-            sum += log10(delta+pix.luminosity())
-        }
-        return 10.0F.pow(sum/(pixels.size))
-    }
-
-
     private fun writeFloatToStream(stream: OutputStream, value: Float) {
         stream.write(ByteBuffer.allocate(4).putFloat(value).array())
     }
@@ -145,6 +138,13 @@ class HdrImage(
     Conversion in LDR methods
 
      */
+    fun averageLuminosity(delta : Float = 1e-10F) : Float {
+        var sum = 0.0F
+        for (pix in pixels) {
+            sum += log10(delta+pix.luminosity())
+        }
+        return 10.0F.pow(sum/(pixels.size))
+    }
 
     fun normalizeImg (a : Float = 0.18F, luminosity : Float? = null) {
         val l = luminosity ?: averageLuminosity()   //If luminosity == null, compute it
@@ -168,6 +168,25 @@ class HdrImage(
         return x / (1+x)
     }
 
+    fun writeLDRImg (stream : OutputStream, format : String, gamma : Float = 1.0F) {
+        val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
+        for (y in 0 until height) {
+            for (x in 0 until width) {
+                val intR = (255 * getPixel(x, y).r.pow(1/gamma)) .toInt()
+                val intG = (255 * getPixel(x, y).g.pow(1/gamma)) .toInt()
+                val intB = (255 * getPixel(x, y).b.pow(1/gamma)) .toInt()
+                val rgb = intR.shl(16) + intG.shl(8) + intB
+                image.setRGB(x, y, rgb)
+            }
+        }
+        ImageIO.write(image, format, stream)
+    }
+
+    fun saveLDRImg (filename : String, format : String, gamma : Float = 1.0F) {
+        FileOutputStream(filename).use { outStream ->
+            writeLDRImg(outStream, format, gamma)
+        }
+    }
     /*
     Access methods
         setPixel    --> implements the setter for 1 pixel in image

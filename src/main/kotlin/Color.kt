@@ -32,4 +32,5 @@ data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) 
     fun luminosity() : Float {
         return (maxOf(r,g,b) + minOf(r,g,b))/2
     }
+
 }
