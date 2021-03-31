@@ -131,6 +131,32 @@ class HdrImage(
         stream.write(ByteBuffer.allocate(4).putFloat(value).array())
     }
 
+    /*
+    Conversion in LDR methods
+
+     */
+
+    fun normalizeImg (a : Float = 0.18, luminosity : Float? = null) {
+        val l = luminosity ?: averageLuminosity()   //If luminosity == null, compute it
+        val il = 1.0F/l                                //Inverse of luminosity
+        for (p in pixels) {
+            p.r *= a * il
+            p.g *= a * il
+            p.b *= a * il
+        }
+    }
+
+    fun clampImg () {
+        for (p in pixels) {
+            p.r = clamp(p.r)
+            p.g = clamp(p.g)
+            p.b = clamp(p.b)
+        }
+    }
+
+    private fun clamp (x : Float) : Float {
+        return x / (1+x)
+    }
 
     /*
     Access methods

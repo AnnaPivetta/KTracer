@@ -1,6 +1,6 @@
 import kotlin.math.abs
 
-data class Color(val r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) {
+data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) {
     /* RGB Color
     params:
         r --> Level of Red

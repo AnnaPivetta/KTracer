@@ -163,10 +163,32 @@ class HdrImageTest {
             assertTrue( img.getPixel(2, 1).isClose(Color(7.0e2F, 8.0e2F, 9.0e2F)))
 
         }
+    }
 
+    @Test
+    fun normalizeImg() {
+        val img = HdrImage(2, 1)
 
+        img.setPixel(0, 0, Color(5.0F,   10.0F,   15.0F))
+        img.setPixel(1, 0, Color(500.0F, 1000.0F, 1500.0F))
+        img.normalizeImg(1000.0F, 100.0F )
 
+        assertTrue(img.getPixel(0, 0).isClose(Color(0.5e2F, 1.0e2F, 1.5e2F)))
+        assertTrue(img.getPixel(1, 0).isClose(Color(0.5e4F, 1.0e4F, 1.5e4F)))
+    }
 
+    @Test
+    fun clampImg() {
+        val img = HdrImage(2, 1)
+        img.setPixel(0, 0, Color(5.0F,   10.0F,   15.0F))
+        img.setPixel(1, 0, Color(500.0F, 1000.0F, 1500.0F))
+        img.clampImg()
+
+        for (p in img.pixels) {
+            assertTrue(p.r in 0.0F..1.0F)
+            assertTrue(p.g in 0.0F..1.0F)
+            assertTrue(p.b in 0.0F..1.0F)
+        }
 
 
     }
