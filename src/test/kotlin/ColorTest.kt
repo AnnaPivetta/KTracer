@@ -1,4 +1,5 @@
 import org.junit.After
+import org.junit.Assert
 import org.junit.Test
 
 import org.junit.Assert.*
@@ -38,5 +39,15 @@ class ColorTest {
         val col1 = Color(1.0F, 2.0F, 3.0F)
         val col2 = Color(1.0F, 2.0F, 3.0F)
         assertTrue(col1.isClose(col2))
+    }
+
+    @Test
+    fun luminosity() {
+        val col1 = Color(1.0F, 2.0F, 3.0F)
+        val col2 = Color(9.0F, 5.0F, 7.0F)
+
+        assertEquals(2.0F, col1.luminosity())
+        assertEquals(7.0F, col2.luminosity())
+
     }
 }

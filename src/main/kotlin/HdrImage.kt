@@ -4,6 +4,8 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.*
 import java.io.*
+import kotlin.math.log10
+import kotlin.math.pow
 
 
 class HdrImage(
@@ -126,6 +128,14 @@ class HdrImage(
         }
     }
 
+    fun averageLuminosity(delta : Float = 1e-10F) : Float {
+        var sum = 0.0F
+        for (pix in pixels) {
+            sum += log10(delta+pix.luminosity())
+        }
+        return 10.0F.pow(sum/(pixels.size))
+    }
+
 
     private fun writeFloatToStream(stream: OutputStream, value: Float) {
         stream.write(ByteBuffer.allocate(4).putFloat(value).array())
@@ -136,7 +146,7 @@ class HdrImage(
 
      */
 
-    fun normalizeImg (a : Float = 0.18, luminosity : Float? = null) {
+    fun normalizeImg (a : Float = 0.18F, luminosity : Float? = null) {
         val l = luminosity ?: averageLuminosity()   //If luminosity == null, compute it
         val il = 1.0F/l                                //Inverse of luminosity
         for (p in pixels) {
@@ -195,5 +205,7 @@ class HdrImage(
     fun getHeight() : Int {
         return height
     }
+
+
 }
 

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="HdrImageTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-03-27T17:06:27" hostname="MacBook-Pro-di-Matteo" time="0.026">
+<testsuite name="HdrImageTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-03-31T08:47:25" hostname="cln-173-247.eduroam.unimi.it" time="0.003">
   <properties/>
-  <testcase name="readPfmFile" classname="HdrImageTest" time="0.026"/>
-  <system-out><![CDATA[]]></system-out>
+  <testcase name="averageLuminosity" classname="HdrImageTest" time="0.003"/>
+  <system-out><![CDATA[100.0]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>

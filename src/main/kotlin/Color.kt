@@ -1,4 +1,5 @@
 import kotlin.math.abs
+import kotlin.math.max
 
 data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) {
     /* RGB Color
@@ -27,5 +28,8 @@ data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) 
 
     fun isClose(other: Color, epsilon: Float = 1e-10F): Boolean {
         return abs(r - other.r) < epsilon && abs(g - other.g) < epsilon && abs(b - other.b) < epsilon
+    }
+    fun luminosity() : Float {
+        return (maxOf(r,g,b) + minOf(r,g,b))/2
     }
 }
