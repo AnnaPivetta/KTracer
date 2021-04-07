@@ -1,15 +1,8 @@
-fun main() {
-    val w = 10
-    val h = 10
-    val img = HdrImage(w, h, Array(w * h) { Color(1.0F, 0.0F, 0.0F) })
+import java.lang.RuntimeException
 
-    img.saveImg("red_test.pfm")
-    val mystring = "Questa è una prova\nprobabilmente fallirà\n"
-    val mystream=mystring.byteInputStream()
-    //print(img.readLine(mystream))
-    //print(img.readLine(mystream))
+fun main(args: Array<String>) {
+    
 
-    val a = arrayOf(1, 2, 3)
-    val b = arrayOf(1, 2, 3)
-    println(a.equals(b))
+
+
 }
