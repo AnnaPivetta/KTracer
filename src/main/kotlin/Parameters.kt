@@ -1,14 +1,18 @@
 import java.lang.RuntimeException
 
+const val RED = "\u001b[0;31m"
+const val RESET = "\u001b[0m"
+
 data class Parameters (
     var inputPFMFileName : String = "",
     var factor : Float = 0.2F,
     var gamma : Float = 1.0F,
+    var format : String = "png",
     var outputFileName :String = "")
 {
 
     fun parseCommandLine(args : Array<String>) {
-        if (args.size !=4) throw RuntimeException ("Usage: PFMfileIn name, factor, gamma, fileOut name")
+        if (args.size !=5) throw RuntimeException ("Usage: PFMfileIn name, factor, gamma, format, fileOut name")
         inputPFMFileName = args[0]
 
         try {
@@ -23,7 +27,13 @@ data class Parameters (
         catch (e : NumberFormatException) {
             throw RuntimeException ("Invalid gamma, it must be a floating-point value.")
         }
-        outputFileName = args[3]
+        format = args[3]
+        outputFileName = args[4]
+
+        val ext = outputFileName.split(".").last()
+        if (!ext.equals(format, ignoreCase= true)) {
+            println(RED + "Warning: Format mismatch between file extension and given format" + RESET)
+        }
     }
 
 }

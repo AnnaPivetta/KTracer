@@ -6,4 +6,6 @@ This program solves the rendering equation to generate a photorealistic image.
 
 ## Installation
 
-
+## Test
+To check the correct working of the program run
+	./gradlew test
