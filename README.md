@@ -8,4 +8,6 @@ This program solves the rendering equation to generate a photorealistic image.
 
 ## Test
 To check the correct working of the program run
+	```
 	./gradlew test
+	```
