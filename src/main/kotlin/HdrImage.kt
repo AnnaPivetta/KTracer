@@ -21,12 +21,12 @@ class HdrImage(
         readPfmFile     --> read file Pfm from generic InputStream
         readImg         --> Implements the API for reading Image from file
         writePfmFile    --> write file in Pfm format to generic OutputStream
-        saveHDRImg         --> Implements the API for writing Image to file in HDR
+        saveHDRImg      --> Implements the API for writing Image to file in HDR
 
         Supporting I/O Functions
             readLine            --> read one line at a time from InputStream
             parseEndianness     --> read Endianness from Pfm File Format and check if valid
-            parseImgSize      --> read width and height from Pfm File Format and check if valid
+            parseImgSize        --> read width and height from Pfm File Format and check if valid
 
         (P) readFloatFromStream --> read one float at a time from InputStream
         (P) writeFloatToStream  --> write the param:Float to OutputStream
@@ -141,6 +141,14 @@ class HdrImage(
 
     /*
     Conversion to LDR methods
+        writeLDRImg         --> saves on stream a LDR image in the given format, with the given gamma correction
+        saveLDRImg          --> implements the API for saving LDR image on file
+
+        Supporting conversion functions
+            averageLuminosity   --> computes the average luminosity of the image with a logarithmic mean
+            normalizeImg        --> rescales each pixel by a factor an the inverse of the averageLuminosity
+            clampImg            --> rescales each pixel with the formula x / (1 + x)
+        (P) clamp               --> implements the clamping of a single pixel
 
      */
     fun averageLuminosity(delta: Float = 1e-10F): Float {
