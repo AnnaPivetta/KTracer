@@ -20,12 +20,12 @@ class HdrImage(
         readPfmFile     --> read file Pfm from generic InputStream
         readImg         --> Implements the API for reading Image from file
         writePfmFile    --> write file in Pfm format to generic OutputStream
-        saveHDRImg         --> Implements the API for writing Image to file in HDR
+        saveHDRImg      --> Implements the API for writing Image to file in HDR
 
         Supporting I/O Functions
             readLine            --> read one line at a time from InputStream
             parseEndianness     --> read Endianness from Pfm File Format and check if valid
-            parseImgSize      --> read width and height from Pfm File Format and check if valid
+            parseImgSize        --> read width and height from Pfm File Format and check if valid
 
         (P) readFloatFromStream --> read one float at a time from InputStream
         (P) writeFloatToStream  --> write the param:Float to OutputStream
@@ -50,6 +50,7 @@ class HdrImage(
             }
         }
     }
+
     fun readImg(fileIN: String) {
         FileInputStream(fileIN).use { INStream ->
             readPfmFile(INStream)
@@ -87,6 +88,7 @@ class HdrImage(
         }
 
     }
+
     fun parseEndianness(line: String): ByteOrder {
         val end: Float
         try {
@@ -101,21 +103,24 @@ class HdrImage(
         }
     }
 
-    fun parseImgSize(line : String) : Pair<Int, Int> {
+    fun parseImgSize(line: String): Pair<Int, Int> {
         val elements = line.split(" ")
-        if (elements.size != 2) {throw InvalidPfmFileFormat ("Invalid image size specification")}
-        val w : Int
-        val h : Int
+        if (elements.size != 2) {
+            throw InvalidPfmFileFormat("Invalid image size specification")
+        }
+        val w: Int
+        val h: Int
         try {
             w = elements[0].toInt()
             h = elements[1].toInt()
-            if (width<0 || height<0) {throw InvalidPfmFileFormat ("Invalid image size specification: width and height must be >=0")}
+            if (w < 0 || h < 0) {
+                throw NumberFormatException("Invalid image size specification: width and height must be >=0")
+            }
 
-        }
-        catch (e: NumberFormatException) {
+        } catch (e: NumberFormatException) {
             throw InvalidPfmFileFormat("Invalid image size specification")
         }
-        return Pair(w,h)
+        return Pair(w, h)
     }
 
 
@@ -134,28 +139,36 @@ class HdrImage(
     }
 
     /*
-    Conversion in LDR methods
+    Conversion to LDR methods
+        writeLDRImg         --> saves on stream a LDR image in the given format, with the given gamma correction
+        saveLDRImg          --> implements the API for saving LDR image on file
+
+        Supporting conversion functions
+            averageLuminosity   --> computes the average luminosity of the image with a logarithmic mean
+            normalizeImg        --> rescales each pixel by a factor an the inverse of the averageLuminosity
+            clampImg            --> rescales each pixel with the formula x / (1 + x)
+        (P) clamp               --> implements the clamping of a single pixel
 
      */
-    fun averageLuminosity(delta : Float = 1e-10F) : Float {
+    fun averageLuminosity(delta: Float = 1e-10F): Float {
         var sum = 0.0F
         for (pix in pixels) {
-            sum += log10(delta+pix.luminosity())
+            sum += log10(delta + pix.luminosity())
         }
-        return 10.0F.pow(sum/(pixels.size))
+        return 10.0F.pow(sum / (pixels.size))
     }
 
-    fun normalizeImg (a : Float = 0.18F, luminosity : Float? = null) {
+    fun normalizeImg(factor: Float = 0.18F, luminosity: Float? = null) {
         val l = luminosity ?: averageLuminosity()   //If luminosity == null, compute it
-        val il = 1.0F/l                                //Inverse of luminosity
+        val il = 1.0F / l                                //Inverse of luminosity
         for (p in pixels) {
-            p.r *= a * il
-            p.g *= a * il
-            p.b *= a * il
+            p.r *= factor * il
+            p.g *= factor * il
+            p.b *= factor * il
         }
     }
 
-    fun clampImg () {
+    fun clampImg() {
         for (p in pixels) {
             p.r = clamp(p.r)
             p.g = clamp(p.g)
@@ -163,17 +176,17 @@ class HdrImage(
         }
     }
 
-    private fun clamp (x : Float) : Float {
-        return x / (1+x)
+    private fun clamp(x: Float): Float {
+        return x / (1 + x)
     }
 
-    fun writeLDRImg (stream : OutputStream, format : String, gamma : Float = 1.0F) {
+    fun writeLDRImg(stream: OutputStream, format: String, gamma: Float = 1.0F) {
         val image = BufferedImage(width, height, BufferedImage.TYPE_INT_RGB)
         for (y in 0 until height) {
             for (x in 0 until width) {
-                val intR = (255 * getPixel(x, y).r.pow(1/gamma)) .toInt()
-                val intG = (255 * getPixel(x, y).g.pow(1/gamma)) .toInt()
-                val intB = (255 * getPixel(x, y).b.pow(1/gamma)) .toInt()
+                val intR = (255 * getPixel(x, y).r.pow(1 / gamma)).toInt()
+                val intG = (255 * getPixel(x, y).g.pow(1 / gamma)).toInt()
+                val intB = (255 * getPixel(x, y).b.pow(1 / gamma)).toInt()
                 val rgb = intR.shl(16) + intG.shl(8) + intB
                 image.setRGB(x, y, rgb)
             }
@@ -181,11 +194,12 @@ class HdrImage(
         ImageIO.write(image, format, stream)
     }
 
-    fun saveLDRImg (filename : String, format : String, gamma : Float = 1.0F) {
+    fun saveLDRImg(filename: String, format: String, gamma: Float = 1.0F) {
         FileOutputStream(filename).use { outStream ->
             writeLDRImg(outStream, format, gamma)
         }
     }
+
     /*
     Access methods
         setPixel    --> implements the setter for 1 pixel in image
@@ -216,11 +230,11 @@ class HdrImage(
         pixels[pixelOffset(x, y)] = newColor
     }
 
-    fun getWidth() : Int {
+    fun getWidth(): Int {
         return width
     }
 
-    fun getHeight() : Int {
+    fun getHeight(): Int {
         return height
     }
 

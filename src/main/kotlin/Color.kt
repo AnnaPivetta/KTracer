@@ -12,6 +12,7 @@ data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) 
         overload of operator "*" --> (scalar) multiplication of params for the same scalar float
                                      (other)  scalar product between RGB vectors
         is_close                 --> verifies the equality of two colors within an epsilon
+        luminosity               --> computes the luminosity of the pixel
      */
 
     operator fun plus(other: Color): Color {
