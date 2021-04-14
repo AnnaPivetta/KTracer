@@ -9,7 +9,6 @@ import javax.imageio.ImageIO
 import kotlin.math.log10
 import kotlin.math.pow
 
-
 class HdrImage(
     private var width: Int = 0,
     private var height: Int = 0,
