@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="HdrImageTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2021-04-07T08:49:59" hostname="MacBook-Pro-di-Matteo" time="0.047">
+<testsuite name="HdrImageTest" tests="11" skipped="0" failures="0" errors="0" timestamp="2021-04-14T20:58:44" hostname="MacBook-Pro-di-Matteo" time="0.042">
   <properties/>
-  <testcase name="readPfmFile" classname="HdrImageTest" time="0.028"/>
+  <testcase name="readPfmFile" classname="HdrImageTest" time="0.025"/>
   <testcase name="pixelOffset" classname="HdrImageTest" time="0.0"/>
   <testcase name="averageLuminosity" classname="HdrImageTest" time="0.003"/>
   <testcase name="readLine" classname="HdrImageTest" time="0.0"/>
-  <testcase name="parseEndianness" classname="HdrImageTest" time="0.013"/>
+  <testcase name="parseEndianness" classname="HdrImageTest" time="0.011"/>
   <testcase name="validCoordinates" classname="HdrImageTest" time="0.0"/>
   <testcase name="parseImgSize" classname="HdrImageTest" time="0.0"/>
   <testcase name="clampImg" classname="HdrImageTest" time="0.0"/>
