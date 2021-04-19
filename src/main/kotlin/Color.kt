@@ -1,5 +1,4 @@
 import kotlin.math.abs
-import kotlin.math.max
 
 data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) {
     /* RGB Color
