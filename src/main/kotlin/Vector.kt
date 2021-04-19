@@ -30,6 +30,10 @@ class Vector(var x: Float = 0.0F, var y: Float = 0.0F, var z: Float = 0.0F) {
     operator fun times(other: Vector): Float {
         return x * other.x + y * other.y + z * other.z
     }
+    //Same implementation for multiple choice of usage
+    fun dot (other: Vector): Float {
+        return x * other.x + y * other.y + z * other.z
+    }
 
     fun cross(other: Vector): Vector {
         return Vector(
