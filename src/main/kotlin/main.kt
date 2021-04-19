@@ -25,7 +25,7 @@ fun main(args:Array<String>) {
     img.saveLDRImg(params.outputFileName, params.format, params.gamma)
     println("Done! Your image has been saved to ${System.getProperty("user.dir")}/${params.outputFileName}")
 
-    var point = Point(0.0F, 0.0F, 2.3F)
+    val point = Point(0.0F, 0.0F, 2.3F)
     println (point.toString())
 }
 
