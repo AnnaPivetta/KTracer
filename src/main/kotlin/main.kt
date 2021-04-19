@@ -1,8 +1,8 @@
 import java.io.FileInputStream
 import java.lang.RuntimeException
 
-fun main(args:Array<String>) {
-    val img = HdrImage()
+fun main(/*args:Array<String>*/) {
+/*    val img = HdrImage()
     val params = Parameters()
     try{
     params.parseCommandLine(args)
@@ -24,5 +24,7 @@ fun main(args:Array<String>) {
     println("Writing image on disk...")
     img.saveLDRImg(params.outputFileName, params.format, params.gamma)
     println("Done! Your image has been saved to ${System.getProperty("user.dir")}/${params.outputFileName}")
-
+*/
+    val v = Vector()
+    println(v.toString())
     }
