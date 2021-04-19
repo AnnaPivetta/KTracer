@@ -2,7 +2,7 @@ import kotlin.math.abs
 
 class Point (var x : Float = 0.0F, var y : Float = 0.0F, var z : Float = 0.0F){
     override fun toString() : String {
-        return "Point ($x; $y; $z)"
+        return "($x;$y;$z)"
     }
 
     fun isClose(other: Point, epsilon: Float = 1e-10F): Boolean {
