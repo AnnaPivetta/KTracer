@@ -1,8 +1,4 @@
 import java.lang.RuntimeException
-
-const val RED = "\u001b[0;31m"
-const val RESET = "\u001b[0m"
-
 class Parameters (
     var inputPFMFileName : String = "",
     var factor : Float = 0.2F,
