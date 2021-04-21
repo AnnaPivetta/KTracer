@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="TransformationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-04-21T10:31:37" hostname="cln-185-252.eduroam.unimi.it" time="0.002">
+<testsuite name="TransformationTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-04-21T15:28:11" hostname="MacBook-Pro-di-Matteo" time="0.002">
   <properties/>
-  <testcase name="translation" classname="TransformationTest" time="0.002"/>
+  <testcase name="inverse" classname="TransformationTest" time="0.002"/>
   <system-out><![CDATA[]]></system-out>
   <system-err><![CDATA[]]></system-err>
 </testsuite>
