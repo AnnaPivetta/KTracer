@@ -24,6 +24,7 @@ fun main(/*args:Array<String>*/) {
     println("Writing image on disk...")
     img.saveLDRImg(params.outputFileName, params.format, params.gamma)
     println("Done! Your image has been saved to ${System.getProperty("user.dir")}/${params.outputFileName}")
+<<<<<<< HEAD
 */
     val ID4x4 = Array (4) {i -> FloatArray(4) {k -> if (k!= i) 0.0F else 1.2341F}}
     val ID3X3 = Array(3) { i -> FloatArray(3) { k -> if (k != i) 0.0F else 1.0F } }
