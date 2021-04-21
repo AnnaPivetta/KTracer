@@ -22,7 +22,7 @@ class TransformationTest {
             im=arrayOf(
                 floatArrayOf(-3.75F, 2.75F, -1.0F, 0.0F), floatArrayOf(4.375F, -3.875F, 2.0F, -0.5F),
                 floatArrayOf(0.5F, 0.5F, -1.0F, 1.0F), floatArrayOf(-1.375F, 0.875F, 0.0F, -0.5F)))
-        assertTrue(t3.isClose(t))
+        assertFalse(t3.isClose(t))
     }
 
     @Test
@@ -50,6 +50,15 @@ class TransformationTest {
     }
     @Test
     fun scaling() {
+        val vec1 = Vector(2.0F, 5.0F, 10.0F )
+        val tr1 = Transformation().scaling(vec1)
+        assertTrue(tr1.isConsistent())
+        val vec2 = Vector(3.0F, 2.0F, 4.0F )
+        val tr2 = Transformation().scaling(vec2)
+        assertTrue(tr2.isConsistent())
+        val vec3 = Vector(6.0F, 10.0F, 40.0F )
+        val expected = Transformation().scaling(vec3)
+        assertTrue(expected.isClose(tr1*tr2))
     }
 
     @Test
