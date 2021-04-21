@@ -35,5 +35,4 @@ fun main(/*args:Array<String>*/) {
             println(el[3])
     }
     println(t)
-    println (t.m.size)
     }

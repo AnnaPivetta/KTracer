@@ -5,10 +5,10 @@ import kotlin.math.sin
 val ID4X4 = Array(4) { i -> FloatArray(4) { k -> if (k != i) 0.0F else 1.0F } }
 
 class Transformation(
-    var m: Array<FloatArray> = ID4X4,
-    var im: Array<FloatArray> = ID4X4
+    private var m: Array<FloatArray> = ID4X4,
+    private var im: Array<FloatArray> = ID4X4
 ) {
-    private fun areMatrixClose (m1 : Array<FloatArray>, m2 : Array<FloatArray> , epsilon : Float = 1e-10F) : Boolean {
+    private fun areMatrixClose (m1 : Array<FloatArray>, m2 : Array<FloatArray> , epsilon : Float = 1e-4F) : Boolean {
         for (i in 0 until 4) {
             for (j in 0 until 4){
                 if (abs(m1[i][j] - m2[i][j]) > epsilon) {return false}
@@ -28,7 +28,6 @@ class Transformation(
 
     fun isConsistent() : Boolean {
         return areMatrixClose(ID4X4, matrixProd(m, im))
-
     }
 
     fun translation(vec: Vector): Transformation {
@@ -73,9 +72,9 @@ class Transformation(
         val row1 = m[1]
         val row2 = m[2]
         return Vector(
-            row0[0] * other.x + row0[0] * other.y + row0[0] * other.z,
-            row1[0] * other.x + row1[0] * other.y + row1[0] * other.z,
-            row2[0] * other.x + row2[0] * other.y + row2[0] * other.z
+            row0[0] * other.x + row0[1] * other.y + row0[2] * other.z,
+            row1[0] * other.x + row1[1] * other.y + row1[2] * other.z,
+            row2[0] * other.x + row2[1] * other.y + row2[2] * other.z
         )
     }
 
@@ -83,16 +82,31 @@ class Transformation(
         val row0 = m[0]
         val row1 = m[1]
         val row2 = m[2]
+        val row3 = m[3]
         val p =  Point(
-            row0[0] * other.x + row0[0] * other.y + row0[0] * other.z,
-            row1[0] * other.x + row1[0] * other.y + row1[0] * other.z,
-            row2[0] * other.x + row2[0] * other.y + row2[0] * other.z
+            row0[0] * other.x + row0[1] * other.y + row0[2] * other.z + row0[3],
+            row1[0] * other.x + row1[1] * other.y + row1[2] * other.z + row1[3],
+            row2[0] * other.x + row2[1] * other.y + row2[2] * other.z + row2[3]
         )
-        val lambda = p.x+p.y+p.z
-        if (lambda == 1.0F) return p
-        else return Point(p.x/lambda, p.y/lambda, p.z/lambda)
+        val lambda = other.x * row3[0] + other.y * row3[1] + other.z * row3[2] + row3[3]
+        if (lambda == 1.0F) {
+            return p
+        }
+        else {
+            return Point(p.x/lambda, p.y/lambda, p.z/lambda)
+        }
     }
 
+    operator fun times (other : Normal) : Normal {
+        val row0 = im[0]
+        val row1 = im[1]
+        val row2 = im[2]
+        return Normal(
+            row0[0] * other.x + row1[0] * other.y + row2[0] * other.z,
+            row0[1] * other.x + row1[1] * other.y + row2[1] * other.z,
+            row0[2] * other.x + row1[2] * other.y + row2[2] * other.z
+        )
+    }
 
     fun scaling (vec: Vector) :Transformation {
         val m = arrayOf(
