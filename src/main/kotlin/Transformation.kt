@@ -3,6 +3,9 @@ import kotlin.math.cos
 import kotlin.math.sin
 
 val ID4X4 = Array(4) { i -> FloatArray(4) { k -> if (k != i) 0.0F else 1.0F } }
+val VEC_X = Vector(1.0F, 0.0F, 0.0F)
+val VEC_Y = Vector(0.0F, 1.0F, 0.0F)
+val VEC_Z = Vector(0.0F, 0.0F, 1.0F)
 
 class Transformation(
     private var m: Array<FloatArray> = ID4X4,
@@ -17,7 +20,7 @@ class Transformation(
         return true
     }
 
-    fun isClose (other : Transformation, epsilon: Float = 1e-10F) :Boolean {
+    fun isClose (other : Transformation, epsilon: Float = 1e-5F) :Boolean {
         if (areMatrixClose(m, other.m) && areMatrixClose(im, other.im)) {return true}
         else {return false}
     }
