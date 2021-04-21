@@ -6,7 +6,7 @@ class TransformationTest {
 
     @Test
     fun isClose() {
-        val m = arrayOf(
+        var m = arrayOf(
             floatArrayOf(1.0F, 2.0F, 3.0F, 4.0F), floatArrayOf(5.0F, 6.0F, 7.0F, 8.0F),
             floatArrayOf(9.0F, 9.0F, 8.0F, 7.0F), floatArrayOf(6.0F, 5.0F, 4.0F, 1.0F))
         val invm = arrayOf(
@@ -16,10 +16,13 @@ class TransformationTest {
         assertTrue(t.isConsistent())
         val t2 = Transformation(m, invm)
         assertTrue(t.isClose(t2))
-        m[2][2] += 1.0F
-        val t3 = Transformation(m, invm)
-        assertFalse(t3.isClose(t))
-
+        val t3 = Transformation(m=arrayOf(
+            floatArrayOf(1.0F, 2.0F, 3.0F, 4.0F), floatArrayOf(5.0F, 6.0F, 7.0F, 8.0F),
+            floatArrayOf(9.0F, 9.0F, 9.0F, 7.0F), floatArrayOf(6.0F, 5.0F, 4.0F, 1.0F)),
+            im=arrayOf(
+                floatArrayOf(-3.75F, 2.75F, -1.0F, 0.0F), floatArrayOf(4.375F, -3.875F, 2.0F, -0.5F),
+                floatArrayOf(0.5F, 0.5F, -1.0F, 1.0F), floatArrayOf(-1.375F, 0.875F, 0.0F, -0.5F)))
+        assertTrue(t3.isClose(t))
     }
 
     @Test

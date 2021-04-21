@@ -44,7 +44,6 @@ class Transformation(
     override fun toString(): String {
         var row = "(${m[0][0]} ${m[0][1]} ${m[0][2]} ${m[0][3]})"
         for (el in m.slice(1 until m.size)) {
-
             row += "\n\t(${el[0]} ${el[1]} ${el[2]} ${el[3]})"
         }
         return "T ( " + row + " )"
