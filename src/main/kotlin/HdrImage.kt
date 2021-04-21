@@ -97,9 +97,9 @@ class HdrImage(
         } catch (e: NumberFormatException) {
             throw InvalidPfmFileFormat("Endianness specification not found")
         }
-        when (end) {
-            1.0F -> return ByteOrder.BIG_ENDIAN
-            -1.0F -> return ByteOrder.LITTLE_ENDIAN
+        return when (end) {
+            1.0F -> ByteOrder.BIG_ENDIAN
+            -1.0F -> ByteOrder.LITTLE_ENDIAN
             else -> throw InvalidPfmFileFormat("Invalid Endianness specification. Value must be 1.0(BE) or -1.0(LE)")
         }
     }

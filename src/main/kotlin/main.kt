@@ -1,8 +1,8 @@
 import java.io.FileInputStream
 import java.lang.RuntimeException
 
-fun main(/*args:Array<String>*/) {
-/*    val img = HdrImage()
+fun main(args:Array<String>) {
+    val img = HdrImage()
     val params = Parameters()
     try{
     params.parseCommandLine(args)
@@ -24,16 +24,4 @@ fun main(/*args:Array<String>*/) {
     println("Writing image on disk...")
     img.saveLDRImg(params.outputFileName, params.format, params.gamma)
     println("Done! Your image has been saved to ${System.getProperty("user.dir")}/${params.outputFileName}")
-<<<<<<< HEAD
-*/
-    val ID4x4 = Array (4) {i -> FloatArray(4) {k -> if (k!= i) 0.0F else 1.2341F}}
-    val ID3X3 = Array(3) { i -> FloatArray(3) { k -> if (k != i) 0.0F else 1.0F } }
-    val t = Transformation(ID4x4, ID4X4)
-    for (el in ID4x4) {
-            print(el[0])
-            print(el[1])
-            print(el[2])
-            println(el[3])
-    }
-    println(t)
-    }
+}

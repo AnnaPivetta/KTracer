@@ -7,7 +7,7 @@ class TransformationTest {
 
     @Test
     fun isClose() {
-        var m = arrayOf(
+        val m = arrayOf(
             floatArrayOf(1.0F, 2.0F, 3.0F, 4.0F), floatArrayOf(5.0F, 6.0F, 7.0F, 8.0F),
             floatArrayOf(9.0F, 9.0F, 8.0F, 7.0F), floatArrayOf(6.0F, 5.0F, 4.0F, 1.0F)
         )
@@ -85,7 +85,7 @@ class TransformationTest {
 
 
     @Test
-    fun timesTransf() {
+    fun timesTransformation() {
         val m1 = Transformation(
             m = arrayOf(
                 floatArrayOf(1.0F, 2.0F, 3.0F, 4.0F),
@@ -165,7 +165,7 @@ class TransformationTest {
         val expectedP = Point(18.0F, 46.0F, 58.0F)
         assertTrue(expectedP.isClose(m * Point(1.0F, 2.0F, 3.0F)))
 
-        val expectedN = Normal(-8.75F, 7.75F, -3.0F)
+        val expectedN = Normal(-8.75F, 7.75F, -4.0F)
         assertTrue(expectedN.isClose(m * Normal(3.0F, 2.0F, 4.0F)))
 
     }
