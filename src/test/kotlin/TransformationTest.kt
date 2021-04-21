@@ -165,7 +165,7 @@ class TransformationTest {
         val expectedP = Point(18.0F, 46.0F, 58.0F)
         assertTrue(expectedP.isClose(m * Point(1.0F, 2.0F, 3.0F)))
 
-        val expectedN = Normal(-8.75F, 7.75F, -4.0F)
+        val expectedN = Normal(-8.75F, 7.75F, -3.0F)
         assertTrue(expectedN.isClose(m * Normal(3.0F, 2.0F, 4.0F)))
 
     }
