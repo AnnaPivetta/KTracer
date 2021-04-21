@@ -8,20 +8,28 @@ class Transformation(
     private var m: Array<FloatArray> = ID4X4,
     private var im: Array<FloatArray> = ID4X4
 ) {
-    fun isClose (other: Transformation, epsilon : Float = 1e-10F) : Boolean {
+    private fun areMatrixClose (m1 : Array<FloatArray>, m2 : Array<FloatArray> , epsilon : Float = 1e-10F) : Boolean {
         for (i in 0 until 4) {
             for (j in 0 until 4){
-                if (abs(m[i][j] - other.m[i][j]) > epsilon) {return false}
+                if (abs(m1[i][j] - m2[i][j]) > epsilon) {return false}
             }
         }
         return true
+    }
+
+    fun isClose (other : Transformation, epsilon: Float = 1e-10F) :Boolean {
+        if (areMatrixClose(m, other.m) && areMatrixClose(im, other.im)) {return true}
+        else {return false}
     }
 
     fun inverse() : Transformation{
         return Transformation(im, m)
     }
 
+    fun isConsistent() : Boolean {
+        return areMatrixClose(ID4X4, matrixProd(m, im))
 
+    }
 
     fun translation(vec: Vector): Transformation {
         val m = arrayOf(
@@ -44,12 +52,7 @@ class Transformation(
     }
 
     private fun matrixProd(a: Array<FloatArray>, b: Array<FloatArray>): Array<FloatArray> {
- /*       if (a[0].size != b.size) {
-            throw MatrixFormatException("Invalid matrices size: must be A[a][m] * B[m][b]")
-            return Array(0) { FloatArray(0) }
-        }
 
-  */
         val result = Array(a.size) { FloatArray(b[0].size) { 0.0F } }
         for (j in 0 until result.size) {
             for (i in 0 until result[0].size) {
@@ -101,7 +104,7 @@ class Transformation(
         return Transformation(m, im)
     }
 
-    fun rotationX (angle : Float) : Transformation { //angle must be in radins
+    fun rotationX (angle : Float) : Transformation { //angle must be in radians
         val COS = cos(angle)
         val SIN = sin(angle)
         val m = arrayOf(
@@ -113,7 +116,7 @@ class Transformation(
         return Transformation(m, im)
     }
 
-    fun rotationY (angle : Float) : Transformation { //angle must be in radins
+    fun rotationY (angle : Float) : Transformation { //angle must be in radians
         val COS = cos(angle)
         val SIN = sin(angle)
         val m = arrayOf(
@@ -125,7 +128,7 @@ class Transformation(
         return Transformation(m, im)
     }
 
-    fun rotationZ (angle : Float) : Transformation { //angle must be in radins
+    fun rotationZ (angle : Float) : Transformation { //angle must be in radians
         val COS = cos(angle)
         val SIN = sin(angle)
         val m = arrayOf(
