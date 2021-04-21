@@ -5,8 +5,8 @@ import kotlin.math.sin
 val ID4X4 = Array(4) { i -> FloatArray(4) { k -> if (k != i) 0.0F else 1.0F } }
 
 class Transformation(
-    private var m: Array<FloatArray> = ID4X4,
-    private var im: Array<FloatArray> = ID4X4
+    var m: Array<FloatArray> = ID4X4,
+    var im: Array<FloatArray> = ID4X4
 ) {
     private fun areMatrixClose (m1 : Array<FloatArray>, m2 : Array<FloatArray> , epsilon : Float = 1e-10F) : Boolean {
         for (i in 0 until 4) {
