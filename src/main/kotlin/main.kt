@@ -26,5 +26,5 @@ fun main(/*args:Array<String>*/) {
     println("Done! Your image has been saved to ${System.getProperty("user.dir")}/${params.outputFileName}")
 */
     val v = Vector()
-    println(v.toString())
+    println(v)
     }
