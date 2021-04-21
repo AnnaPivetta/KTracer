@@ -14,6 +14,12 @@ class TransformationTest {
             floatArrayOf(0.5F, 0.5F, -1.0F, 1.0F), floatArrayOf(-1.375F, 0.875F, 0.0F, -0.5F))
         val t = Transformation(m, invm)
         assertTrue(t.isConsistent())
+        val t2 = Transformation(m, invm)
+        assertTrue(t.isClose(t2))
+        m[2][2] += 1.0F
+        val t3 = Transformation(m, invm)
+        assertFalse(t3.isClose(t))
+
     }
 
     @Test
