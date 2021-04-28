@@ -25,4 +25,7 @@ class Ray (
     fun at(t : Float) : Point {
         return origin+dir*t
     }
+    fun transform (transformation : Transformation) : Ray{
+        return Ray(transformation*origin, transformation*dir, tmin, tmax, depth)
+    }
 }
