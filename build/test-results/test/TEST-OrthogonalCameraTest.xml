@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="OrthogonalCameraTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-04-28T09:34:54" hostname="MacBook-Pro-di-Matteo" time="0.015">
+  <properties/>
+  <testcase name="fireRay" classname="OrthogonalCameraTest" time="0.015"/>
+  <system-out><![CDATA[(0.0;2.0;-1.0)
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
