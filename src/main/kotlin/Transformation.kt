@@ -95,6 +95,16 @@ class Transformation(
         )
     }
 
+    operator fun times(other: Ray): Ray {
+        return Ray(
+            this * other.origin,
+            this * other.dir,
+            other.tmin,
+            other.tmax,
+            other.depth
+        )
+    }
+
     /*
     Transformations
         inverse     --> returns the inverse of this Transformation
