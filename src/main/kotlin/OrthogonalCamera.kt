@@ -7,12 +7,12 @@
  *
  */
 class OrthogonalCamera (
-    a : Float,
-    T : Transformation)
-    : Camera (a= a, T = T) {
+    AR : Float,
+    T : Transformation = Transformation())
+    : Camera (AR= AR, T = T) {
 
     override fun fireRay(u: Float, v: Float): Ray {
-        val origin = Point(1.0F, a * (0.5F - u), v - 0.5F)
+        val origin = Point(-1.0F, AR * (1.0F - 2.0F*u), 2.0F*v - 1.0F)
         val direction = VECX
         return T*Ray(origin= origin, dir = direction, tmin=1.0F)
     }
