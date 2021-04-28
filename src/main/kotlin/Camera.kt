@@ -9,8 +9,8 @@
 
 abstract class Camera(
     val d : Float = 1.0F,
-    val a : Float = 1.6F
-
+    val a : Float = 1.6F,
+    val T : Transformation = Transformation()
 ) {
     abstract fun fireRay (u : Float, v: Float) : Ray
 }
