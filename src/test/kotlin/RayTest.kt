@@ -1,6 +1,7 @@
 import org.junit.Test
 
 import org.junit.Assert.*
+import kotlin.math.PI
 
 class RayTest {
 
@@ -20,5 +21,16 @@ class RayTest {
         assertTrue(ray.at(1.0F).isClose(Point(5.0F, 4.0F, 5.0F)))
         assertTrue(ray.at(2.0F).isClose(Point(9.0F, 6.0F, 6.0F)))
 
+    }
+
+    @Test
+    fun transform() {
+        val ray = Ray(origin = Point(1.0F, 2.0F, 3.0F), dir = Vector(6.0F, 5.0F, 4.0F))
+        val t = Transformation()
+        val transformation = t.translation(Vector(10.0F, 11.0F, 12.0F)) * t.rotationX(PI.toFloat()/2 )
+        val transformed = ray.transform(transformation)
+
+        assertTrue(transformed.origin.isClose(Point(11.0F, 8.0F, 14.0F)))
+        assertTrue(transformed.dir.isClose(Vector(6.0F, -4.0F, 5.0F)))
     }
 }
