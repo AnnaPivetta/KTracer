@@ -50,6 +50,7 @@ class Transformation(
             Vector
             Point
             Normal
+            Ray
      */
     operator fun times(other: Transformation): Transformation {
         return Transformation(matrixProd(m, other.m), matrixProd(other.im, im))
