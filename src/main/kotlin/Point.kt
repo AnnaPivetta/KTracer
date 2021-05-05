@@ -9,6 +9,10 @@ class Point (var x : Float = 0.0F, var y : Float = 0.0F, var z : Float = 0.0F){
         return abs(x - other.x) < epsilon && abs(y - other.y) < epsilon && abs(z - other.z) < epsilon
     }
 
+    fun toVector () : Vector {
+        return this - Point(0.0F, 0.0F, 0.0F)
+    }
+
     operator fun plus(vec: Vector) : Point {
         return Point(x+vec.x, y+vec.y, z+vec.z)
     }
@@ -20,6 +24,7 @@ class Point (var x : Float = 0.0F, var y : Float = 0.0F, var z : Float = 0.0F){
     operator fun minus(vec: Vector) : Point{
         return Point(x-vec.x, y-vec.y, z-vec.z)
     }
+
 
 
 
