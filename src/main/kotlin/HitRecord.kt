@@ -11,7 +11,7 @@ import kotlin.math.abs
  *
  * @See Point
  * @See Normal
- * @See Vector2d2d
+ * @See Vector2d
  * @See Ray
  *
  */
@@ -19,7 +19,7 @@ import kotlin.math.abs
 class HitRecord (
     var worldPoint : Point = Point(0.0F, 0.0F, 0.0F),
     var normal : Normal = Normal(0.0F, 0.0F, 0.0F),
-    var surfacePonit : Vector2d = Vector2d(0.0F, 0.0F),
+    var surfacePoint : Vector2d = Vector2d(0.0F, 0.0F),
     var t : Float = 0.0F,
     var ray : Ray = Ray()){
 
@@ -30,7 +30,7 @@ class HitRecord (
         if (other == null) {return false}
         return (worldPoint.isClose(other.worldPoint) &&
                 normal.isClose(other.normal) &&
-                surfacePonit.isClose(other.surfacePonit) &&
+                surfacePoint.isClose(other.surfacePoint) &&
                 (abs(t - other.t) < epsilon) &&
                 ray.isClose(other.ray))
     }
