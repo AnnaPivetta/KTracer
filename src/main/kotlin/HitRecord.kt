@@ -1,5 +1,7 @@
-/** Informations about an intersection
- * This type is meant to record all the informations about an intersection when it occurs.
+import kotlin.math.abs
+
+/** Information about an intersection
+ * This type is meant to record all the information about an intersection when it occurs.
  * It contains:
  *  - worldPoint : the 3D point where the intersection occurs
  *  - normal : the surface normal in *worldPoint*
@@ -9,17 +11,28 @@
  *
  * @See Point
  * @See Normal
- * @See Vec2d
+ * @See Vector2d2d
  * @See Ray
  *
  */
 
-
 class HitRecord (
     var worldPoint : Point = Point(0.0F, 0.0F, 0.0F),
     var normal : Normal = Normal(0.0F, 0.0F, 0.0F),
-    var surfacePonit : Vec2d = Vec2d(0.0F, 0.0F),
+    var surfacePonit : Vector2d = Vector2d(0.0F, 0.0F),
     var t : Float = 0.0F,
     var ray : Ray = Ray()){
+
+    /**
+     * checks if two *HitRecord* represent the same hit event
+     */
+    fun isClose (other : HitRecord?, epsilon : Float = 1e-5F) : Boolean {
+        if (other == null) {return false}
+        return (worldPoint.isClose(other.worldPoint) &&
+                normal.isClose(other.normal) &&
+                surfacePonit.isClose(other.surfacePonit) &&
+                (abs(t - other.t) < epsilon) &&
+                ray.isClose(other.ray))
+    }
 
 }
