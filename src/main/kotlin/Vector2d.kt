@@ -10,6 +10,10 @@ class Vector2d (
     /**
      * checks if two Vec2d are the same within an *epsilon*
      */
+
+    override fun toString(): String {
+        return "Vector2d ($u, $v)"
+    }
     fun isClose (other: Vector2d, epsilon : Float = 1e-5F) : Boolean {
         return (abs(u-other.u) < epsilon && abs(v-other.v) < epsilon)
     }
