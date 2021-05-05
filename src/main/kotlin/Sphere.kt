@@ -1,6 +1,25 @@
 import kotlin.math.*
 
+/**
+ * Shape implementing a sphere in the 3D space
+ *
+ * This class inherits from abstract class Shape and implements the object sphere and its every possible
+ * transformation
+ *
+ * Class properties:
+ * - [T] - The [Transformation] to apply to the canonical sphere
+ *
+ * @see Shape
+ */
 class Sphere (T : Transformation): Shape(T)  {
+
+    /**
+     * This functions evaluates if the given [Ray] intersects the sphere and returns the
+     * closest intersection from the observer point of view
+     *
+     * @param r The [Ray] to check the intersection with
+     * @return A [HitRecord] containing the  closest intersection to the [Ray.origin] if any. Otherwise null is returned
+     */
     override fun rayIntersection(r: Ray): HitRecord? {
         val ir = T.inverse() * r
         //Compute intersection
@@ -45,5 +64,6 @@ class Sphere (T : Transformation): Shape(T)  {
         val atan = if (p.y >=0.0F) atan2(p.y, p.x) else atan2(p.y, p.x) + 2.0F*PI.toFloat()
         return Vector2d(u= atan / (2.0F * PI.toFloat()), v=acos(p.z) / PI.toFloat())
     }
+
 
 }

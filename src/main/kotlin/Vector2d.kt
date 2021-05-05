@@ -1,8 +1,6 @@
 import kotlin.math.abs
 
-/**
- * 2D vector to represent a point on a surface
- */
+/**2D vector to represent a point on a surface*/
 
 class Vector2d (
     var u : Float = 0.0F,

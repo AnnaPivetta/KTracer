@@ -2,12 +2,9 @@ import org.junit.Before
 import org.junit.Test
 
 import org.junit.Assert.*
+import org.junit.Rule
 
 class SphereTest {
-
-    @Before
-    fun setUp() {
-    }
 
     @Test
     fun rayIntersection() {

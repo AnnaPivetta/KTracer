@@ -1,5 +1,5 @@
 /** The collection of shapes which populate the scene
- * This class is meant to hold a list of shapes. The shapes together make the world where the scene is set
+ * This class is meant to hold a list of [shapes]. The shapes together make the world where the scene is set
  */
 
 class World (
