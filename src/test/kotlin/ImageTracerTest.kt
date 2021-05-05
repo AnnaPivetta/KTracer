@@ -13,7 +13,6 @@ class ImageTracerTest {
         val tracer = ImageTracer(image = image, camera = camera)
     }
 
-
  */
     @Test
     fun uvSubmapping() {
