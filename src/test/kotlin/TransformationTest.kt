@@ -1,6 +1,7 @@
 import org.junit.Test
 
 import org.junit.Assert.*
+import org.junit.Before
 import kotlin.math.PI
 
 class TransformationTest {
@@ -146,8 +147,9 @@ class TransformationTest {
 
     }
 
+
     @Test
-    fun timesVecPointNorm() {
+    fun timesVec() {
         val m = Transformation(
             m = arrayOf(
                 floatArrayOf(1.0F, 2.0F, 3.0F, 4.0F),
@@ -164,16 +166,55 @@ class TransformationTest {
         )
         assertTrue(m.isConsistent())
 
-        println()
-
         val expectedV = Vector(14.0F, 38.0F, 51.0F)
         assertTrue(expectedV.isClose(m * Vector(1.0F, 2.0F, 3.0F)))
+
+
+    }
+
+    @Test
+    fun timesPoint() {
+        val m = Transformation(
+            m = arrayOf(
+                floatArrayOf(1.0F, 2.0F, 3.0F, 4.0F),
+                floatArrayOf(5.0F, 6.0F, 7.0F, 8.0F),
+                floatArrayOf(9.0F, 9.0F, 8.0F, 7.0F),
+                floatArrayOf(0.0F, 0.0F, 0.0F, 1.0F)
+            ),
+            im = arrayOf(
+                floatArrayOf(-3.75F, 2.75F, -1.0F, 0.0F),
+                floatArrayOf(5.75F, -4.75F, 2.0F, 1.0F),
+                floatArrayOf(-2.25F, 2.25F, -1.0F, -2.0F),
+                floatArrayOf(0.0F, 0.0F, 0.0F, 1.0F)
+            )
+        )
+        assertTrue(m.isConsistent())
+
 
         val expectedP = Point(18.0F, 46.0F, 58.0F)
         assertTrue(expectedP.isClose(m * Point(1.0F, 2.0F, 3.0F)))
 
-        val expectedN = Normal(-8.75F, 7.75F, -3.0F)
-        assertTrue(expectedN.isClose(m * Normal(3.0F, 2.0F, 4.0F)))
-
     }
+
+        @Test
+        fun timesNorm() {
+            val m = Transformation(
+                m = arrayOf(
+                    floatArrayOf(1.0F, 2.0F, 3.0F, 4.0F),
+                    floatArrayOf(5.0F, 6.0F, 7.0F, 8.0F),
+                    floatArrayOf(9.0F, 9.0F, 8.0F, 7.0F),
+                    floatArrayOf(0.0F, 0.0F, 0.0F, 1.0F)
+                ),
+                im = arrayOf(
+                    floatArrayOf(-3.75F, 2.75F, -1.0F, 0.0F),
+                    floatArrayOf(5.75F, -4.75F, 2.0F, 1.0F),
+                    floatArrayOf(-2.25F, 2.25F, -1.0F, -2.0F),
+                    floatArrayOf(0.0F, 0.0F, 0.0F, 1.0F)
+                )
+            )
+            assertTrue(m.isConsistent())
+
+            val expectedN = Normal(-8.75F, 7.75F, -3.0F)
+            assertTrue(expectedN.isClose(m * Normal(3.0F, 2.0F, 4.0F)))
+        }
 }
