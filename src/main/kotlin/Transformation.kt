@@ -50,6 +50,7 @@ class Transformation(
             Vector
             Point
             Normal
+            Ray
      */
     operator fun times(other: Transformation): Transformation {
         return Transformation(matrixProd(m, other.m), matrixProd(other.im, im))
@@ -92,6 +93,16 @@ class Transformation(
             row0[0] * other.x + row1[0] * other.y + row2[0] * other.z,
             row0[1] * other.x + row1[1] * other.y + row2[1] * other.z,
             row0[2] * other.x + row1[2] * other.y + row2[2] * other.z
+        )
+    }
+
+    operator fun times(other: Ray): Ray {
+        return Ray(
+            this * other.origin,
+            this * other.dir,
+            other.tmin,
+            other.tmax,
+            other.depth
         )
     }
 
