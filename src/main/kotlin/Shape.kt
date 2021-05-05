@@ -3,6 +3,6 @@
  */
 
 
-abstract class Shape () {
+abstract class Shape (val T : Transformation) {
     abstract fun rayIntersection (r : Ray) : HitRecord?
 }
