@@ -12,7 +12,6 @@ class ImageTracerTest {
         val camera = PerspectiveCamera(AR = 2.0F)
         val tracer = ImageTracer(image = image, camera = camera)
     }
-
  */
     @Test
     fun uvSubmapping() {
