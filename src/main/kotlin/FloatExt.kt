@@ -10,3 +10,7 @@ operator fun Float.times (v: Vector) : Vector {
 operator fun Float.times (c: Color) : Color {
     return Color(this*c.r, this*c.g, this*c.b)
 }
+
+fun Float.isClose(f : Float, epsilon : Float =10e-10F) : Boolean {
+    return this in (f-epsilon)..(f+epsilon)
+}
