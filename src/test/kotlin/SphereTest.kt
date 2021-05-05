@@ -21,7 +21,7 @@ class SphereTest {
 
         assertTrue(int?.worldPoint!!.isClose(expectedHitPoint1))
         assertTrue(int.normal.isClose(expectedNormal1))
-        //assertTrue(int.t < isClose(expectedT1))
+        assertTrue(int.t.isClose(expectedT1))
         assertTrue(int.surfacePoint.isClose(expectedUV1))
     }
 }

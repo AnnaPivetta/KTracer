@@ -11,8 +11,8 @@ class World (
     fun add (shape : Shape ) {
         shapes.add(shape)
     }
-    /*fun rayIntersection (ray : Ray) : HitRecord? {
-       // var closest : HitRecord? =
+    fun rayIntersection (ray : Ray) : HitRecord? {
+       var closest : HitRecord? = null
         for (shape in shapes) {
             var intersection = shape.rayIntersection(ray)
             if (intersection == null) {continue}
@@ -20,6 +20,6 @@ class World (
 
         }
 
-
-    }*/
+    TODO("Still working on it")
+    }
 }

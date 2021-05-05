@@ -42,8 +42,8 @@ class Sphere (T : Transformation): Shape(T)  {
     }
 
     private fun toSurPoint (p : Point) : Vector2d {
-        val atan = if (p.y >0.0F) atan2(p.y, p.x) else atan2(p.y, p.x) + 2.0F*PI.toFloat()
-        return Vector2d(u= atan /2.0F * PI.toFloat(), v=acos(p.z) / PI.toFloat())
+        val atan = if (p.y >=0.0F) atan2(p.y, p.x) else atan2(p.y, p.x) + 2.0F*PI.toFloat()
+        return Vector2d(u= atan / (2.0F * PI.toFloat()), v=acos(p.z) / PI.toFloat())
     }
 
 }
