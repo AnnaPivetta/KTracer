@@ -4,8 +4,8 @@ class ImageTracer (
     )  {
 
     fun fireRay (col : Int, row : Int, uPixel : Float =0.5F, vPixel :Float =0.5F) : Ray {
-        val u = (col + uPixel)/(image.getWidth() -1)
-        val v = (row + vPixel)/(image.getHeight() -1)
+        val u = (col + uPixel)/image.getWidth()
+        val v = 1.0F - (row + vPixel)/image.getHeight()
         return camera.fireRay(u, v)
     }
     fun fireAllRays (function : (Ray) -> Color ) {
