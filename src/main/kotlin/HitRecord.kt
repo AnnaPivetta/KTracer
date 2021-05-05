@@ -14,11 +14,10 @@
  *
  */
 
-
 class HitRecord (
     var worldPoint : Point = Point(0.0F, 0.0F, 0.0F),
     var normal : Normal = Normal(0.0F, 0.0F, 0.0F),
-    var surfacePonit : Vec2d = Vec2d(0.0F, 0.0F),
+    var surfacePonit : Vector2d = Vector2d(0.0F, 0.0F),
     var t : Float = 0.0F,
     var ray : Ray = Ray()){
 
