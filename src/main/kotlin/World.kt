@@ -12,14 +12,13 @@ class World (
         shapes.add(shape)
     }
     fun rayIntersection (ray : Ray) : HitRecord? {
-       var closest : HitRecord? = null
+        var closest : HitRecord? = null
         for (shape in shapes) {
-            var intersection = shape.rayIntersection(ray)
-            if (intersection == null) {continue}
-
-
+            var intersection = shape.rayIntersection(ray) ?: continue //elvis operator
+            if (closest == null || intersection.t < closest.t ) {
+                closest = intersection
+            }
         }
-
-    TODO("Still working on it")
+    return closest
     }
 }
