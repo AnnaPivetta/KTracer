@@ -2,12 +2,13 @@ import kotlin.math.abs
 
 /** Information about an intersection
  * This type is meant to record all the information about an intersection when it occurs.
- * It contains:
- *  - worldPoint : the 3D point where the intersection occurs
- *  - normal : the surface normal in *worldPoint*
- *  - surfacePoint : the intersection coordinates with respect to the surface
- *  - t : the ray parameter associated with the intersection (it specifies the distance between the origin of the ray and the hit point)
- *  - ray : the ray which hit the surface
+ *
+ * Class properties:
+ *  - [worldPoint] - The 3D point where the intersection occurs
+ *  - [normal] - The normal to the surface in [worldPoint]
+ *  - [surfacePoint] - The intersection coordinates with respect to the surface
+ *  - [t] - The ray parameter associated with the intersection (it specifies the distance between the origin of the ray and the hit point)
+ *  - [ray] - The ray which hit the surface
  *
  * @See Point
  * @See Normal
@@ -24,7 +25,7 @@ class HitRecord (
     var ray : Ray = Ray()){
 
     /**
-     * checks if two *HitRecord* represent the same hit event
+     * Checks if two [HitRecord] represent the same hit event
      */
     fun isClose (other : HitRecord?, epsilon : Float = 1e-5F) : Boolean {
         if (other == null) {return false}

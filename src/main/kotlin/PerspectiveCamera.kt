@@ -1,12 +1,12 @@
 /** Camera implementing Perspective Projection
  *
- * This class inherit from abstract class Camera and implements the perspective projection onto the screen
+ * This class inherits from abstract class Camera and implements the perspective projection onto the screen
  * for the observer
  *
- *
- * @param dist The distance of the Camera from the screen (default is 1.0)
- * @param AR The aspect ratio (width/height) of the screen (default is 1.6...MacBook standard)
- * @param T (optional) The Transformation applied to the default camera position  (see [Camera] for default position)
+ * Class properties:
+ * - [dist] - The distance of the Camera from the screen (default is 1.0)
+ * - [AR] - The aspect ratio (width/height) of the screen (default is 1.6...MacBook standard)
+ * - [T] (optional) - The Transformation applied to the default camera position  (see [Camera] for default position)
  *
  * @see Camera
  *
