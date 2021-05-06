@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="SphereTest" tests="2" skipped="0" failures="0" errors="0" timestamp="2021-05-05T21:19:56" hostname="MacBook-Pro-di-Matteo" time="0.003">
-  <properties/>
-  <testcase name="rayIntersectionWithT" classname="SphereTest" time="0.003"/>
-  <testcase name="rayIntersection" classname="SphereTest" time="0.0"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
