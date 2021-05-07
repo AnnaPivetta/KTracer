@@ -11,6 +11,10 @@ class Vector(var x: Float = 0.0F, var y: Float = 0.0F, var z: Float = 0.0F) {
         return abs(x - other.x) < epsilon && abs(y - other.y) < epsilon && abs(z - other.z) < epsilon
     }
 
+    fun toNormal(): Normal {
+        return Normal (x, y, z)
+    }
+
     operator fun plus(other: Vector): Vector {
         return Vector(x + other.x, y + other.y, z + other.z)
     }
