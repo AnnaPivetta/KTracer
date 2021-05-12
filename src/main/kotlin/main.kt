@@ -72,11 +72,11 @@ class Demo : CliktCommand(name = "demo") {
         echo("PFM Image has been saved to ${System.getProperty("user.dir")}/${pfmoutput}")
 
         //Tone Mapping
-        echo("Applying tone mapping with default values...")
+        echo("Applying tone mapping...")
+        println("Pre-toneMapping ${im.getPixel(270,190)}")
         im.normalizeImg(factor = factor)
-
         im.clampImg()
-
+        println("After-toneMapping ${im.getPixel(270,190)}")
         im.saveLDRImg(ldroutput, format, gamma)
         echo("LDR Image has been saved to ${System.getProperty("user.dir")}/${ldroutput}")
     }
@@ -97,10 +97,13 @@ class Conversion : CliktCommand(name = "pfm2ldr") {
         }
         echo("File successfully read")
         echo("Normalizing pixels luminosity...")
+        println("Pre-toneMapping ${img.getPixel(270,190)}")
         img.normalizeImg(factor = factor)
+        println("After-toneMapping ${img.getPixel(270,190)}")
         img.clampImg()
         echo("Image normalized")
         echo("Writing image on disk...")
+
         img.saveLDRImg(outputFileName.toString(), format.toString(), gamma)
         println("Done! Your image has been saved to ${System.getProperty("user.dir")}/${outputFileName}")
     }
