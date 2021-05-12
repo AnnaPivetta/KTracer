@@ -9,5 +9,5 @@ val VECY = Vector(0.0F, 1.0F, 0.0F)
 val VECZ = Vector(0.0F, 0.0F, 1.0F)
 
 //Color Constants
-val WHITE = Color(100F, 100F, 100F)
+val WHITE = Color(1.0F, 1.0F, 1.0F)
 val BLACK = Color()
