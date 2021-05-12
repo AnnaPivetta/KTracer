@@ -1,7 +1,9 @@
 import com.github.ajalt.clikt.core.CliktCommand
+import com.github.ajalt.clikt.core.subcommands
 import com.github.ajalt.clikt.parameters.groups.OptionGroup
 import com.github.ajalt.clikt.parameters.groups.groupChoice
 import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.types.*
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.float
@@ -81,42 +83,29 @@ class Demo : CliktCommand(name = "demo") {
         echo ("LDR Image has been saved to ${System.getProperty("user.dir")}/${ldroutput}")
     }
 }
-
-class Conversion : CliktCommand(name = "pfm2ldr") {
+class Conversion : CliktCommand (name = "pfm2ldr") {
+    private val inputPFMFileName by option("--input", "-i")
+    private val factor by option().float().default(0.2F)
+    private val gamma by option().float().default(1.0F)
+    private val format by option().choice( "BMP", "bmp", "jpeg", "wbmp", "png", "JPG", "PNG", "jpg", "WBMP", "JPEG")
+    private val outputFileName by option("--output", "-o")
 
     override fun run() {
-        TODO()
+        val img = HdrImage()
+        echo("Reading file...")
+        FileInputStream(inputPFMFileName.toString()).use{
+                INStream -> img.readPfmFile(INStream)
+        }
+        echo("File successfully read")
+        echo("Normalizing pixels luminosity...")
+        img.normalizeImg(factor=factor)
+        img.clampImg()
+        echo("Image normalized")
+        echo("Writing image on disk...")
+        img.saveLDRImg(outputFileName.toString(), format.toString(), gamma)
+        println("Done! Your image has been saved to ${System.getProperty("user.dir")}/${outputFileName}")
     }
 }
+fun main(args: Array<String>) = KTracer().subcommands(Demo(), Conversion()).main(args)
 
 
-/*fun main(args:Array<String>) {
-
-    // -------- CONVERSION FROM PFM --------
-    val img = HdrImage()
-    val params = Parameters()
-    try{
-    params.parseCommandLine(args)
-    }
-    catch (e:RuntimeException) {
-        println("Error $e")
-        return
-    }
-    println("Reading file...")
-    FileInputStream(params.inputPFMFileName).use{
-        INStream -> img.readPfmFile(INStream)
-    }
-    println("File successfully read")
-
-    println("Normalizing pixels luminosity...")
-    img.normalizeImg(factor= params.factor)
-    img.clampImg()
-    println("Image normalized")
-    println("Writing image on disk...")
-    img.saveLDRImg(params.outputFileName, params.format, params.gamma)
-    println("Done! Your image has been saved to ${System.getProperty("user.dir")}/${params.outputFileName}")
-    // -------------------------------------
-
-
-
-}*/

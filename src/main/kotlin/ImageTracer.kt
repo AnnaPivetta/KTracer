@@ -11,14 +11,11 @@ class ImageTracer (
     fun fireAllRays (function : (Ray) -> Color ) {
         for (row in 0 until image.getHeight()) {
             for (col in 0 until image.getWidth()){
-                println("$col, $row")
                 val ray = fireRay(col, row)
                 val color = function(ray)
                 image.setPixel(col, row, color)
             }
         }
 
-
     }
-
 }
