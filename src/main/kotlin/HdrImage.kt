@@ -178,7 +178,7 @@ class HdrImage(
     }
 
     private fun clamp(x: Float): Float {
-        return x / (1 + x)
+        return x / (1.0F + x)
     }
 
     fun writeLDRImg(stream: OutputStream, format: String, gamma: Float = 1.0F) {
