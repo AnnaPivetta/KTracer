@@ -14,6 +14,10 @@ data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) 
         luminosity               --> computes the luminosity of the pixel
      */
 
+    override fun toString(): String {
+        return "Color ($r, $g, $b)"
+    }
+
     operator fun plus(other: Color): Color {
         return Color(r + other.r, g + other.g, b + other.b)
     }

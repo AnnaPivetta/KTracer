@@ -64,7 +64,7 @@ class Demo : CliktCommand(name = "demo") {
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = Transformation().translation(-2.0F * VECX))
         else PerspectiveCamera(AR = ar, T = Transformation().translation(-2.0F * VECX))
         val im = HdrImage(width, height)
-        val computeColor: (Ray) -> Color = { if (world.rayIntersection(it) == null) BLACK else WHITE }
+        val computeColor: (Ray) -> Color = { if (world.rayIntersection(it) == null) Color(0.0F, 0.0F, 0.0F) else Color(1.0F, 1.0F, 1.0F) }
         val tracer = ImageTracer(im, camera).fireAllRays(computeColor)
 
         //Save HDR Image
@@ -73,10 +73,8 @@ class Demo : CliktCommand(name = "demo") {
 
         //Tone Mapping
         echo("Applying tone mapping...")
-        println("Pre-toneMapping ${im.getPixel(270,190)}")
         im.normalizeImg(factor = factor)
         im.clampImg()
-        println("After-toneMapping ${im.getPixel(270,190)}")
         im.saveLDRImg(ldroutput, format, gamma)
         echo("LDR Image has been saved to ${System.getProperty("user.dir")}/${ldroutput}")
     }
@@ -97,9 +95,7 @@ class Conversion : CliktCommand(name = "pfm2ldr") {
         }
         echo("File successfully read")
         echo("Normalizing pixels luminosity...")
-        println("Pre-toneMapping ${img.getPixel(270,190)}")
         img.normalizeImg(factor = factor)
-        println("After-toneMapping ${img.getPixel(270,190)}")
         img.clampImg()
         echo("Image normalized")
         echo("Writing image on disk...")
