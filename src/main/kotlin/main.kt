@@ -1,24 +1,24 @@
 import com.github.ajalt.clikt.core.CliktCommand
-import com.github.ajalt.clikt.parameters.options.default
-import com.github.ajalt.clikt.parameters.options.option
+import com.github.ajalt.clikt.parameters.groups.OptionGroup
+import com.github.ajalt.clikt.parameters.options.*
+import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.clikt.parameters.options.prompt
+
 import java.io.FileInputStream
 import java.lang.RuntimeException
 
-class Hello : CliktCommand() {
-    val count: Int by option(help="Number of greetings").int().default(1)
-    val name: String by option(help="The person to greet").prompt("Your name")
-
-    override fun run() {
-        repeat(count) {
-            echo("Hello $name!")
-        }
-    }
+sealed class LoadMode(name: String): OptionGroup(name)
+class Demo : LoadMode("Demo") {
+    val mode by option(help="pmf2jpg / demo").required()
+    val height by option().int()
+    val width by option().int()
+}
+class Conversion : LoadMode("Conversion from pfm to jpg") {
+    val mode by option(help="pmf2jpg / demo").required()
+    val fileIn by option().file().required()
+    val fileOut by option().file()
 }
 
-fun main(args: Array<String>) = Hello().main(args)
 
 
 /*fun main(args:Array<String>) {
