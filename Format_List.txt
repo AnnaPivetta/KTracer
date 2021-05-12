@@ -1,0 +1,12 @@
+reader PFM
+
+writer BMP
+writer bmp
+writer jpeg
+writer wbmp
+writer png
+writer JPG
+writer PNG
+writer jpg
+writer WBMP
+writer JPEG
