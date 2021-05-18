@@ -11,7 +11,7 @@ import kotlin.math.*
  *
  * @see Shape
  */
-class Sphere (T : Transformation): Shape(T)  {
+class Sphere (T : Transformation = Transformation()): Shape(T)  {
 
     /**
      * This functions evaluates if the given [Ray] intersects the sphere and returns the

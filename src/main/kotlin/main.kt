@@ -24,7 +24,7 @@ class Demo : CliktCommand(name = "demo") {
 
     override fun run() {
 
-
+/*
         //Set 10 Spheres in the World
         val world = World()
         val vertices = arrayOf(-0.5F, 0.5F)
@@ -56,6 +56,12 @@ class Demo : CliktCommand(name = "demo") {
                         * Transformation().scaling(Vector(0.1F, 0.1F, 0.1F))
             )
         )
+
+ */
+
+        val world = World()
+        world.add(Box())
+
         val ar = width.toFloat() / height.toFloat()
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = Transformation().translation(-2.0F * VECX))
         else PerspectiveCamera(AR = ar, T = Transformation().translation(-2.0F * VECX))
