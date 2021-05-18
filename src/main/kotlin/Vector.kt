@@ -1,7 +1,7 @@
 import kotlin.math.abs
 import kotlin.math.sqrt
 
-class Vector(var x: Float = 0.0F, var y: Float = 0.0F, var z: Float = 0.0F) {
+data class Vector(var x: Float = 0.0F, var y: Float = 0.0F, var z: Float = 0.0F) {
 
     override fun toString(): String {
         return "Vector ($x, $y, $z)"

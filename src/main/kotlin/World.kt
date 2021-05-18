@@ -15,7 +15,7 @@ class World (
     fun rayIntersection (ray : Ray) : HitRecord? {
         var closest : HitRecord? = null
         for (shape in shapes) {
-            var intersection = shape.rayIntersection(ray) ?: continue //elvis operator
+            val intersection = shape.rayIntersection(ray) ?: continue //elvis operator
             if (closest == null || intersection.t < closest.t ) {
                 closest = intersection
             }
