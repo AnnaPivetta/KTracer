@@ -22,7 +22,8 @@ class HitRecord (
     var normal : Normal = Normal(0.0F, 0.0F, 0.0F),
     var surfacePoint : Vector2d = Vector2d(0.0F, 0.0F),
     var t : Float = 0.0F,
-    var ray : Ray = Ray()){
+    var ray : Ray = Ray(),
+    var shape : Shape = Sphere()){
 
     /**
      * Checks if two [HitRecord] represent the same hit event
