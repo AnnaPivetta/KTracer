@@ -11,7 +11,7 @@ import kotlin.math.*
  *
  * @see Shape
  */
-class Sphere (T : Transformation): Shape(T)  {
+class Sphere (T : Transformation = Transformation(), material: Material = Material()): Shape(T, material)  {
 
     /**
      * This functions evaluates if the given [Ray] intersects the sphere and returns the
@@ -51,7 +51,8 @@ class Sphere (T : Transformation): Shape(T)  {
             normal = T * getNormal(hit, ir.dir),
             surfacePoint = toSurPoint(hit),
             t = tHit,
-            ray = r
+            ray = r,
+            shape = this
         )
     }
 

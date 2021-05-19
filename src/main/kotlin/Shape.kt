@@ -17,6 +17,6 @@
  */
 
 
-abstract class Shape (val T : Transformation) {
+abstract class Shape (val T : Transformation, val material : Material) {
     abstract fun rayIntersection (r : Ray) : HitRecord?
 }
