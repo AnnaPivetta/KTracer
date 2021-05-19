@@ -1,11 +1,7 @@
 import com.github.ajalt.clikt.core.CliktCommand
 import com.github.ajalt.clikt.core.subcommands
-import com.github.ajalt.clikt.parameters.groups.OptionGroup
-import com.github.ajalt.clikt.parameters.groups.groupChoice
 import com.github.ajalt.clikt.parameters.options.*
-import com.github.ajalt.clikt.parameters.types.*
 import com.github.ajalt.clikt.parameters.types.choice
-import com.github.ajalt.clikt.parameters.types.file
 import com.github.ajalt.clikt.parameters.types.float
 import com.github.ajalt.clikt.parameters.types.int
 
@@ -17,14 +13,14 @@ class KTracer : CliktCommand() {
 
 class Demo : CliktCommand(name = "demo") {
 
-    val width by option("--width","-w").int().default(480)
-    val height by option("--height", "-h").int().default(480)
-    val orthogonal by option().flag(default = false)
-    val pfmoutput by option("--pfm-o", "--hdr-o", "--pfmoutput").required()
-    val ldroutput by option("--ldr-o", "--ldroutput").required()
-    val factor by option().float().default(0.2F)
-    val gamma by option().float().default(1.0F)
-    val format by option().choice("BMP", "bmp", "jpeg", "wbmp", "png", "JPG", "PNG", "jpg", "WBMP", "JPEG").default("png")
+    private val width by option("--width","-w").int().default(480)
+    private val height by option("--height", "-h").int().default(480)
+    private val orthogonal by option().flag(default = false)
+    private val pfmoutput by option("--pfm-o", "--hdr-o", "--pfmoutput").required()
+    private val ldroutput by option("--ldr-o", "--ldroutput").required()
+    private val factor by option().float().default(0.2F)
+    private val gamma by option().float().default(1.0F)
+    private val format by option().choice("BMP", "bmp", "jpeg", "wbmp", "png", "JPG", "PNG", "jpg", "WBMP", "JPEG").default("png")
 
     override fun run() {
 
@@ -64,8 +60,8 @@ class Demo : CliktCommand(name = "demo") {
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = Transformation().translation(-2.0F * VECX))
         else PerspectiveCamera(AR = ar, T = Transformation().translation(-2.0F * VECX))
         val im = HdrImage(width, height)
-        val computeColor: (Ray) -> Color = { if (world.rayIntersection(it) == null) Color(0.0F, 0.0F, 0.0F) else Color(1.0F, 1.0F, 1.0F) }
-        val tracer = ImageTracer(im, camera).fireAllRays(computeColor)
+        val computeColor: (Ray) -> Color = { if (world.rayIntersection(it) == null) BLACK.copy() else WHITE.copy() }
+        ImageTracer(im, camera).fireAllRays(computeColor)
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)
