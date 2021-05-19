@@ -1,3 +1,5 @@
+import javax.swing.text.StyledEditorKit
+
 /** The shapes in the scene
  *
  * This class is an abstract class for implementing the different kind of geometric shapes
@@ -18,6 +20,7 @@
 
 
 abstract class Shape (val T : Transformation) {
+    abstract fun isPointInternal (p : Point) : Boolean
     abstract fun rayIntersection (r : Ray) : HitRecord?
     abstract fun rayIntersectionList (r : Ray) : List<HitRecord>?
 }

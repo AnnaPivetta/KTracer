@@ -31,8 +31,12 @@ class Box(
             }
         }
     }
+
+    override fun isPointInternal(p: Point): Boolean {
+        return p.x in min.x..max.x && p.y in min.y..max.y && p.z in min.z..max.z
+    }
     /**
-     * This functions evaluates if the given [Ray] intersects the sphere and returns the
+     * This function evaluates if the given [Ray] intersects the sphere and returns the
      * closest intersection from the observer point of view
      *
      * @param r The [Ray] to check the intersection with

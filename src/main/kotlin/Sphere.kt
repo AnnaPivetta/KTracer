@@ -13,8 +13,12 @@ import kotlin.math.*
  */
 class Sphere (T : Transformation = Transformation()): Shape(T)  {
 
+    override fun isPointInternal (p : Point) : Boolean{
+        return (T.inverse() * p).toVector().norm2() < 1.0F
+    }
+
     /**
-     * This functions evaluates if the given [Ray] intersects the sphere and returns the
+     * This function evaluates if the given [Ray] intersects the sphere and returns the
      * closest intersection from the observer point of view
      *
      * @param r The [Ray] to check the intersection with
@@ -94,6 +98,7 @@ class Sphere (T : Transformation = Transformation()): Shape(T)  {
         }
         return hits
     }
+
 
     private fun getNormal (p : Point, rayDir : Vector) : Normal {
         val n = Normal (p.x, p.y, p.z)
