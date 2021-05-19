@@ -55,6 +55,46 @@ class Sphere (T : Transformation = Transformation()): Shape(T)  {
         )
     }
 
+    override fun rayIntersectionList(r: Ray): List<HitRecord>? {
+        val ir = T.inverse() * r
+        //Compute intersection
+        //Determinant/4 ( -b +/- sqrt(b*b - ac) )/a
+        val oVec = ir.origin.toVector()
+        val b = oVec * ir.dir
+        val d2 = ir.dir.norm2()
+        val det4 = b*b -  d2* (oVec.norm2() - 1.0F)
+        //Intersections
+        val t1 = ( -b - sqrt(det4) )/d2
+        val t2 = ( -b + sqrt(det4) )/d2
+
+        val hits : MutableList<HitRecord>? = null
+        if (t1 !in r.tmin..r.tmax){
+            val hit = ir.at(t1)
+            hits?.add(
+                HitRecord(
+                    worldPoint = T * hit,
+                    normal = T * getNormal(hit, ir.dir),
+                    surfacePoint = toSurPoint(hit),
+                    t = t1,
+                    ray = r
+                )
+            )
+        }
+        if (t2 !in r.tmin..r.tmax ) {
+            val hit = ir.at(t2)
+            hits?.add(
+                HitRecord(
+                    worldPoint = T * hit,
+                    normal = T * getNormal(hit, ir.dir),
+                    surfacePoint = toSurPoint(hit),
+                    t = t2,
+                    ray = r
+                )
+            )
+        }
+        return hits
+    }
+
     private fun getNormal (p : Point, rayDir : Vector) : Normal {
         val n = Normal (p.x, p.y, p.z)
         return if (p.toVector()*rayDir<0.0F) n else -n

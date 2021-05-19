@@ -90,6 +90,9 @@ class Box(
         )
     }
 
+    override fun rayIntersectionList(r: Ray): List<HitRecord>? {
+        TODO("Not yet implemented")
+    }
     private fun getNormal(minDir : Int, rayDir: Vector): Normal {
         val norm = when (minDir) {
             0 -> VECX.toNormal()

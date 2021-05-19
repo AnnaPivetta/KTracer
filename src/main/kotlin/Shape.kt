@@ -19,4 +19,5 @@
 
 abstract class Shape (val T : Transformation) {
     abstract fun rayIntersection (r : Ray) : HitRecord?
+    abstract fun rayIntersectionList (r : Ray) : List<HitRecord>?
 }
