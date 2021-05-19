@@ -15,10 +15,22 @@
  */
 
 class Box(
-    private val min: Point = Point(-0.5F, -0.5F, -0.5F),
-    private val max: Point = Point(0.5F, 0.5F, 0.5F),
+    private var min: Point = Point(-0.5F, -0.5F, -0.5F),
+    private var max: Point = Point(0.5F, 0.5F, 0.5F),
     T: Transformation = Transformation()
 ) : Shape(T) {
+
+    init {
+        for (i in 0 until 3) {
+            if (min[i]>max[i]) {
+                println(RED + "Warning: Box has no consistent minimum and maximum vertices. " +
+                        "Default values will be used" + RESET)
+                min = Point(-0.5F, -0.5F, -0.5F)
+                max = Point(0.5F, 0.5F, 0.5F)
+                break
+            }
+        }
+    }
     /**
      * This functions evaluates if the given [Ray] intersects the sphere and returns the
      * closest intersection from the observer point of view
