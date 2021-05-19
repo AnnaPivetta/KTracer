@@ -1,6 +1,7 @@
 import org.junit.Test
 
 import org.junit.Assert.*
+import kotlin.test.assertFailsWith
 
 class PointTest {
 
@@ -41,6 +42,16 @@ class PointTest {
         val b = Vector(4.0F, 6.0F, 8.0F)
         val c = Point(-3.0F, -4.0F, -5.0F)
         assertTrue((a-b).isClose(c))
+
+    }
+
+    @Test
+    fun get() {
+        val p = Point(0.0F, 1.0F, 2.0F)
+        assertTrue(p[0] == 0.0F)
+        assertTrue(p[1] == 1.0F)
+        assertTrue(p[2] == 2.0F)
+        assertFailsWith<IndexOutOfBoundsException>{p[3]}
 
     }
 }

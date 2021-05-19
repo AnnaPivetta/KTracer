@@ -1,5 +1,4 @@
-import kotlin.math.max
-import kotlin.math.min
+
 
 /**
  * Shape implementing a 3D Axis Aligned Box
@@ -31,33 +30,59 @@ class Box(
         val ir = T.inverse() * r
         //Kotlin handling of 0 division is returning Infinity --> this is how we need it
 
-        val mintX = (min.x - ir.origin.x) / ir.dir.x
-        val maxtX = (max.x - ir.origin.x) / ir.dir.x
-        val mintY = (min.y - ir.origin.y) / ir.dir.y
-        val maxtY = (max.y - ir.origin.y) / ir.dir.y
-        val mintZ = (min.z - ir.origin.z) / ir.dir.z
-        val maxtZ = (max.z - ir.origin.z) / ir.dir.z
+        var t1 = ir.tmin
+        var t2 = ir.tmax
+        var minDir = -1
+        var maxDir = -1
 
-        val minT = maxOf(mintX, mintY, mintZ)
-        val maxT = minOf(maxtX, maxtY, maxtZ)
-        if (minT > maxT) return null
+        for (i in 0 until 3) {
+            var tmin = (min[i] - (ir.origin)[i]) / ir.dir[i]
+            var tmax = (max[i] - (ir.origin)[i]) / ir.dir[i]
+
+            if (tmin > tmax) {
+                    val t = tmin
+                    tmin = tmax
+                    tmax = t
+                }
+            if(tmin>t1) {
+                t1 = tmin
+                minDir = i
+            }
+            if(tmax<t2) {
+                t2 = tmax
+                maxDir = i
+            }
+
+            //t1 always increases and t2 decreases
+            //if t1 > t2 at a given direction, then it will be forever
+            //no intersection occurs
+            if (t1 > t2) return null
+        }
+
+        //If minDir = -1 it means that the first positive intersection has occurred in t2
+        //to avoid counting backward intersection
+        var t = t1
+        var dir = minDir
+        if (minDir == -1) {
+            t = t2
+            dir = maxDir
+        }
 
 
         return HitRecord(
-            worldPoint = T * ir.at(minT),
-            normal = getNormal(mintX, mintY, mintZ, ir.dir),
+            worldPoint = T * ir.at(t),
+            normal = getNormal(dir, ir.dir),
             surfacePoint = Vector2d(0.5F, 0.5F),
-            t = minT,
+            t = t,
             ray = r
         )
     }
 
-    fun getNormal(mintX: Float, mintY: Float, mintZ: Float, rayDir: Vector): Normal {
-        val minT = maxOf(mintX, mintY, mintZ)
-        var norm = when (minT) {
-            mintX -> VECX.toNormal()
-            mintY -> VECY.toNormal()
-            mintZ -> VECZ.toNormal()
+    private fun getNormal(minDir : Int, rayDir: Vector): Normal {
+        val norm = when (minDir) {
+            0 -> VECX.toNormal()
+            1 -> VECY.toNormal()
+            2 -> VECZ.toNormal()
             else -> Normal()
         }
         return if (norm.toVector() * rayDir > 0) -norm else norm
