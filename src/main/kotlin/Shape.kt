@@ -6,7 +6,7 @@
  * transformations to deal with different positioning and scaling.
  *
  * Class properties:
- * - [T] - The Transformation to apply to the canonical shape
+ * - [T] - The [Transformation] to apply to the canonical shape
  *
  * Concrete Shapes are:
  * - [Sphere]
