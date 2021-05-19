@@ -2,6 +2,8 @@
  * [PCG](https://www.pcg-random.org) Random Number Generator
  *
  * The PCG implemented here is the 32-bit one, which has period 2^32 -1
+ *
+ * Params should not be changed
  */
 @kotlin.ExperimentalUnsignedTypes
 class PCG (var state : ULong = 0UL, var inc : ULong = 0UL){
@@ -16,6 +18,12 @@ class PCG (var state : ULong = 0UL, var inc : ULong = 0UL){
         rand()
     }
 
+    /**
+     * Uniform Random Integer Generator
+     *
+     * @return An [Int] uniformly distributed in the range [0, 2^31-1)
+     */
+
     fun rand() : UInt{
         val oldState = state
 
@@ -28,4 +36,12 @@ class PCG (var state : ULong = 0UL, var inc : ULong = 0UL){
         return ((xorshifted shr rot) or (xorshifted shl ((-rot) and 31)))
     }
 
+    /**
+     * Uniform Random
+     *
+     * @return A float uniformly distributed in the range [0,1)
+     */
+    fun randUnif() : Float {
+        return rand().toFloat() / 0xffffffff
+    }
 }
