@@ -1,5 +1,3 @@
-
-
 /**
  * Shape implementing a 3D Axis Aligned Box
  *
@@ -22,9 +20,11 @@ class Box(
 
     init {
         for (i in 0 until 3) {
-            if (min[i]>max[i]) {
-                println(RED + "Warning: Box has no consistent minimum and maximum vertices. " +
-                        "Default values will be used" + RESET)
+            if (min[i] > max[i]) {
+                println(
+                    RED + "Warning: Box has no consistent minimum and maximum vertices. " +
+                            "Default values will be used" + RESET
+                )
                 min = Point(-0.5F, -0.5F, -0.5F)
                 max = Point(0.5F, 0.5F, 0.5F)
                 break
@@ -35,6 +35,7 @@ class Box(
     override fun isPointInternal(p: Point): Boolean {
         return p.x in min.x..max.x && p.y in min.y..max.y && p.z in min.z..max.z
     }
+
     /**
      * This function evaluates if the given [Ray] intersects the sphere and returns the
      * closest intersection from the observer point of view
@@ -56,15 +57,15 @@ class Box(
             var tmax = (max[i] - (ir.origin)[i]) / ir.dir[i]
 
             if (tmin > tmax) {
-                    val t = tmin
-                    tmin = tmax
-                    tmax = t
-                }
-            if(tmin>t1) {
+                val t = tmin
+                tmin = tmax
+                tmax = t
+            }
+            if (tmin > t1) {
                 t1 = tmin
                 minDir = i
             }
-            if(tmax<t2) {
+            if (tmax < t2) {
                 t2 = tmax
                 maxDir = i
             }
@@ -95,9 +96,71 @@ class Box(
     }
 
     override fun rayIntersectionList(r: Ray): List<HitRecord>? {
-        TODO("Not yet implemented")
+        val ir = T.inverse() * r
+        //Kotlin handling of 0 division is returning Infinity --> this is how we need it
+
+        var t1 = ir.tmin
+        var t2 = ir.tmax
+        var minDir = -1
+        var maxDir = -1
+
+        for (i in 0 until 3) {
+            var tmin = (min[i] - (ir.origin)[i]) / ir.dir[i]
+            var tmax = (max[i] - (ir.origin)[i]) / ir.dir[i]
+
+            if (tmin > tmax) {
+                val t = tmin
+                tmin = tmax
+                tmax = t
+            }
+            if (tmin > t1) {
+                t1 = tmin
+                minDir = i
+            }
+            if (tmax < t2) {
+                t2 = tmax
+                maxDir = i
+            }
+
+            //t1 always increases and t2 decreases
+            //if t1 > t2 at a given direction, then it will be forever
+            //no intersection occurs
+            if (t1 > t2) return null
+        }
+
+        //If minDir = -1 it means that the first positive intersection has occurred in t2
+        //to avoid counting backward intersection
+        if (minDir == -1) {
+            return listOf(
+                HitRecord(
+                    worldPoint = T * ir.at(t2),
+                    normal = getNormal(maxDir, ir.dir),
+                    surfacePoint = Vector2d(0.5F, 0.5F),
+                    t = t2,
+                    ray = r
+                )
+            )
+        } else {
+            return listOf(
+                HitRecord(
+                    worldPoint = T * ir.at(t1),
+                    normal = getNormal(minDir, ir.dir),
+                    surfacePoint = Vector2d(0.5F, 0.5F),
+                    t = t1,
+                    ray = r
+                ),
+                HitRecord(
+                    worldPoint = T * ir.at(t2),
+                    normal = getNormal(maxDir, ir.dir),
+                    surfacePoint = Vector2d(0.5F, 0.5F),
+                    t = t2,
+                    ray = r
+                )
+            )
+        }
     }
-    private fun getNormal(minDir : Int, rayDir: Vector): Normal {
+
+    private fun getNormal(minDir: Int, rayDir: Vector): Normal {
         val norm = when (minDir) {
             0 -> VECX.toNormal()
             1 -> VECY.toNormal()

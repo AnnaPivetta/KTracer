@@ -74,7 +74,7 @@ class Sphere (T : Transformation = Transformation()): Shape(T)  {
         val hits = mutableListOf<HitRecord>()
         if (t1 in r.tmin..r.tmax){
             val hit = ir.at(t1)
-            hits?.add(
+            hits.add(
                 HitRecord(
                     worldPoint = T * hit,
                     normal = T * getNormal(hit, ir.dir),
@@ -86,7 +86,7 @@ class Sphere (T : Transformation = Transformation()): Shape(T)  {
         }
         if (t2 in r.tmin..r.tmax ) {
             val hit = ir.at(t2)
-            hits?.add(
+            hits.add(
                 HitRecord(
                     worldPoint = T * hit,
                     normal = T * getNormal(hit, ir.dir),
