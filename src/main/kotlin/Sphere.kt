@@ -71,8 +71,8 @@ class Sphere (T : Transformation = Transformation()): Shape(T)  {
         val t1 = ( -b - sqrt(det4) )/d2
         val t2 = ( -b + sqrt(det4) )/d2
 
-        val hits : MutableList<HitRecord>? = null
-        if (t1 !in r.tmin..r.tmax){
+        val hits = mutableListOf<HitRecord>()
+        if (t1 in r.tmin..r.tmax){
             val hit = ir.at(t1)
             hits?.add(
                 HitRecord(
@@ -84,7 +84,7 @@ class Sphere (T : Transformation = Transformation()): Shape(T)  {
                 )
             )
         }
-        if (t2 !in r.tmin..r.tmax ) {
+        if (t2 in r.tmin..r.tmax ) {
             val hit = ir.at(t2)
             hits?.add(
                 HitRecord(
@@ -96,7 +96,9 @@ class Sphere (T : Transformation = Transformation()): Shape(T)  {
                 )
             )
         }
-        return hits
+
+        return if (hits.isEmpty()) null
+        else hits.sortedBy { it.t }
     }
 
 

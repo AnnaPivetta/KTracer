@@ -24,6 +24,12 @@ class HitRecord (
     var t : Float = 0.0F,
     var ray : Ray = Ray()){
 
+    override fun toString(): String {
+        return "WorldPoint " + worldPoint.toString() + "\n" +
+                normal.toString() + "\n" +
+                "SurPoint: " + surfacePoint.toString() + "\n" +
+                "t $t"
+    }
     /**
      * Checks if two [HitRecord] represent the same hit event
      */

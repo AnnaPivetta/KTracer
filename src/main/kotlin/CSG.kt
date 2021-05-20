@@ -58,10 +58,10 @@ class CSGUnion (val s1: Shape, val s2: Shape, T : Transformation = Transformatio
      * This function evaluates if the given [Ray] intersects the Union and returns all the
      * intersection from the observer point of view (only non-internal intersections are considered)
      *
-     * All intersections with [s1] and [s2] are computed and then the internal ones are discarded
+     * All intersections with [s1] and [s2] are computed and then the internal ones are discarded.
      *
      * @param r The [Ray] to check the intersection with
-     * @return A [List] of [HitRecord] containing all the intersections if any.
+     * @return A [List] of [HitRecord] containing all the intersections if any, sorted by increasing distance.
      * Otherwise null is returned
      */
     override fun rayIntersectionList(r: Ray): List<HitRecord>? {
@@ -79,7 +79,7 @@ class CSGUnion (val s1: Shape, val s2: Shape, T : Transformation = Transformatio
             }
         }
         return if (hits.isEmpty()) null
-        else hits
+        else hits.sortedBy { it.t }
     }
 }
 /**
@@ -116,8 +116,8 @@ class CSGDifference (val s1: Shape, val s2: Shape, T : Transformation = Transfor
      * This function evaluates if the given [Ray] intersects the Difference and returns the
      * closest intersection from the observer point of view.
      *
-     * All intersections are evaluated with [rayIntersectionList] and then it's performed a search
-     * for the closest
+     * All intersections are evaluated with [rayIntersectionList] and then the closest
+     * (*i.e.* the  first one) is selected
      *
      * @param r The [Ray] to check the intersection with
      * @return A [HitRecord] containing the  closest intersection to the [Ray.origin] if any.
@@ -126,16 +126,8 @@ class CSGDifference (val s1: Shape, val s2: Shape, T : Transformation = Transfor
      * @see rayIntersectionList
      */
     override fun rayIntersection(r: Ray): HitRecord? {
-        val hits = rayIntersectionList(r)?.toList()
-        return if (hits == null) null
-        else {
-            var closest = hits[0]
-            for (h in hits.slice(1 until hits.size)) {
-                if (h.t < closest.t) closest = h
-            }
-            closest
+        return rayIntersectionList(r)?.get(0)
         }
-    }
 
 
     /**
@@ -148,7 +140,7 @@ class CSGDifference (val s1: Shape, val s2: Shape, T : Transformation = Transfor
      * - On [s2] border and inside [s1]
      *
      * @param r The [Ray] to check the intersection with
-     * @return A [List] of [HitRecord] containing all the intersections if any.
+     * @return A [List] of [HitRecord] containing all the intersections if any, sorted by increasing distance.
      * Otherwise null is returned
      */
 
@@ -167,7 +159,7 @@ class CSGDifference (val s1: Shape, val s2: Shape, T : Transformation = Transfor
             }
         }
         return if (hits.isEmpty()) null
-        else hits
+        else hits.sortedBy { it.t }
     }
 }
 
@@ -229,7 +221,7 @@ class CSGIntersection (val s1: Shape, val s2: Shape, T : Transformation = Transf
      * - On [s2] border and inside [s1]
      *
      * @param r The [Ray] to check the intersection with
-     * @return A [List] of [HitRecord] containing all the intersections if any.
+     * @return A [List] of [HitRecord] containing all the intersections if any, sorted by increasing distance.
      * Otherwise null is returned
      */
     override fun rayIntersectionList(r: Ray): List<HitRecord>? {
@@ -247,6 +239,6 @@ class CSGIntersection (val s1: Shape, val s2: Shape, T : Transformation = Transf
             }
         }
         return if (hits.isEmpty()) null
-        else hits
+        else hits.sortedBy { it.t }
     }
 }
