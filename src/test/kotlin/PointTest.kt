@@ -9,7 +9,7 @@ class PointTest {
     fun testToString() {
         val p = Point(1F, 2F, 3F)
         println(p.toString())
-        assertTrue(p.toString()=="(1.0;2.0;3.0)")
+        assertTrue(p.toString()=="(1.0; 2.0; 3.0)")
     }
 
     @Test

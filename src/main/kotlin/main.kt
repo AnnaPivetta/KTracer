@@ -60,7 +60,7 @@ class Demo : CliktCommand(name = "demo") {
  */
 
         val world = World()
-        world.add(Box())
+        world.add(CSGDifference(Sphere(Transformation().translation(-0.5F * VECY)), Sphere(Transformation().translation(0.5F * VECY))))
 
         val ar = width.toFloat() / height.toFloat()
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = Transformation().translation(-2.0F * VECX))
