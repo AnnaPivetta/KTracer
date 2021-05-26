@@ -25,4 +25,8 @@ class Normal (var x: Float = 0.0F, var y: Float = 0.0F, var z: Float = 0.0F) {
         y /= n
         z /= n
     }
+
+    fun toVector () : Vector {
+        return Vector(x, y, z)
+    }
 }

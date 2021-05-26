@@ -9,11 +9,13 @@
  *
  * @see Renderer
  */
-class OnOffRenderer(world: World = World(),
-                    backgroundColor: Color = BLACK.copy(),
-                    val color: Color = WHITE.copy() ) :
-    Renderer (world = world, backgroundColor = backgroundColor) {
+class OnOffRenderer(
+    world: World = World(),
+    backgroundColor: Color = BLACK.copy(),
+    val color: Color = WHITE.copy()
+) :
+    Renderer(world = world, backgroundColor = backgroundColor) {
     override fun computeRadiance(): (r: Ray) -> Color {
         return { if (world.rayIntersection(it) == null) backgroundColor.copy() else color.copy() }
     }
-    }
+}
