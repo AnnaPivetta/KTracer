@@ -13,9 +13,9 @@ class PCG (var state : ULong = 0UL, var inc : ULong = 0UL){
         state = 0UL
         //Get rid of first 2 numbers
         inc = (initSeq shl 1 ) or 1UL
-        rand()
+        randInt()
         state += initState
-        rand()
+        randInt()
     }
 
     /**
@@ -24,7 +24,7 @@ class PCG (var state : ULong = 0UL, var inc : ULong = 0UL){
      * @return An [Int] uniformly distributed in the range [0, 2^31-1)
      */
 
-    fun rand() : UInt{
+    fun randInt() : UInt{
         val oldState = state
 
         state = oldState * 6364136223846793005UL + inc
@@ -41,7 +41,18 @@ class PCG (var state : ULong = 0UL, var inc : ULong = 0UL){
      *
      * @return A float uniformly distributed in the range [0,1)
      */
-    fun randUnif() : Float {
-        return rand().toFloat() / 0xffffffff
+    fun rand() : Float {
+        return randInt().toFloat() / 0xffffffff
+    }
+
+    /**
+     * Uniform Random
+     *
+     * @param a The first end of range
+     * @param b The second end of range
+     * @return A float uniformly distributed in the range [a,b)
+     */
+    fun randUnif(a : Float, b : Float) : Float {
+        return rand()* (b-a) + a
     }
 }
