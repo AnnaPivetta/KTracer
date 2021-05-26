@@ -13,4 +13,10 @@
 
 abstract class BRDF (val p : Pigment){
     abstract fun eval (n : Normal, inDir : Vector, outDir : Vector, uv : Vector2d) : Color
+    @kotlin.ExperimentalUnsignedTypes
+    abstract fun scatterRay(pcg : PCG,
+                            inDir : Vector,
+                            hitPoint : Point,
+                            normal : Normal,
+                            depth : Int) : Ray
 }

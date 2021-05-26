@@ -15,4 +15,9 @@ class DiffuseBRDF (p : Pigment = UniformPigment(WHITE.copy()), val ref : Float =
     override fun eval(n: Normal, inDir: Vector, outDir: Vector, uv: Vector2d): Color {
         return p.getColor(uv) * ( ref / PI.toFloat() )
     }
+
+    @kotlin.ExperimentalUnsignedTypes
+    override fun scatterRay(pcg: PCG, inDir: Vector, hitPoint: Point, normal: Normal, depth: Int): Ray {
+        TODO("Not yet implemented")
+    }
 }
