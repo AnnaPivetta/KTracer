@@ -1,5 +1,3 @@
-import java.awt.List
-
 fun createONBfromZ (normal : Normal) :  Triple<Vector, Vector, Vector> {
     normal.normalize()
     val sign = if (normal.z > 0.0F) {

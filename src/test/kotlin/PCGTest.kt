@@ -18,7 +18,7 @@ class PCGTest {
         )
 
         for (e in expected) {
-            assertTrue(e == pcg.rand())
+            assertTrue(e == pcg.randInt())
         }
     }
 }

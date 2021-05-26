@@ -10,7 +10,7 @@ class ONBTest {
         val pcg = PCG ()
 
         for (i in 0 until 10000) {
-            val normal = Vector (pcg.randUnif(), pcg.randUnif(), pcg.randUnif())
+            val normal = Vector (pcg.rand(), pcg.rand(), pcg.rand())
             normal.normalize()
             val (e1, e2, e3) = createONBfromZ (normal.toNormal())
             //verifying that normal and z axis are //
