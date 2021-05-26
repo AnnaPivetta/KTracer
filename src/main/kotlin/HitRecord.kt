@@ -24,16 +24,22 @@ class HitRecord (
     var t : Float = 0.0F,
     var ray : Ray = Ray()){
 
+    override fun toString(): String {
+        return "WorldPoint " + worldPoint.toString() + "\n" +
+                normal.toString() + "\n" +
+                "SurPoint: " + surfacePoint.toString() + "\n" +
+                "t $t"
+    }
     /**
      * Checks if two [HitRecord] represent the same hit event
      */
     fun isClose (other : HitRecord?, epsilon : Float = 1e-5F) : Boolean {
         if (other == null) {return false}
-        return (worldPoint.isClose(other.worldPoint) &&
-                normal.isClose(other.normal) &&
-                surfacePoint.isClose(other.surfacePoint) &&
+        return (worldPoint.isClose(other.worldPoint, epsilon) &&
+                normal.isClose(other.normal, epsilon) &&
+                surfacePoint.isClose(other.surfacePoint, epsilon) &&
                 (abs(t - other.t) < epsilon) &&
-                ray.isClose(other.ray))
+                ray.isClose(other.ray, epsilon))
     }
 
 }

@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="ImageTracerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2021-05-05T08:47:28" hostname="MacBook-Pro-di-Matteo" time="0.006">
-  <properties/>
-  <testcase name="Orientation" classname="ImageTracerTest" time="0.004"/>
-  <testcase name="uvSubmapping" classname="ImageTracerTest" time="0.0"/>
-  <testcase name="ImageCoverage" classname="ImageTracerTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
