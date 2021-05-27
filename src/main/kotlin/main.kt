@@ -82,7 +82,7 @@ class Demo : CliktCommand(name = "demo") {
                 T = Transformation().scaling(Vector(sphereR, sphereR, sphereR)),
                 material = Material(
                     DiffuseBRDF(UniformPigment(SKYBLUE.copy())),
-                    UniformPigment(WHITE.copy())
+                    UniformPigment(SKYBLUE.copy())
                 )
             )
         )
@@ -105,8 +105,8 @@ class Demo : CliktCommand(name = "demo") {
                     material = Material(DiffuseBRDF(UniformPigment(CRIMSON)))
                 ),
                 Sphere(
-                    T = Transformation().scaling(Vector(0.3F, 0.3F, 0.3F)) *
-                            Transformation().translation(0.5F * VECY),
+                    T = Transformation().translation(0.5F * VECY + VECZ*0.5F)*
+                            Transformation().scaling(Vector(0.3F, 0.3F, 0.3F)),
                     material = Material(
                         DiffuseBRDF(UniformPigment(DARKCYAN.copy()))
                     )

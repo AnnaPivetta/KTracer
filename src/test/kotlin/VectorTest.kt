@@ -1,6 +1,7 @@
 import org.junit.Test
 
 import org.junit.Assert.*
+import kotlin.math.floor
 import kotlin.test.assertFailsWith
 
 class VectorTest {
@@ -75,6 +76,13 @@ class VectorTest {
         val v1 = Vector(1.0F, 4.0F, 8.0F)
         v1.normalize()
         assertTrue(v1.isClose(Vector(1.0F/9.0F, 4.0F/9.0F, 8.0F/9.0F)))
+        /*val a = -3
+        val b
+
+        val intU = floor(vec.u * numOfSteps)
+        val intV = floor(vec.v * numOfSteps)*/
+        println(floor(0.1F))
+        println(0%2)
     }
 
     @Test

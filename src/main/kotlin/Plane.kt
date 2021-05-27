@@ -1,4 +1,5 @@
 import kotlin.math.abs
+import kotlin.math.floor
 
 /***A 3D infinite plane parallel to the x and y axis and passing through the origin
  *
@@ -29,7 +30,7 @@ class Plane (T : Transformation = Transformation(),
         }
         val hit = HitRecord (worldPoint = T*point,
             normal = normal,
-            surfacePoint = Vector2d(point.x -(point.x).toInt(), point.y -(point.y).toInt()),
+            surfacePoint = Vector2d(point.x -floor(point.x), point.y - floor(point.y)),
             t = t,
             ray = r,
             shape = this)
