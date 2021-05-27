@@ -2,7 +2,7 @@ import org.junit.Assert.*
 import org.junit.Test
 
 class PathTracerTest {
-    @OptIn(ExperimentalUnsignedTypes::class)
+    @kotlin.ExperimentalUnsignedTypes
     @Test
     fun FurnaceTest() {
         val pcg = PCG()

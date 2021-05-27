@@ -4,7 +4,7 @@ import org.junit.Assert.*
 
 class ONBTest {
 
-    @OptIn(ExperimentalUnsignedTypes::class)
+    @kotlin.ExperimentalUnsignedTypes
     @Test
     fun createONBfromZ() {
         val pcg = PCG ()
