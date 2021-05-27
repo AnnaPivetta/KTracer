@@ -276,7 +276,7 @@ class Render : CliktCommand(name = "KTracer") {
         val funkyCube = CSGDifference(
             Box(
                 T = Transformation().translation(VECY + 0.5F * VECZ),
-                material = Material(DiffuseBRDF(UniformPigment(TOMATO)))
+                material = Material(DiffuseBRDF(UniformPigment(DARKORANGE.copy())))
             ),
             Sphere(
                 T = Transformation().translation(0.5F * (VECY + VECZ)) *
@@ -303,13 +303,28 @@ class Render : CliktCommand(name = "KTracer") {
 
         world.add(
             Sphere(
-                T = T.translation(3.0F * VECZ + 2.5F * VECY),
+                T = T.translation(2.0F * VECZ + 2.5F * VECY + VECX) *
+                        T.scaling(Vector(0.4F, 0.4F, 0.4F)),
                 material = Material(
                     brdf = SpecularBRDF(UniformPigment(GOLD.copy())),
                     emittedRad = UniformPigment(GOLD.copy())
                 )
             )
         )
+
+        val worldMap = HdrImage()
+        worldMap.readImg("src/main/src/map.pfm")
+        world.add(
+            Sphere(
+                T = T.translation(VECZ * 2.5F) *
+                        T.scaling(Vector(0.7F, 0.7F, 0.7F)),
+                material = Material(
+                    brdf = DiffuseBRDF(ImagePigment(worldMap)),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            )
+        )
+
 
         val ar = width.toFloat() / height.toFloat()
         val obsPos = Transformation().translation(-2.0F * VECX + VECZ)
