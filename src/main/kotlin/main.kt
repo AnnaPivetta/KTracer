@@ -58,9 +58,9 @@ class Demo : CliktCommand(name = "demo") {
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
 
-    @OptIn(ExperimentalUnsignedTypes::class)
+    @kotlin.ExperimentalUnsignedTypes
     override fun run() {
-/*
+
         //Set the World
         val world = World()
         //A plane for the floor
@@ -81,75 +81,43 @@ class Demo : CliktCommand(name = "demo") {
             Sphere(
                 T = Transformation().scaling(Vector(sphereR, sphereR, sphereR)),
                 material = Material(
-                    DiffuseBRDF(),
-                    UniformPigment(SKYBLUE.copy())
+                    DiffuseBRDF(UniformPigment(SKYBLUE.copy())),
+                    UniformPigment(WHITE.copy())
+                )
+            )
+        )
+
+        //A mirrored grey sphere
+        world.add(
+            Sphere(
+                T = Transformation().scaling((Vector(2.0F, 1.0F, 1.0F))) *
+                        Transformation().translation(0.5F * VECZ - 3.0F * VECY),
+                material = Material(
+                    SpecularBRDF(UniformPigment(SILVER.copy()))
+                )
+            )
+        )
+
+        world.add(
+            CSGDifference(
+                Box(
+                    T = Transformation().translation(VECY + 0.5F * VECZ),
+                    material = Material(DiffuseBRDF(UniformPigment(CRIMSON)))
+                ),
+                Sphere(
+                    T = Transformation().scaling(Vector(0.3F, 0.3F, 0.3F)) *
+                            Transformation().translation(0.5F * VECY),
+                    material = Material(
+                        DiffuseBRDF(UniformPigment(DARKCYAN.copy()))
+                    )
                 )
             )
         )
 
         val ar = width.toFloat() / height.toFloat()
-        val obsPos = Transformation().translation(-2.0F * VECX.copy() + VECZ.copy())
+        val obsPos = Transformation().translation(-2.0F * VECX + VECZ)
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = obsPos)
         else PerspectiveCamera(AR = ar, T = obsPos)
-        val im = HdrImage(width, height)
-        val computeColor = when (algorithm) {
-            "onoff" -> OnOffRenderer(world).computeRadiance()
-            "flat" -> FlatRenderer(world).computeRadiance()
-            "pt" -> PathTracer(
-                world = world,
-                nRays = nR,
-                maxDepth = maxDepth,
-                rrTrigger = rrTrigger
-            ).computeRadiance()
-            else -> throw RuntimeException()
-        }
-        ImageTracer(im, camera).fireAllRays(computeColor)
-
-        //Save HDR Image
-        im.saveHDRImg(pfmoutput)
-        echo("PFM Image has been saved to ${System.getProperty("user.dir")}/${pfmoutput}")
-
-        //Tone Mapping
-        echo("Applying tone mapping...")
-        im.normalizeImg(factor = factor)
-        im.clampImg()
-        im.saveLDRImg(ldroutput, format, gamma)
-        echo("LDR Image has been saved to ${System.getProperty("user.dir")}/${ldroutput}")
-*/
-        //Set 10 Spheres in the World
-        val world = World()
-        val vertices = arrayOf(-0.5F, 0.5F)
-        for (x in vertices) {
-            for (y in vertices) {
-                for (z in vertices) {
-                    world.add(
-                        Sphere(
-                            T = Transformation().translation(Vector(x, y, z)) *
-                                    Transformation().scaling(Vector(0.1F, 0.1F, 0.1F))
-                        )
-                    )
-                }
-            }
-        }
-
-        //Place two other balls in the bottom/left part of the cube, so
-        //that we can check if there are issues with the orientation of
-        //the image
-        world.add(
-            Sphere(
-                T = Transformation().translation(Vector(0.0F, 0.0F, -0.5F))
-                        * Transformation().scaling(Vector(0.1F, 0.1F, 0.1F))
-            )
-        )
-        world.add(
-            Sphere(
-                T = Transformation().translation(Vector(0.0F, 0.5F, 0.0F))
-                        * Transformation().scaling(Vector(0.1F, 0.1F, 0.1F))
-            )
-        )
-        val ar = width.toFloat() / height.toFloat()
-        val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = Transformation().translation(-2.0F * VECX))
-        else PerspectiveCamera(AR = ar, T = Transformation().translation(-2.0F * VECX))
         val im = HdrImage(width, height)
         val computeColor = when (algorithm) {
             "onoff" -> OnOffRenderer(world).computeRadiance()
@@ -223,7 +191,7 @@ class Render : CliktCommand(name = "KTracer") {
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
 
-    @OptIn(ExperimentalUnsignedTypes::class)
+    @kotlin.ExperimentalUnsignedTypes
     override fun run() {
 
 
