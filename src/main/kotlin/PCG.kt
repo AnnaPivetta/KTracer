@@ -52,7 +52,7 @@ class PCG (var state : ULong = 0UL, var inc : ULong = 0UL){
      * @param b The second end of range
      * @return A float uniformly distributed in the range [a,b)
      */
-    fun randUnif(a : Float, b : Float) : Float {
+    fun rand(a : Float, b : Float) : Float {
         return rand()* (b-a) + a
     }
 }
