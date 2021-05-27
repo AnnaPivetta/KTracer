@@ -92,7 +92,8 @@ class Box(
             normal = getNormal(dir, ir.dir),
             surfacePoint = Vector2d(0.5F, 0.5F),
             t = t,
-            ray = r
+            ray = r,
+            shape = this
         )
     }
 
@@ -138,7 +139,8 @@ class Box(
                     normal = getNormal(maxDir, ir.dir),
                     surfacePoint = Vector2d(0.5F, 0.5F),
                     t = t2,
-                    ray = r
+                    ray = r,
+                    shape = this
                 )
             )
         } else {
@@ -148,14 +150,16 @@ class Box(
                     normal = getNormal(minDir, ir.dir),
                     surfacePoint = Vector2d(0.5F, 0.5F),
                     t = t1,
-                    ray = r
+                    ray = r,
+                    shape = this
                 ),
                 HitRecord(
                     worldPoint = T * ir.at(t2),
                     normal = getNormal(maxDir, ir.dir),
                     surfacePoint = Vector2d(0.5F, 0.5F),
                     t = t2,
-                    ray = r
+                    ray = r,
+                    shape = this
                 )
             )
         }
