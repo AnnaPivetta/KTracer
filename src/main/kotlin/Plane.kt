@@ -31,7 +31,8 @@ class Plane (T : Transformation = Transformation(),
             normal = normal,
             surfacePoint = Vector2d(point.x -(point.x).toInt(), point.y -(point.y).toInt()),
             t = t,
-            ray = r)
+            ray = r,
+            shape = this)
         return hit
     }
 
