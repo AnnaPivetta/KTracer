@@ -34,7 +34,8 @@ class Box(
     }
 
     override fun isPointInternal(p: Point): Boolean {
-        return p.x in min.x..max.x && p.y in min.y..max.y && p.z in min.z..max.z
+        val realP = T.inverse() * p
+        return realP.x in min.x..max.x && realP.y in min.y..max.y && realP.z in min.z..max.z
     }
 
     /**
