@@ -24,7 +24,7 @@ class CSGUnion(val s1: Shape, val s2: Shape, T: Transformation = Transformation(
      * In Union a point is internal if it's inside either [s1] or [s2]
      */
     override fun isPointInternal(p: Point): Boolean {
-        return if (T == Transformation()) s1.isPointInternal(p) or s2.isPointInternal(p)
+        return if (T.isClose(Transformation(), epsilon=1e-10F)) s1.isPointInternal(p) or s2.isPointInternal(p)
         else {
             val realP = T.inverse() * p
             s1.isPointInternal(realP) or s2.isPointInternal(realP)
@@ -43,7 +43,7 @@ class CSGUnion(val s1: Shape, val s2: Shape, T: Transformation = Transformation(
      * Otherwise null is returned
      */
     override fun rayIntersection(r: Ray): HitRecord? {
-        if (T == Transformation()) {
+        if (T.isClose(Transformation(), epsilon=1e-10F)) {
             val hits = mutableListOf<HitRecord>()
             val hits1 = s1.rayIntersectionList(r)?.toList()
             val hits2 = s2.rayIntersectionList(r)?.toList()
@@ -86,7 +86,7 @@ class CSGUnion(val s1: Shape, val s2: Shape, T: Transformation = Transformation(
      * Otherwise null is returned
      */
     override fun rayIntersectionList(r: Ray): List<HitRecord>? {
-        if (T == Transformation()) {
+        if (T.isClose(Transformation(), epsilon=1e-10F)) {
             val hits = mutableListOf<HitRecord>()
             val hits1 = s1.rayIntersectionList(r)?.toList()
             val hits2 = s2.rayIntersectionList(r)?.toList()
@@ -143,14 +143,13 @@ class CSGUnion(val s1: Shape, val s2: Shape, T: Transformation = Transformation(
  * @see Shape
  *
  */
-
 class CSGDifference(val s1: Shape, val s2: Shape, T: Transformation = Transformation()) : Shape(T, Material()) {
 
     /**
      * In Difference a point is internal if it's inside [s1] and it's outside [s2]
      */
     override fun isPointInternal(p: Point): Boolean {
-        return if (T == Transformation()) s1.isPointInternal(p) and !s2.isPointInternal(p)
+        return if (T.isClose(Transformation(), epsilon=1e-10F)) s1.isPointInternal(p) and !s2.isPointInternal(p)
         else {
             val realP = T.inverse() * p
             s1.isPointInternal(realP) and !s2.isPointInternal(realP)
@@ -190,7 +189,7 @@ class CSGDifference(val s1: Shape, val s2: Shape, T: Transformation = Transforma
      */
 
     override fun rayIntersectionList(r: Ray): List<HitRecord>? {
-        if (T == Transformation()) {
+        if (T.isClose(Transformation(), epsilon=1e-10F)) {
             val hits = mutableListOf<HitRecord>()
             val hits1 = s1.rayIntersectionList(r)?.toList()
             val hits2 = s2.rayIntersectionList(r)?.toList()
@@ -255,7 +254,7 @@ class CSGIntersection(val s1: Shape, val s2: Shape, T: Transformation = Transfor
      * In Intersection a point is internal if it's inside both [s1] and [s2]
      */
     override fun isPointInternal(p: Point): Boolean {
-        return if (T == Transformation()) s1.isPointInternal(p) and s2.isPointInternal(p)
+        return if (T.isClose(Transformation(), epsilon=1e-10F)) s1.isPointInternal(p) and s2.isPointInternal(p)
         else {
             val realP = T.inverse() * p
             return s1.isPointInternal(realP) and s2.isPointInternal(realP)
@@ -294,7 +293,7 @@ class CSGIntersection(val s1: Shape, val s2: Shape, T: Transformation = Transfor
      * Otherwise null is returned
      */
     override fun rayIntersectionList(r: Ray): List<HitRecord>? {
-        if (T == Transformation()) {
+        if (T.isClose(Transformation(), epsilon=1e-10F)) {
             val hits = mutableListOf<HitRecord>()
             val hits1 = s1.rayIntersectionList(r)?.toList()
             val hits2 = s2.rayIntersectionList(r)?.toList()

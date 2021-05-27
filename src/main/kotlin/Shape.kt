@@ -8,11 +8,17 @@
  * Class properties:
  * - [T] - The Transformation to apply to the canonical shape
  * - [material] The material of which the shape is made of
+ *
  * Concrete Shapes are:
  * - [Sphere]
+ * - [Box]
+ * - [Plane]
+ * - CSGs
  *
  *
  * @see Sphere
+ * @see Box
+ * @see Plane
 
  */
 
