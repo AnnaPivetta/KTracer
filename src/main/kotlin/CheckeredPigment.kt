@@ -12,5 +12,4 @@ class CheckeredPigment (val color1 : Color = WHITE.copy(), val color2 : Color = 
         val intV = floor(vec.v * numOfSteps)
         return if (intU%2 == intV%2) color1 else color2
     }
-
 }
