@@ -8,14 +8,16 @@ import kotlin.math.*
  *
  * Class properties:
  * - [T] - The [Transformation] to apply to the canonical sphere
+ * - [material] - The [Material] of which the [Sphere] is made of
  *
  * @see Shape
  */
-class Sphere (T : Transformation = Transformation()): Shape(T)  {
+class Sphere (T : Transformation = Transformation(), material: Material = Material()): Shape(T, material)  {
 
     override fun isPointInternal (p : Point) : Boolean{
         return (T.inverse() * p).toVector().norm2() < 1.0F
     }
+
 
     /**
      * This function evaluates if the given [Ray] intersects the sphere and returns the
@@ -55,7 +57,8 @@ class Sphere (T : Transformation = Transformation()): Shape(T)  {
             normal = T * getNormal(hit, ir.dir),
             surfacePoint = toSurPoint(hit),
             t = tHit,
-            ray = r
+            ray = r,
+            shape = this
         )
     }
 
@@ -80,7 +83,8 @@ class Sphere (T : Transformation = Transformation()): Shape(T)  {
                     normal = T * getNormal(hit, ir.dir),
                     surfacePoint = toSurPoint(hit),
                     t = t1,
-                    ray = r
+                    ray = r,
+                    shape = this
                 )
             )
         }
@@ -92,7 +96,8 @@ class Sphere (T : Transformation = Transformation()): Shape(T)  {
                     normal = T * getNormal(hit, ir.dir),
                     surfacePoint = toSurPoint(hit),
                     t = t2,
-                    ray = r
+                    ray = r,
+                    shape = this
                 )
             )
         }

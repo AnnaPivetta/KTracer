@@ -18,7 +18,7 @@
  * @see Shape
  *
  */
-class CSGUnion (val s1: Shape, val s2: Shape, T : Transformation = Transformation()) : Shape (T){
+class CSGUnion (val s1: Shape, val s2: Shape, T : Transformation = Transformation()) : Shape (T, s1.material){
 
     /**
      * In Union a point is internal if it's inside either [s1] or [s2]
@@ -103,7 +103,7 @@ class CSGUnion (val s1: Shape, val s2: Shape, T : Transformation = Transformatio
  *
  */
 
-class CSGDifference (val s1: Shape, val s2: Shape, T : Transformation = Transformation()) : Shape (T) {
+class CSGDifference (val s1: Shape, val s2: Shape, T : Transformation = Transformation()) : Shape (T, s1.material) {
 
     /**
      * In Difference a point is internal if it's inside [s1] and it's outside [s2]
@@ -184,7 +184,7 @@ class CSGDifference (val s1: Shape, val s2: Shape, T : Transformation = Transfor
  *
  */
 
-class CSGIntersection (val s1: Shape, val s2: Shape, T : Transformation = Transformation()) : Shape (T){
+class CSGIntersection (val s1: Shape, val s2: Shape, T : Transformation = Transformation()) : Shape (T, s1.material){
 
     /**
      * In Intersection a point is internal if it's inside both [s1] and [s2]

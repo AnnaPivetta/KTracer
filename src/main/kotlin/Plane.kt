@@ -4,7 +4,9 @@ import kotlin.math.abs
  *
  */
 
-class Plane (T : Transformation = Transformation()): Shape(T) {
+class Plane (T : Transformation = Transformation(),
+             material: Material = Material()
+): Shape(T, material) {
 
     override fun isPointInternal(p: Point): Boolean {
         return true

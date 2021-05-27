@@ -11,3 +11,5 @@ val VECZ = Vector(0.0F, 0.0F, 1.0F)
 //Color Constants
 val WHITE = Color(1.0F, 1.0F, 1.0F)
 val BLACK = Color()
+val NAVY = Color(0.0F, 0.0F, 128.0F)
+val SKYBLUE = Color(0.5294117647F, 0.80784313725F, 0.92156862745F)
