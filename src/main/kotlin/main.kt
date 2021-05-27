@@ -301,6 +301,39 @@ class Render : CliktCommand(name = "KTracer") {
             )
         )
 
+
+
+        /*
+        val funkyCube = CSGDifference(
+            Box(
+                material = Material(DiffuseBRDF(UniformPigment(DARKORANGE.copy())))
+            ),
+            Sphere(
+                T = Transformation().translation(-0.5F * VECY ) *
+                        Transformation().scaling(Vector(0.3F, 0.3F, 0.3F)),
+                material = Material(
+                    DiffuseBRDF(UniformPigment(DARKCYAN.copy()))
+                )
+            )
+        )
+
+
+        world.add(
+            CSGDifference(
+                funkyCube,
+                Sphere(
+                    T = Transformation().translation(-VECX * 0.5F + VECY * 0.5F + VECZ * 0.5F) *
+                            Transformation().scaling(Vector(0.2F, 0.2F, 0.2F)),
+                    material = Material(
+                        DiffuseBRDF(UniformPigment(OLIVE.copy()))
+                    )
+                ),
+                T= T.translation(VECY + 0.5F*VECZ)
+            )
+        )
+
+         */
+
         world.add(
             Sphere(
                 T = T.translation(2.0F * VECZ + 2.5F * VECY + VECX) *
@@ -311,6 +344,7 @@ class Render : CliktCommand(name = "KTracer") {
                 )
             )
         )
+
 
         val worldMap = HdrImage()
         worldMap.readImg("src/main/src/map.pfm")

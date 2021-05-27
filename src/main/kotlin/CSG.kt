@@ -18,13 +18,17 @@
  * @see Shape
  *
  */
-class CSGUnion (val s1: Shape, val s2: Shape, T : Transformation = Transformation()) : Shape (T, Material()){
+class CSGUnion(val s1: Shape, val s2: Shape, T: Transformation = Transformation()) : Shape(T, Material()) {
 
     /**
      * In Union a point is internal if it's inside either [s1] or [s2]
      */
     override fun isPointInternal(p: Point): Boolean {
-        return s1.isPointInternal(p) or s2.isPointInternal(p)
+        return if (T == Transformation()) s1.isPointInternal(p) or s2.isPointInternal(p)
+        else {
+            val realP = T.inverse() * p
+            s1.isPointInternal(realP) or s2.isPointInternal(realP)
+        }
     }
 
     /**
@@ -39,18 +43,35 @@ class CSGUnion (val s1: Shape, val s2: Shape, T : Transformation = Transformatio
      * Otherwise null is returned
      */
     override fun rayIntersection(r: Ray): HitRecord? {
-        val hits = mutableListOf<HitRecord>()
-        val hits1 = s1.rayIntersectionList(r)?.toList()
-        val hits2 = s2.rayIntersectionList(r)?.toList()
-        if (hits1 != null) hits.addAll(hits1)
-        if (hits2 != null) hits.addAll(hits2)
-        return if (hits.isEmpty()) null
-        else {
-            var closest = hits[0]
-            for (h in hits.slice(1 until hits.size)) {
-                if (h.t < closest.t) closest = h
+        if (T == Transformation()) {
+            val hits = mutableListOf<HitRecord>()
+            val hits1 = s1.rayIntersectionList(r)?.toList()
+            val hits2 = s2.rayIntersectionList(r)?.toList()
+            if (hits1 != null) hits.addAll(hits1)
+            if (hits2 != null) hits.addAll(hits2)
+            return if (hits.isEmpty()) null
+            else {
+                var closest = hits[0]
+                for (h in hits.slice(1 until hits.size)) {
+                    if (h.t < closest.t) closest = h
+                }
+                closest
             }
-            closest
+        } else {
+            val ir = T.inverse() * r
+            val hits = mutableListOf<HitRecord>()
+            val hits1 = s1.rayIntersectionList(ir)?.toList()
+            val hits2 = s2.rayIntersectionList(ir)?.toList()
+            if (hits1 != null) hits.addAll(hits1)
+            if (hits2 != null) hits.addAll(hits2)
+            return if (hits.isEmpty()) null
+            else {
+                var closest = hits[0]
+                for (h in hits.slice(1 until hits.size)) {
+                    if (h.t < closest.t) closest = h
+                }
+                T * closest
+            }
         }
     }
 
@@ -65,23 +86,43 @@ class CSGUnion (val s1: Shape, val s2: Shape, T : Transformation = Transformatio
      * Otherwise null is returned
      */
     override fun rayIntersectionList(r: Ray): List<HitRecord>? {
-        val hits = mutableListOf<HitRecord>()
-        val hits1 = s1.rayIntersectionList(r)?.toList()
-        val hits2 = s2.rayIntersectionList(r)?.toList()
-        if (hits1 != null) {
-            for (h in hits1) {
-                if (!s2.isPointInternal(h.worldPoint)) hits.add(h)
+        if (T == Transformation()) {
+            val hits = mutableListOf<HitRecord>()
+            val hits1 = s1.rayIntersectionList(r)?.toList()
+            val hits2 = s2.rayIntersectionList(r)?.toList()
+            if (hits1 != null) {
+                for (h in hits1) {
+                    if (!s2.isPointInternal(h.worldPoint)) hits.add(h)
+                }
             }
-        }
-        if (hits2 != null) {
-            for (h in hits2) {
-                if (!s1.isPointInternal(h.worldPoint)) hits.add(h)
+            if (hits2 != null) {
+                for (h in hits2) {
+                    if (!s1.isPointInternal(h.worldPoint)) hits.add(h)
+                }
             }
+            return if (hits.isEmpty()) null
+            else hits.sortedBy { it.t }
+        } else {
+            val ir = T.inverse() * r
+            val hits = mutableListOf<HitRecord>()
+            val hits1 = s1.rayIntersectionList(ir)?.toList()
+            val hits2 = s2.rayIntersectionList(ir)?.toList()
+            if (hits1 != null) {
+                for (h in hits1) {
+                    if (!s2.isPointInternal(h.worldPoint)) hits.add(T * h)
+                }
+            }
+            if (hits2 != null) {
+                for (h in hits2) {
+                    if (!s1.isPointInternal(h.worldPoint)) hits.add(T * h)
+                }
+            }
+            return if (hits.isEmpty()) null
+            else hits.sortedBy { it.t }
         }
-        return if (hits.isEmpty()) null
-        else hits.sortedBy { it.t }
     }
 }
+
 /**
  * Constructive Solid Geometry (CSG)
  *
@@ -103,13 +144,17 @@ class CSGUnion (val s1: Shape, val s2: Shape, T : Transformation = Transformatio
  *
  */
 
-class CSGDifference (val s1: Shape, val s2: Shape, T : Transformation = Transformation()) : Shape (T, Material()) {
+class CSGDifference(val s1: Shape, val s2: Shape, T: Transformation = Transformation()) : Shape(T, Material()) {
 
     /**
      * In Difference a point is internal if it's inside [s1] and it's outside [s2]
      */
     override fun isPointInternal(p: Point): Boolean {
-        return s1.isPointInternal(p) and !s2.isPointInternal(p)
+        return if (T == Transformation()) s1.isPointInternal(p) and !s2.isPointInternal(p)
+        else {
+            val realP = T.inverse() * p
+            s1.isPointInternal(realP) and !s2.isPointInternal(realP)
+        }
     }
 
     /**
@@ -127,7 +172,7 @@ class CSGDifference (val s1: Shape, val s2: Shape, T : Transformation = Transfor
      */
     override fun rayIntersection(r: Ray): HitRecord? {
         return rayIntersectionList(r)?.get(0)
-        }
+    }
 
 
     /**
@@ -145,21 +190,41 @@ class CSGDifference (val s1: Shape, val s2: Shape, T : Transformation = Transfor
      */
 
     override fun rayIntersectionList(r: Ray): List<HitRecord>? {
-        val hits = mutableListOf<HitRecord>()
-        val hits1 = s1.rayIntersectionList(r)?.toList()
-        val hits2 = s2.rayIntersectionList(r)?.toList()
-        if (hits1 != null) {
-            for (h in hits1) {
-                if (!s2.isPointInternal(h.worldPoint)) hits.add(h)
+        if (T == Transformation()) {
+            val hits = mutableListOf<HitRecord>()
+            val hits1 = s1.rayIntersectionList(r)?.toList()
+            val hits2 = s2.rayIntersectionList(r)?.toList()
+            if (hits1 != null) {
+                for (h in hits1) {
+                    if (!s2.isPointInternal(h.worldPoint)) hits.add(h)
+                }
             }
-        }
-        if (hits2 != null) {
-            for (h in hits2) {
-                if (s1.isPointInternal(h.worldPoint)) hits.add(h)
+            if (hits2 != null) {
+                for (h in hits2) {
+                    if (s1.isPointInternal(h.worldPoint)) hits.add(h)
+                }
             }
+            return if (hits.isEmpty()) null
+            else hits.sortedBy { it.t }
+        } else {
+            val ir = T.inverse() * r
+
+            val hits = mutableListOf<HitRecord>()
+            val hits1 = s1.rayIntersectionList(ir)?.toList()
+            val hits2 = s2.rayIntersectionList(ir)?.toList()
+            if (hits1 != null) {
+                for (h in hits1) {
+                    if (!s2.isPointInternal(h.worldPoint)) hits.add(T * h)
+                }
+            }
+            if (hits2 != null) {
+                for (h in hits2) {
+                    if (s1.isPointInternal(h.worldPoint)) hits.add(T * h)
+                }
+            }
+            return if (hits.isEmpty()) null
+            else hits.sortedBy { it.t }
         }
-        return if (hits.isEmpty()) null
-        else hits.sortedBy { it.t }
     }
 }
 
@@ -184,13 +249,17 @@ class CSGDifference (val s1: Shape, val s2: Shape, T : Transformation = Transfor
  *
  */
 
-class CSGIntersection (val s1: Shape, val s2: Shape, T : Transformation = Transformation()) : Shape (T, Material()){
+class CSGIntersection(val s1: Shape, val s2: Shape, T: Transformation = Transformation()) : Shape(T, Material()) {
 
     /**
      * In Intersection a point is internal if it's inside both [s1] and [s2]
      */
     override fun isPointInternal(p: Point): Boolean {
-        return s1.isPointInternal(p) and s2.isPointInternal(p)
+        return if (T == Transformation()) s1.isPointInternal(p) and s2.isPointInternal(p)
+        else {
+            val realP = T.inverse() * p
+            return s1.isPointInternal(realP) and s2.isPointInternal(realP)
+        }
     }
 
     /**
@@ -225,20 +294,39 @@ class CSGIntersection (val s1: Shape, val s2: Shape, T : Transformation = Transf
      * Otherwise null is returned
      */
     override fun rayIntersectionList(r: Ray): List<HitRecord>? {
-        val hits = mutableListOf<HitRecord>()
-        val hits1 = s1.rayIntersectionList(r)?.toList()
-        val hits2 = s2.rayIntersectionList(r)?.toList()
-        if (hits1 != null) {
-            for (h in hits1) {
-                if (s2.isPointInternal(h.worldPoint)) hits.add(h)
+        if (T == Transformation()) {
+            val hits = mutableListOf<HitRecord>()
+            val hits1 = s1.rayIntersectionList(r)?.toList()
+            val hits2 = s2.rayIntersectionList(r)?.toList()
+            if (hits1 != null) {
+                for (h in hits1) {
+                    if (s2.isPointInternal(h.worldPoint)) hits.add(h)
+                }
             }
-        }
-        if (hits2 != null) {
-            for (h in hits2) {
-                if (s1.isPointInternal(h.worldPoint)) hits.add(h)
+            if (hits2 != null) {
+                for (h in hits2) {
+                    if (s1.isPointInternal(h.worldPoint)) hits.add(h)
+                }
             }
+            return if (hits.isEmpty()) null
+            else hits.sortedBy { it.t }
+        } else {
+            val ir = T.inverse() * r
+            val hits = mutableListOf<HitRecord>()
+            val hits1 = s1.rayIntersectionList(ir)?.toList()
+            val hits2 = s2.rayIntersectionList(ir)?.toList()
+            if (hits1 != null) {
+                for (h in hits1) {
+                    if (s2.isPointInternal(h.worldPoint)) hits.add(T * h)
+                }
+            }
+            if (hits2 != null) {
+                for (h in hits2) {
+                    if (s1.isPointInternal(h.worldPoint)) hits.add(T * h)
+                }
+            }
+            return if (hits.isEmpty()) null
+            else hits.sortedBy { it.t }
         }
-        return if (hits.isEmpty()) null
-        else hits.sortedBy { it.t }
     }
 }
