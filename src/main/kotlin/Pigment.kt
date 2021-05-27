@@ -1,5 +1,15 @@
-/*** A Pigment
- * This abstract class represents the color fo a specific point on a surface
+/** A Pigment
+ *
+ * This abstract class represents the color for a specific point on a surface
+ *
+ * Concrete Pigments are:
+ * - [UniformPigment]
+ * - [CheckeredPigment]
+ * - [ImagePigment]
+ *
+ * @see UniformPigment
+ * @see CheckeredPigment
+ * @see ImagePigment
  */
 
 abstract class Pigment () {
