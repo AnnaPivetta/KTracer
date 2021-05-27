@@ -1,3 +1,4 @@
+import java.lang.IndexOutOfBoundsException
 import kotlin.math.abs
 import kotlin.math.sqrt
 
@@ -34,9 +35,22 @@ data class Vector(var x: Float = 0.0F, var y: Float = 0.0F, var z: Float = 0.0F)
     operator fun times(other: Vector): Float {
         return x * other.x + y * other.y + z * other.z
     }
+
+
     //Same implementation for multiple choice of usage
     fun dot (other: Vector): Float {
         return x * other.x + y * other.y + z * other.z
+    }
+
+    operator fun get(i : Int) : Float {
+        return when (i) {
+            0 -> x
+            1 -> y
+            2 -> z
+            else -> {
+                throw IndexOutOfBoundsException()
+            }
+        }
     }
 
     fun cross(other: Vector): Vector {

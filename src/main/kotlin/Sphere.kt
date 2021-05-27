@@ -8,13 +8,19 @@ import kotlin.math.*
  *
  * Class properties:
  * - [T] - The [Transformation] to apply to the canonical sphere
+ * - [material] - The [Material] of which the [Sphere] is made of
  *
  * @see Shape
  */
 class Sphere (T : Transformation = Transformation(), material: Material = Material()): Shape(T, material)  {
 
+    override fun isPointInternal (p : Point) : Boolean{
+        return (T.inverse() * p).toVector().norm2() < 1.0F
+    }
+
+
     /**
-     * This functions evaluates if the given [Ray] intersects the sphere and returns the
+     * This function evaluates if the given [Ray] intersects the sphere and returns the
      * closest intersection from the observer point of view
      *
      * @param r The [Ray] to check the intersection with
@@ -55,6 +61,49 @@ class Sphere (T : Transformation = Transformation(), material: Material = Materi
             shape = this
         )
     }
+
+    override fun rayIntersectionList(r: Ray): List<HitRecord>? {
+        val ir = T.inverse() * r
+        //Compute intersection
+        //Determinant/4 ( -b +/- sqrt(b*b - ac) )/a
+        val oVec = ir.origin.toVector()
+        val b = oVec * ir.dir
+        val d2 = ir.dir.norm2()
+        val det4 = b*b -  d2* (oVec.norm2() - 1.0F)
+        //Intersections
+        val t1 = ( -b - sqrt(det4) )/d2
+        val t2 = ( -b + sqrt(det4) )/d2
+
+        val hits = mutableListOf<HitRecord>()
+        if (t1 in r.tmin..r.tmax){
+            val hit = ir.at(t1)
+            hits.add(
+                HitRecord(
+                    worldPoint = T * hit,
+                    normal = T * getNormal(hit, ir.dir),
+                    surfacePoint = toSurPoint(hit),
+                    t = t1,
+                    ray = r
+                )
+            )
+        }
+        if (t2 in r.tmin..r.tmax ) {
+            val hit = ir.at(t2)
+            hits.add(
+                HitRecord(
+                    worldPoint = T * hit,
+                    normal = T * getNormal(hit, ir.dir),
+                    surfacePoint = toSurPoint(hit),
+                    t = t2,
+                    ray = r
+                )
+            )
+        }
+
+        return if (hits.isEmpty()) null
+        else hits.sortedBy { it.t }
+    }
+
 
     private fun getNormal (p : Point, rayDir : Vector) : Normal {
         val n = Normal (p.x, p.y, p.z)

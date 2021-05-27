@@ -226,6 +226,7 @@ class Render : CliktCommand(name = "KTracer") {
     @OptIn(ExperimentalUnsignedTypes::class)
     override fun run() {
 
+
         //Set 10 Spheres in the World
         val world = World()
         val vertices = arrayOf(-0.5F, 0.5F)
