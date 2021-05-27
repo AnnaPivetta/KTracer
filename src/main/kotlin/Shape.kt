@@ -1,5 +1,3 @@
-import javax.swing.text.StyledEditorKit
-
 /** The shapes in the scene
  *
  * This class is an abstract class for implementing the different kind of geometric shapes
@@ -9,6 +7,7 @@ import javax.swing.text.StyledEditorKit
  *
  * Class properties:
  * - [T] - The Transformation to apply to the canonical shape
+ * - [material] The material of which the shape is made of
  * Concrete Shapes are:
  * - [Sphere]
  *
@@ -18,7 +17,7 @@ import javax.swing.text.StyledEditorKit
  */
 
 
-abstract class Shape (val T : Transformation) {
+abstract class Shape (val T : Transformation, val material : Material) {
     abstract fun isPointInternal (p : Point) : Boolean
     abstract fun rayIntersection (r : Ray) : HitRecord?
     abstract fun rayIntersectionList (r : Ray) : List<HitRecord>?

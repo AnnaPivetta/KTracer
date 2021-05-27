@@ -12,7 +12,7 @@ import kotlin.math.*
  *
  * @see Shape
  */
-class Sphere (T : Transformation = Transformation(), val material: Material = Material()): Shape(T)  {
+class Sphere (T : Transformation = Transformation(), material: Material = Material()): Shape(T, material)  {
 
     override fun isPointInternal (p : Point) : Boolean{
         return (T.inverse() * p).toVector().norm2() < 1.0F
@@ -57,8 +57,7 @@ class Sphere (T : Transformation = Transformation(), val material: Material = Ma
             normal = T * getNormal(hit, ir.dir),
             surfacePoint = toSurPoint(hit),
             t = tHit,
-            ray = r,
-            shape = this
+            ray = r
         )
     }
 

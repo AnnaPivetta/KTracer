@@ -5,8 +5,8 @@ import kotlin.math.abs
  */
 
 class Plane (T : Transformation = Transformation(),
-             val material: Material = Material()
-): Shape(T) {
+             material: Material = Material()
+): Shape(T, material) {
 
     override fun isPointInternal(p: Point): Boolean {
         return true
