@@ -15,7 +15,7 @@ import kotlin.math.sqrt
  *
  * @see BRDF
  */
-class DiffuseBRDF (p : Pigment = UniformPigment(WHITE.copy())) : BRDF(p){
+class DiffuseBRDF (p : Pigment = UniformPigment(BLACK.copy())) : BRDF(p){
     override fun eval(n: Normal, inDir: Vector, outDir: Vector, uv: Vector2d): Color {
         return p.getColor(uv) * (1.0F / PI.toFloat() )
     }

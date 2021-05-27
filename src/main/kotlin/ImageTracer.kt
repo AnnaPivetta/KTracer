@@ -18,4 +18,34 @@ class ImageTracer (
         }
 
     }
+    @ExperimentalUnsignedTypes
+    fun fireAllRays(function: (Ray) ->Color, AAgrid : Int?) {
+        if (AAgrid == null) {
+            fireAllRays(function)
+            return
+        } else {
+            for (row in 0 until image.getHeight()) {
+                for (col in 0 until image.getWidth()) {
+
+                    val pcg = PCG()
+                    var addColor = Color(0.0F, 0.0F, 0.0F)
+                    for (i in 0 until AAgrid) {
+                        for (j in 0 until AAgrid) {
+                            val newU = pcg.rand((1.0F / AAgrid) * i, (1.0F / AAgrid) * (i + 1))
+                            val newV = pcg.rand((1.0F / AAgrid) * j, (1.0F / AAgrid) * (j + 1))
+                            val ray = fireRay(col, row, newU, newV)
+                            val color = function(ray)
+                            addColor+=color
+                        }
+                    }
+                    image.setPixel(
+                        col,
+                        row,
+                        //Color(addR / (AAgrid * AAgrid), addG / (AAgrid * AAgrid), addB / (AAgrid * AAgrid))
+                        addColor*(1.0F/(AAgrid*AAgrid))
+                    )
+                }
+            }
+        }
+    }
 }

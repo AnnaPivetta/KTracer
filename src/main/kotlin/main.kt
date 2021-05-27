@@ -58,6 +58,7 @@ class Demo : CliktCommand(name = "demo") {
         "BMP", "bmp", "jpeg", "wbmp",
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
+    private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A").int()
 
     @kotlin.ExperimentalUnsignedTypes
     override fun run() {
@@ -71,7 +72,7 @@ class Demo : CliktCommand(name = "demo") {
                 //T = Transformation().scaling(Vector()),
                 material = Material(
                     DiffuseBRDF(),
-                    CheckeredPigment(numOfSteps = 50)
+                    CheckeredPigment(numOfSteps = 16)
                 )
             )
         )
@@ -82,7 +83,7 @@ class Demo : CliktCommand(name = "demo") {
             Sphere(
                 T = Transformation().scaling(Vector(sphereR, sphereR, sphereR)),
                 material = Material(
-                    DiffuseBRDF(UniformPigment(SKYBLUE.copy())),
+                    DiffuseBRDF(UniformPigment(BLACK.copy())),
                     UniformPigment(SKYBLUE.copy())
                 )
             )
@@ -91,25 +92,49 @@ class Demo : CliktCommand(name = "demo") {
         //A mirrored grey sphere
         world.add(
             Sphere(
-                T = Transformation().scaling((Vector(2.0F, 1.0F, 1.0F))) *
-                        Transformation().translation(0.5F * VECZ - 3.0F * VECY),
+                T = Transformation().translation(0.5F * VECZ - 2.0F * VECY) *
+                        Transformation().scaling((Vector(3.0F, 1.0F, 1.0F))),
                 material = Material(
                     SpecularBRDF(UniformPigment(SILVER.copy()))
                 )
             )
         )
 
+        //a white sphere behind the camera
+        world.add(
+            Sphere(
+                T= Transformation().scaling(Vector(0.4F, 0.4F, 0.4F))*
+                        Transformation().translation(-VECX*12.0F + VECZ*6.0F),
+                material = Material(
+                    DiffuseBRDF(UniformPigment(WHITE.copy())), UniformPigment(WHITE.copy()))
+            )
+
+        )
+
+        val funkyCube = CSGDifference(
+            Box(
+                T = Transformation().translation(VECY + 0.5F * VECZ),
+                material = Material(DiffuseBRDF(UniformPigment(TOMATO)))
+            ),
+            Sphere(
+                T = Transformation().translation(0.5F * (VECY + VECZ)) *
+                        Transformation().scaling(Vector(0.3F, 0.3F, 0.3F)),
+                material = Material(
+                    DiffuseBRDF(UniformPigment(DARKCYAN.copy()))
+                )
+            )
+        )
+
+
+
         world.add(
             CSGDifference(
-                Box(
-                    T = Transformation().translation(VECY + 0.5F * VECZ),
-                    material = Material(DiffuseBRDF(UniformPigment(CRIMSON)))
-                ),
+                funkyCube,
                 Sphere(
-                    T = Transformation().translation(0.5F * (VECY + VECZ)) *
-                            Transformation().scaling(Vector(0.3F, 0.3F, 0.3F)),
+                    T = Transformation().translation(-VECX*0.5F + VECY*1.5F + VECZ*1.0F) *
+                            Transformation().scaling(Vector(0.2F, 0.2F, 0.2F)),
                     material = Material(
-                        DiffuseBRDF(UniformPigment(DARKCYAN.copy()))
+                        DiffuseBRDF(UniformPigment(OLIVE.copy()))
                     )
                 )
             )
@@ -131,7 +156,7 @@ class Demo : CliktCommand(name = "demo") {
             ).computeRadiance()
             else -> throw RuntimeException()
         }
-        ImageTracer(im, camera).fireAllRays(computeColor)
+        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid)
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)
@@ -242,7 +267,8 @@ class Render : CliktCommand(name = "KTracer") {
             ).computeRadiance()
             else -> throw RuntimeException()
         }
-        ImageTracer(im, camera).fireAllRays(computeColor)
+        println("antialiasing on")
+        ImageTracer(im, camera).fireAllRays(computeColor, 10)
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)
