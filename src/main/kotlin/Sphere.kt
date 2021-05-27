@@ -57,7 +57,8 @@ class Sphere (T : Transformation = Transformation(), material: Material = Materi
             normal = T * getNormal(hit, ir.dir),
             surfacePoint = toSurPoint(hit),
             t = tHit,
-            ray = r
+            ray = r,
+            shape = this
         )
     }
 
@@ -82,7 +83,8 @@ class Sphere (T : Transformation = Transformation(), material: Material = Materi
                     normal = T * getNormal(hit, ir.dir),
                     surfacePoint = toSurPoint(hit),
                     t = t1,
-                    ray = r
+                    ray = r,
+                    shape = this
                 )
             )
         }
@@ -94,7 +96,8 @@ class Sphere (T : Transformation = Transformation(), material: Material = Materi
                     normal = T * getNormal(hit, ir.dir),
                     surfacePoint = toSurPoint(hit),
                     t = t2,
-                    ray = r
+                    ray = r,
+                    shape = this
                 )
             )
         }

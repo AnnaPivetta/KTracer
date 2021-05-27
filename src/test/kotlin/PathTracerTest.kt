@@ -20,8 +20,6 @@ class PathTracerTest {
             val ray = Ray(origin = Point(0.0F, 0.0F, 0.0F), dir = Vector(1.0F, 1.0F, 1.0F))
             val color = tracer.computeRadiance().invoke(ray)
             val exp = emittedRadiance/(1.0F - reflectance)
-            println(exp)
-            println(color)
             assertTrue(exp.isClose(color.r, epsilon = 1e-5F))
             assertTrue(exp.isClose(color.g, epsilon = 1e-5F))
             assertTrue(exp.isClose(color.b, epsilon = 1e-5F))
