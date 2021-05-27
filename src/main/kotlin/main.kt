@@ -40,19 +40,20 @@ class Demo : CliktCommand(name = "demo") {
         help = "File name for ldr output"
     ).default("KTracerDemo.png")
     private val factor by option(help = "Tone mapping factor").float().default(0.2F)
+    private val luminosity by option(help = "The required average luminosity").float()
     private val gamma by option(help = "Gamma correction value").float().default(1.0F)
     private val nR by option(
         "--nr", "-n",
         help = "Number of rays for evaluating integral"
-    ).int().default(100)
+    ).int().default(10)
     private val maxDepth by option(
         "--maxDepth", "-Md",
         help = "Max number of reflections per ray"
-    ).int().default(10)
+    ).int().default(3)
     private val rrTrigger by option(
         "--rrTrigger", "-rr",
         help = "Depth value after which Russian Roulette is activated"
-    ).int().default(6)
+    ).int().default(2)
     private val format by option(help = "Image format value - MUST correspond to ldr output name").choice(
         "BMP", "bmp", "jpeg", "wbmp",
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
@@ -70,7 +71,7 @@ class Demo : CliktCommand(name = "demo") {
                 //T = Transformation().scaling(Vector()),
                 material = Material(
                     DiffuseBRDF(),
-                    CheckeredPigment()
+                    CheckeredPigment(numOfSteps = 50)
                 )
             )
         )
@@ -105,7 +106,7 @@ class Demo : CliktCommand(name = "demo") {
                     material = Material(DiffuseBRDF(UniformPigment(CRIMSON)))
                 ),
                 Sphere(
-                    T = Transformation().translation(0.5F * VECY + VECZ*0.5F)*
+                    T = Transformation().translation(0.5F * (VECY + VECZ)) *
                             Transformation().scaling(Vector(0.3F, 0.3F, 0.3F)),
                     material = Material(
                         DiffuseBRDF(UniformPigment(DARKCYAN.copy()))
@@ -138,7 +139,7 @@ class Demo : CliktCommand(name = "demo") {
 
         //Tone Mapping
         echo("Applying tone mapping...")
-        im.normalizeImg(factor = factor)
+        im.normalizeImg(factor = factor, luminosity = luminosity)
         im.clampImg()
         im.saveLDRImg(ldroutput, format, gamma)
         echo("LDR Image has been saved to ${System.getProperty("user.dir")}/${ldroutput}")
@@ -259,6 +260,7 @@ class Render : CliktCommand(name = "KTracer") {
 class Conversion : CliktCommand(name = "pfm2ldr") {
     private val inputPFMFileName by option("--input", "-i")
     private val factor by option().float().default(0.2F)
+    private val luminosity by option(help = "The required average luminosity").float()
     private val gamma by option().float().default(1.0F)
     private val format by option().choice("BMP", "bmp", "jpeg", "wbmp", "png", "JPG", "PNG", "jpg", "WBMP", "JPEG")
     private val outputFileName by option("--output", "-o")
@@ -271,7 +273,7 @@ class Conversion : CliktCommand(name = "pfm2ldr") {
         }
         echo("File successfully read")
         echo("Normalizing pixels luminosity...")
-        img.normalizeImg(factor = factor)
+        img.normalizeImg(factor = factor, luminosity = luminosity)
         img.clampImg()
         echo("Image normalized")
         echo("Writing image on disk...")
