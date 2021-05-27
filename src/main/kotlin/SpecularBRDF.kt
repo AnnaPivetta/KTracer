@@ -34,7 +34,8 @@ class SpecularBRDF(p: Pigment = UniformPigment(WHITE.copy())) : BRDF(p) {
             origin=hitPoint,
             dir=rayDir - (n * 2.0F * (n * rayDir)),
             tmin=1.0e-3F,
-            tmax= Float.POSITIVE_INFINITY
+            tmax= Float.POSITIVE_INFINITY,
+            depth = depth
         )
     }
 }

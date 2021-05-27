@@ -23,7 +23,6 @@ class PathTracer(
 
     private fun ptRad(r: Ray): Color {
         if (r.depth > maxDepth) return Color(0.0F, 0.0F, 0.0F)
-
         val hit = world.rayIntersection(r) ?: return backgroundColor
         val mat = hit.shape.material
         val eRad = mat.emittedRad.getColor(hit.surfacePoint)

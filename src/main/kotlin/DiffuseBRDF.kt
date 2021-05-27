@@ -33,6 +33,7 @@ class DiffuseBRDF (p : Pigment = UniformPigment(WHITE.copy())) : BRDF(p){
             dir=e1 * cos(phi).toFloat() * cosT + e2 * sin(phi).toFloat() * cosT + e3 * sinT,
             tmin=1.0e-3F,
             tmax= Float.POSITIVE_INFINITY,
+            depth = depth
         )
     }
 }
