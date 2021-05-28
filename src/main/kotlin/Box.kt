@@ -1,3 +1,5 @@
+import kotlin.RuntimeException
+
 /**
  * Shape implementing a 3D Axis Aligned Box
  *
@@ -174,5 +176,25 @@ class Box(
             else -> Normal()
         }
         return if (norm.toVector() * rayDir > 0) -norm else norm
+    }
+
+
+    private fun toSurPoint(hit: Point, normal: Normal): Vector2d {
+        val face = when (normal) {
+            VECX.toNormal() -> 0
+            -VECX.toNormal() -> 1
+            VECY.toNormal() -> 2
+            -VECY.toNormal() -> 3
+            VECZ.toNormal() -> 4
+            -VECZ.toNormal() -> 5
+            else -> -1
+        }
+
+
+        return when (face) {
+            0 -> Vector2d()
+            else -> throw RuntimeException()
+        }
+
     }
 }
