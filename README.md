@@ -31,4 +31,5 @@ If you are interested only in the executable you can download the latest version
 ### Test
 To check the correct working of the program run the set of Unit Tests with the command:
 
-
+### Documentation
+The documentation can be found on the [website](https://annapivetta.github.io/KTracer/).
