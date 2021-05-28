@@ -25,11 +25,11 @@ To check that everything work as expected run the command:
 
     ./gradlew test
 
-If you are interested only in the executable you can download the latest version at
-### Installation
+The latest version is available at: 
+https://github.com/AnnaPivetta/KTracer/tags  
+Each version includes the source code and the built executable.
 
-### Test
-To check the correct working of the program run the set of Unit Tests with the command:
+### Installation
 
 ### Documentation
 The documentation can be found on the [website](https://annapivetta.github.io/KTracer/).
