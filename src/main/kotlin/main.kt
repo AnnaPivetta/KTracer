@@ -8,6 +8,7 @@ import com.github.ajalt.clikt.parameters.types.float
 import com.github.ajalt.clikt.parameters.types.int
 
 import java.io.FileInputStream
+import kotlin.math.PI
 
 class KTracer : CliktCommand() {
     override fun run() = Unit
@@ -27,6 +28,10 @@ class Demo : CliktCommand(name = "demo") {
         help = "Image height"
     ).int().default(480)
     private val orthogonal by option(help = "Use orthogonal camera projection").flag(default = false)
+    private val angleDeg by option(
+        "--angle-deg",
+        help = "Angle of camera rotation (CCW) with respect to z axis in DEG"
+    ).float().default(0.0F)
     private val algorithm by option(
         "--algorithm", "-a",
         help = "Renderer algorithm (pt is for Path Tracer"
@@ -142,9 +147,10 @@ class Demo : CliktCommand(name = "demo") {
         )
 
         val ar = width.toFloat() / height.toFloat()
-        val obsPos = Transformation().translation(-2.0F * VECX + VECZ)
-        val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = obsPos)
-        else PerspectiveCamera(AR = ar, T = obsPos)
+        val T = Transformation()
+        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/360F) * T.translation(-VECX + VECZ)
+        val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = cameraT)
+        else PerspectiveCamera(AR = ar, T = cameraT)
         val im = HdrImage(width, height)
         val computeColor = when (algorithm) {
             "onoff" -> OnOffRenderer(world).computeRadiance()
