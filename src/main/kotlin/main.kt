@@ -164,7 +164,7 @@ class Demo : CliktCommand(name = "demo") {
         )
 
         val ar = width.toFloat() / height.toFloat()
-        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/360F) * T.translation(-2.5F* VECX + VECZ)
+        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/180F) * T.translation(-2.5F* VECX + VECZ)
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = cameraT)
         else PerspectiveCamera(AR = ar, T = cameraT)
         val im = HdrImage(width, height)
