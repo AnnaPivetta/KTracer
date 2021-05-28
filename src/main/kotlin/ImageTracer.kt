@@ -41,7 +41,6 @@ class ImageTracer (
                     image.setPixel(
                         col,
                         row,
-                        //Color(addR / (AAgrid * AAgrid), addG / (AAgrid * AAgrid), addB / (AAgrid * AAgrid))
                         addColor*(1.0F/(AAgrid*AAgrid))
                     )
                 }
