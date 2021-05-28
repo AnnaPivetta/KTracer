@@ -10,4 +10,3 @@ done
 ffmpeg -r 25 -f image2 -s 640x480 -i Animation/img%03d.png \
     -vcodec libx264 -pix_fmt yuv420p \
     demoworld-perspective.mp4
-ì
