@@ -104,7 +104,7 @@ class Demo : CliktCommand(name = "demo") {
                 )
             )
         )
-
+/*
         //a textured sphere behind the camera
         val text = HdrImage()
         text.readImg("../../../../src/main/src/blueTexture.pfm")
@@ -163,8 +163,25 @@ class Demo : CliktCommand(name = "demo") {
             )
         )
 
+ */
+
+        val T = Transformation()
+        val worldMap = HdrImage()
+        worldMap.readImg("src/main/src/minecraft.pfm")
+        world.add(
+            Box(
+                T = T.translation( VECZ + VECY *1.3F) *
+                        T.rotationZ(PI.toFloat()*0.25F) *
+                    T.scaling(Vector(2.0F, 2.0F, 2.0F)),
+                material = Material(
+                    brdf = DiffuseBRDF(ImagePigment(worldMap)),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            )
+        )
+
         val ar = width.toFloat() / height.toFloat()
-        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/180F) * T.translation(-2.5F* VECX + VECZ)
+        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/180F) * T.translation(-4.5F* VECX +3.0F* VECZ)
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = cameraT)
         else PerspectiveCamera(AR = ar, T = cameraT)
         val im = HdrImage(width, height)

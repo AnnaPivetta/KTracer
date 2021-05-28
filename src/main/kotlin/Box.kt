@@ -89,11 +89,12 @@ class Box(
             dir = maxDir
         }
 
-
+        val hit = ir.at(t)
+        val n = getNormal(dir, ir.dir)
         return HitRecord(
-            worldPoint = T * ir.at(t),
-            normal = getNormal(dir, ir.dir),
-            surfacePoint = Vector2d(0.5F, 0.5F),
+            worldPoint = T * hit,
+            normal = T * n,
+            surfacePoint = toSurPoint(hit, n),
             t = t,
             ray = r,
             shape = this
@@ -136,30 +137,38 @@ class Box(
         //If minDir = -1 it means that the first positive intersection has occurred in t2
         //to avoid counting backward intersection
         if (minDir == -1) {
+            val hit2 = ir.at(t2)
+            val n2 = getNormal(maxDir, ir.dir)
+
             return listOf(
                 HitRecord(
-                    worldPoint = T * ir.at(t2),
-                    normal = getNormal(maxDir, ir.dir),
-                    surfacePoint = Vector2d(0.5F, 0.5F),
+                    worldPoint = T * hit2,
+                    normal = T * n2,
+                    surfacePoint = toSurPoint(hit2, n2),
                     t = t2,
                     ray = r,
                     shape = this
                 )
             )
         } else {
+            val hit1 = ir.at(t1)
+            val n1 = getNormal(minDir, ir.dir)
+
+            val hit2 = ir.at(t2)
+            val n2 = getNormal(maxDir, ir.dir)
             return listOf(
                 HitRecord(
-                    worldPoint = T * ir.at(t1),
-                    normal = getNormal(minDir, ir.dir),
-                    surfacePoint = Vector2d(0.5F, 0.5F),
+                    worldPoint = T * hit1,
+                    normal = T * n1,
+                    surfacePoint = toSurPoint(hit1, n1),
                     t = t1,
                     ray = r,
                     shape = this
                 ),
                 HitRecord(
-                    worldPoint = T * ir.at(t2),
-                    normal = getNormal(maxDir, ir.dir),
-                    surfacePoint = Vector2d(0.5F, 0.5F),
+                    worldPoint = T * hit2,
+                    normal = T * n2,
+                    surfacePoint = toSurPoint(hit2, n2),
                     t = t2,
                     ray = r,
                     shape = this
@@ -179,20 +188,39 @@ class Box(
     }
 
 
+    /**
+     * Function to map the surface of a cube onto a 2d projection
+     *
+     * The numeration of faces and their orientation in 3D space are consistent with the explanation
+     * available on [Wikipedia](https://en.wikipedia.org/wiki/Cube_mapping).
+     * Each face is uniquely identified with its own normal, since this is an AAB
+     *
+     * When using this for texturing a Cube the original image should be take with no padding
+     */
     private fun toSurPoint(hit: Point, normal: Normal): Vector2d {
-        val face = when (normal) {
-            VECX.toNormal() -> 0
-            -VECX.toNormal() -> 1
-            VECY.toNormal() -> 2
-            -VECY.toNormal() -> 3
-            VECZ.toNormal() -> 4
-            -VECZ.toNormal() -> 5
+
+        //Identifying the face using its normal
+        val face = when {
+            normal.isClose(VECX.toNormal()) -> 0
+            normal.isClose(-VECX.toNormal()) -> 1
+            normal.isClose(VECY.toNormal()) -> 2
+            normal.isClose(-VECY.toNormal()) -> 3
+            normal.isClose(VECZ.toNormal()) -> 4
+            normal.isClose(-VECZ.toNormal()) -> 5
             else -> -1
         }
 
-
+        //For a complete understanding you may want to look to cited reference
+        //Each face has a shift (may be 0) along u and v axes
+        //Then the coordinate are scaled in the range [0,1] with respect to the face side
+        //Another scaling is performed with respect to the entire image
         return when (face) {
-            0 -> Vector2d()
+            0 -> Vector2d(u = 0.5F + (max.z - hit.z)/(max.z-min.z)*0.25F, v=1.0F/3.0F + (hit.y - min.y)/(max.y-min.y)/3.0F )
+            1 -> Vector2d(u =        (hit.z - min.z)/(max.z-min.z)*0.25F, v=1.0F/3.0F + (hit.y - min.y)/(max.y-min.y)/3.0F )
+            2 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=2.0F/3.0F + (max.z - hit.z)/(max.z-min.z)/3.0F )
+            3 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=            (hit.z - min.z)/(max.z-min.z)/3.0F )
+            4 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=1.0F/3.0F + (hit.y - min.y)/(max.y-min.y)/3.0F )
+            5 -> Vector2d(u = 0.75F+ (max.x - hit.x)/(max.x-min.x)*0.25F, v=1.0F/3.0F + (hit.y - min.y)/(max.y-min.y)/3.0F )
             else -> throw RuntimeException()
         }
 

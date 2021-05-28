@@ -2,6 +2,8 @@
  *
  * This class inherits from [Pigment] and represents a pigment whose color is taken from a PFM image
  *
+ * When using this for texturing a [Box] the [image] should be take with no padding
+ *
  * @param image The [HdrImage] from which color is taken
  *
  * @see Pigment
