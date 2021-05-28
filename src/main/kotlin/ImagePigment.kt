@@ -1,6 +1,11 @@
-/*** A Pigment given through an image
- * This class (which is derived from Pigment) represents  a pigment whose color is given through a PFM image
- */
+/** A Pigment given through an image
+ *
+ * This class inherits from [Pigment] and represents a pigment whose color is taken from a PFM image
+ *
+ * @param image The [HdrImage] from which color is taken
+ *
+ * @see Pigment
+*/
 
 class ImagePigment (val image : HdrImage = HdrImage()) : Pigment() {
     override fun getColor(vec: Vector2d): Color {
