@@ -10,7 +10,7 @@ import kotlin.RuntimeException
  * - [min] - The [Point] representing the minimum value of each component (x, y, z). Default is for canonical Cube (-0.5, -0.5, -0.5)
  * - [max] - The [Point] representing the maximum value of each component (x, y, z). Default is for canonical Cube (0.5, 0.5, 0.5)
  * - [T] - (optional) The [Transformation] to apply to the Box
- *
+ * - [material] - The [Material] of which the [Box] is made of
  * @see Shape
  */
 
@@ -200,6 +200,11 @@ class Box(
     private fun toSurPoint(hit: Point, normal: Normal): Vector2d {
 
         //Identifying the face using its normal
+        //     ___
+        // ___| 2 |________
+        //| 1 | 4 | 0 | 5 |
+        // '''| 3 |''''''''
+        //     '''
         val face = when {
             normal.isClose(VECX.toNormal()) -> 0
             normal.isClose(-VECX.toNormal()) -> 1
@@ -215,12 +220,12 @@ class Box(
         //Then the coordinate are scaled in the range [0,1] with respect to the face side
         //Another scaling is performed with respect to the entire image
         return when (face) {
-            0 -> Vector2d(u = 0.5F + (max.z - hit.z)/(max.z-min.z)*0.25F, v=1.0F/3.0F + (hit.y - min.y)/(max.y-min.y)/3.0F )
-            1 -> Vector2d(u =        (hit.z - min.z)/(max.z-min.z)*0.25F, v=1.0F/3.0F + (hit.y - min.y)/(max.y-min.y)/3.0F )
-            2 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=2.0F/3.0F + (max.z - hit.z)/(max.z-min.z)/3.0F )
-            3 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=            (hit.z - min.z)/(max.z-min.z)/3.0F )
-            4 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=1.0F/3.0F + (hit.y - min.y)/(max.y-min.y)/3.0F )
-            5 -> Vector2d(u = 0.75F+ (max.x - hit.x)/(max.x-min.x)*0.25F, v=1.0F/3.0F + (hit.y - min.y)/(max.y-min.y)/3.0F )
+            0 -> Vector2d(u = 0.5F + (max.z - hit.z)/(max.z-min.z)*0.25F, v=1F/3F + (hit.y - min.y)/(max.y-min.y)/3.0F )
+            1 -> Vector2d(u =        (hit.z - min.z)/(max.z-min.z)*0.25F, v=1F/3F + (hit.y - min.y)/(max.y-min.y)/3.0F )
+            2 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=2F/3F + (max.z - hit.z)/(max.z-min.z)/3.0F )
+            3 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=        (hit.z - min.z)/(max.z-min.z)/3.0F )
+            4 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=1F/3F + (hit.y - min.y)/(max.y-min.y)/3.0F )
+            5 -> Vector2d(u = 0.75F+ (max.x - hit.x)/(max.x-min.x)*0.25F, v=1F/3F + (hit.y - min.y)/(max.y-min.y)/3.0F )
             else -> throw RuntimeException()
         }
 

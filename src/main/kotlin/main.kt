@@ -70,6 +70,8 @@ class Demo : CliktCommand(name = "demo") {
 
         //Set the World
         val world = World()
+        //Set a transformation for future use
+        val T = Transformation()
         //A plane for the floor
 
         world.add(
@@ -77,7 +79,7 @@ class Demo : CliktCommand(name = "demo") {
                 //T = Transformation().scaling(Vector()),
                 material = Material(
                     DiffuseBRDF(),
-                    CheckeredPigment(numOfSteps = 4)
+                    CheckeredPigment(numOfSteps = 2)
                 )
             )
         )
@@ -149,7 +151,6 @@ class Demo : CliktCommand(name = "demo") {
             )
         )
 
-        val T = Transformation()
         val worldMap = HdrImage()
         worldMap.readImg("../../../../src/main/src/map.pfm")
         world.add(
@@ -163,25 +164,37 @@ class Demo : CliktCommand(name = "demo") {
             )
         )
 
- */
 
-        val T = Transformation()
-        val worldMap = HdrImage()
-        worldMap.readImg("src/main/src/minecraft.pfm")
+
+        val texture = HdrImage()
+        texture.readImg("src/main/src/minecraft_hd.pfm")
         world.add(
             Box(
                 T = T.translation( VECZ + VECY *1.3F) *
                         T.rotationZ(PI.toFloat()*0.25F) *
+                        T.rotationX(-PI.toFloat()*0.5F) *
                     T.scaling(Vector(2.0F, 2.0F, 2.0F)),
                 material = Material(
-                    brdf = DiffuseBRDF(ImagePigment(worldMap)),
+                    brdf = DiffuseBRDF(ImagePigment(texture)),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            )
+        )
+ */
+
+        world.add(
+            Cylinder(
+                T = T.translation( 4F* VECZ + VECY * 1.3F) *
+                    T.scaling(Vector(0.3F, 0.3F, 5.0F)),
+                material = Material(
+                    brdf = DiffuseBRDF(UniformPigment(OLIVE.copy())),
                     emittedRad = UniformPigment(BLACK.copy())
                 )
             )
         )
 
         val ar = width.toFloat() / height.toFloat()
-        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/180F) * T.translation(-4.5F* VECX +3.0F* VECZ)
+        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/180F) * T.translation(-4.5F* VECX + 3.0F*VECZ)
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = cameraT)
         else PerspectiveCamera(AR = ar, T = cameraT)
         val im = HdrImage(width, height)

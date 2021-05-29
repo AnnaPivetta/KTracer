@@ -15,7 +15,7 @@ import kotlin.math.floor
  * @see Pigment
  */
 
-class CheckeredPigment (val color1 : Color = WHITE.copy(), val color2 : Color = BLACK.copy(), var numOfSteps : Int = 10) : Pigment () {
+class CheckeredPigment (val color1 : Color = WHITE.copy(), val color2 : Color = BLACK.copy(), var numOfSteps : Int = 4) : Pigment () {
     init {
         if (numOfSteps%2 != 0) {numOfSteps++}
     }
