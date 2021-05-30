@@ -1,5 +1,8 @@
 import kotlin.math.abs
 
+/*** RGB Color
+ * The members of this class are r (level of red), g(level of green) and b(level of blue
+ */
 data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) {
     /* RGB Color
     params:
@@ -17,22 +20,40 @@ data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) 
     override fun toString(): String {
         return "Color ($r, $g, $b)"
     }
-
+    /***
+     * sum two colors
+     */
     operator fun plus(other: Color): Color {
         return Color(r + other.r, g + other.g, b + other.b)
     }
+
+    /***
+     * Multiply each component of a color with a scalar
+     */
 
     operator fun times(scalar: Float): Color {
         return Color(r * scalar, g * scalar, b * scalar)
     }
 
+    /***
+     * Multiply with another color
+     */
+
     operator fun times(other: Color): Color {
         return Color(r * other.r, g * other.g, b * other.b)
     }
 
+    /***
+     * returns true if the r, g and b component of two colors are closer than epsilon
+     */
+
     fun isClose(other: Color, epsilon: Float = 1e-10F): Boolean {
         return abs(r - other.r) < epsilon && abs(g - other.g) < epsilon && abs(b - other.b) < epsilon
     }
+
+    /***
+     * returns a measure of the luminosity associated to the color
+     */
     fun luminosity() : Float {
         return (maxOf(r,g,b) + minOf(r,g,b))/2
     }

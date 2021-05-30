@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.float
 import com.github.ajalt.clikt.parameters.types.int
+import com.github.ajalt.clikt.parameters.types.long
 
 import java.io.FileInputStream
 import kotlin.math.PI
@@ -64,6 +65,11 @@ class Demo : CliktCommand(name = "demo") {
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
     private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A").int()
+    @kotlin.ExperimentalUnsignedTypes
+    private val initState by option("--initState").convert { it.toULong() }.default(42UL)
+    @kotlin.ExperimentalUnsignedTypes
+    private val initSeq by option("--initSeq").convert { it.toULong() }.default(54UL)
+
 
     @kotlin.ExperimentalUnsignedTypes
     override fun run() {
@@ -100,7 +106,7 @@ class Demo : CliktCommand(name = "demo") {
                 T = Transformation().translation(0.7F * VECZ - 1.3F * VECY),// *
                         //Transformation().scaling((Vector(1.0F, 1.0F, 1.0F))),
                 material = Material(
-                    SpecularBRDF(UniformPigment(SILVER.copy()))
+                    DiffuseBRDF(UniformPigment(SILVER.copy()))
                 )
             )
         )
@@ -126,7 +132,7 @@ class Demo : CliktCommand(name = "demo") {
                 material = Material(DiffuseBRDF(UniformPigment(DARKORANGE.copy())))
             ),
             Sphere(
-                T = Transformation().translation(0.5F * (VECY + VECZ)) *
+                T = Transformation().translation(0.5F * (VECY + VECZ)+ 2.0F*VECX) *
                         Transformation().scaling(Vector(0.3F, 0.3F, 0.3F)),
                 material = Material(
                     DiffuseBRDF(UniformPigment(DARKCYAN.copy()))
@@ -140,7 +146,7 @@ class Demo : CliktCommand(name = "demo") {
             CSGDifference(
                 funkyCube,
                 Sphere(
-                    T = Transformation().translation(-VECX * 0.5F + VECY * 1.5F + VECZ * 1.0F) *
+                    T = Transformation().translation(VECX * 1.5F + VECY * 1.5F + VECZ * 1.0F) *
                             Transformation().scaling(Vector(0.2F, 0.2F, 0.2F)),
                     material = Material(
                         DiffuseBRDF(UniformPigment(OLIVE.copy()))
@@ -164,22 +170,24 @@ class Demo : CliktCommand(name = "demo") {
         )
 
         val ar = width.toFloat() / height.toFloat()
-        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/180F) * T.translation(-2.5F* VECX + VECZ)
+        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/180F) * T.translation(-1.5F* VECX + VECZ)
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = cameraT)
         else PerspectiveCamera(AR = ar, T = cameraT)
         val im = HdrImage(width, height)
+        val pcg = PCG(initState, initSeq)
         val computeColor = when (algorithm) {
             "onoff" -> OnOffRenderer(world).computeRadiance()
             "flat" -> FlatRenderer(world).computeRadiance()
             "pt" -> PathTracer(
                 world = world,
+                pcg = pcg,
                 nRays = nR,
                 maxDepth = maxDepth,
                 rrTrigger = rrTrigger
             ).computeRadiance()
             else -> throw RuntimeException()
         }
-        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid)
+        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid, pcg)
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)
@@ -240,6 +248,10 @@ class Render : CliktCommand(name = "KTracer") {
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
     private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A").int()
+    @kotlin.ExperimentalUnsignedTypes
+    private val initState by option("--initState").convert { it.toULong() }.default(42UL)
+    @kotlin.ExperimentalUnsignedTypes
+    private val initSeq by option("--initSeq").convert { it.toULong() }.default(54UL)
 
     @kotlin.ExperimentalUnsignedTypes
     override fun run() {
@@ -353,18 +365,20 @@ class Render : CliktCommand(name = "KTracer") {
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = obsPos)
         else PerspectiveCamera(AR = ar, T = obsPos)
         val im = HdrImage(width, height)
+        val pcg = PCG(initState, initSeq)
         val computeColor = when (algorithm) {
             "onoff" -> OnOffRenderer(world).computeRadiance()
             "flat" -> FlatRenderer(world).computeRadiance()
             "pt" -> PathTracer(
                 world = world,
                 nRays = nR,
+                pcg = pcg,
                 maxDepth = maxDepth,
                 rrTrigger = rrTrigger
             ).computeRadiance()
             else -> throw RuntimeException()
         }
-        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid)
+        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid, pcg)
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)

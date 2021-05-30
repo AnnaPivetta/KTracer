@@ -6,11 +6,10 @@
  * Params should not be changed
  */
 @kotlin.ExperimentalUnsignedTypes
-class PCG (var state : ULong = 0UL, var inc : ULong = 0UL){
+class PCG (initState : ULong = 42UL, initSeq : ULong = 54UL){
+    var state : ULong = 0UL
+    var inc : ULong = 0UL
     init {
-        val initState = 42UL
-        val initSeq = 54UL
-        state = 0UL
         //Get rid of first 2 numbers
         inc = (initSeq shl 1 ) or 1UL
         randInt()
