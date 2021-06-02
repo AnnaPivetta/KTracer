@@ -3,7 +3,7 @@
 for angle in $(seq 0 3); do
     # Angle with three digits, e.g. angle="1" → angleNNN="001"
     angleNNN=$(printf "%03d" $angle)
-    ./KTracer demo --width=640 --height=480 -n 10 --maxDepth 3 --luminosity 0.1 --angle-deg $angle --ldr-o=Animation/notex/img$angleNNN.png
+    ./KTracer demo --width=640 --height=480 -n 14 --maxDepth 3 --luminosity 0.1 --angle-deg $angle --ldr-o=Animation/img$angleNNN.png --hdr-o=Animation/pfm/img$angleNNN.pfm
 done
 
 # -r 25: Number of frames per second

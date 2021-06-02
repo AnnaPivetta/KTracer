@@ -83,18 +83,18 @@ class Demo : CliktCommand(name = "demo") {
                 //T = Transformation().scaling(Vector()),
                 material = Material(
                     DiffuseBRDF(),
-                    CheckeredPigment(numOfSteps = 4)
+                    CheckeredPigment(numOfSteps = 2)
                 )
             )
         )
 
         //A big sphere for the sky
-        val sphereR = 100.0F
+        val sphereR = 30.0F
         world.add(
             Sphere(
                 T = Transformation().scaling(Vector(sphereR, sphereR, sphereR)),
                 material = Material(
-                    DiffuseBRDF(UniformPigment(BLACK.copy())),
+                    DiffuseBRDF(UniformPigment(SKYBLUE.copy())),
                     UniformPigment(SKYBLUE.copy())
                 )
             )
@@ -111,16 +111,13 @@ class Demo : CliktCommand(name = "demo") {
             )
         )
 
-        //a textured sphere behind the camera
-        val text = HdrImage()
-        //text.readImg("../../../../src/main/src/blueTexture.pfm")
-        text.readImg("src/main/src/blueTexture.pfm")
+        //a sphere behind the camera
         world.add(
             Sphere(
                 T = Transformation().translation(-VECX * 5.0F + VECZ * 4.0F) *
                         Transformation().scaling(Vector(0.6F, 0.6F, 0.6F)),
                 material = Material(
-                    brdf = DiffuseBRDF(ImagePigment(text)),
+                    brdf = DiffuseBRDF(UniformPigment(OLIVE.copy())),
                     emittedRad = UniformPigment(BLACK.copy())
                 )
             )
@@ -133,7 +130,7 @@ class Demo : CliktCommand(name = "demo") {
                 material = Material(DiffuseBRDF(UniformPigment(DARKORANGE.copy())))
             ),
             Sphere(
-                T = Transformation().translation(0.5F * (VECY + VECZ)+ 2.0F*VECX) *
+                T = Transformation().translation(0.5F * (VECY + VECZ)) *
                         Transformation().scaling(Vector(0.3F, 0.3F, 0.3F)),
                 material = Material(
                     DiffuseBRDF(UniformPigment(DARKCYAN.copy()))
@@ -145,10 +142,10 @@ class Demo : CliktCommand(name = "demo") {
             CSGDifference(
                 funkyCube,
                 Sphere(
-                    T = Transformation().translation(VECX * 1.5F + VECY * 1.5F + VECZ * 1.0F) *
-                            Transformation().scaling(Vector(0.2F, 0.2F, 0.2F)),
+                    T = Transformation().translation(-VECX * 0.5F + VECY * 1.5F + VECZ * 1.0F) *
+                            Transformation().scaling(Vector(0.6F, 0.6F, 0.6F)),
                     material = Material(
-                        DiffuseBRDF(UniformPigment(OLIVE.copy()))
+                        DiffuseBRDF(UniformPigment(DARKRED.copy()))
                     )
                 )
             )
@@ -156,8 +153,7 @@ class Demo : CliktCommand(name = "demo") {
 
         val T = Transformation()
         val worldMap = HdrImage()
-        //worldMap.readImg("../../../../src/main/src/map.pfm")
-        worldMap.readImg("src/main/src/map.pfm")
+        worldMap.readImg("../../../../src/main/src/map.pfm")
         world.add(
             Sphere(
                 T = T.translation(VECZ * 2.5F + (VECX + VECY)*1.3F) *
