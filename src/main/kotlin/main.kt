@@ -106,7 +106,7 @@ class Demo : CliktCommand(name = "demo") {
                 T = Transformation().translation(0.7F * VECZ - 1.3F * VECY),// *
                         //Transformation().scaling((Vector(1.0F, 1.0F, 1.0F))),
                 material = Material(
-                    DiffuseBRDF(UniformPigment(SILVER.copy()))
+                    SpecularBRDF(UniformPigment(SILVER.copy()))
                 )
             )
         )
@@ -117,8 +117,8 @@ class Demo : CliktCommand(name = "demo") {
         text.readImg("src/main/src/blueTexture.pfm")
         world.add(
             Sphere(
-                T = Transformation().scaling(Vector(0.4F, 0.4F, 0.4F)) *
-                        Transformation().translation(-VECX * 8.0F + VECZ * 4.0F),
+                T = Transformation().translation(-VECX * 5.0F + VECZ * 4.0F) *
+                        Transformation().scaling(Vector(0.6F, 0.6F, 0.6F)),
                 material = Material(
                     brdf = DiffuseBRDF(ImagePigment(text)),
                     emittedRad = UniformPigment(BLACK.copy())
@@ -140,8 +140,6 @@ class Demo : CliktCommand(name = "demo") {
                 )
             )
         )
-
-
 
         world.add(
             CSGDifference(
@@ -172,7 +170,7 @@ class Demo : CliktCommand(name = "demo") {
         )
 
         val ar = width.toFloat() / height.toFloat()
-        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/180F) * T.translation(-1.5F* VECX + VECZ)
+        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/180F) * T.translation(-2.5F* VECX + VECZ)
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = cameraT)
         else PerspectiveCamera(AR = ar, T = cameraT)
         val im = HdrImage(width, height)
