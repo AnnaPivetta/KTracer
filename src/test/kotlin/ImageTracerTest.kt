@@ -59,9 +59,10 @@ class ImageTracerTest {
         val image = HdrImage(width = 4, height = 2)
         val camera = PerspectiveCamera(AR = 2.0F)
         val tracer = ImageTracer(image = image, camera = camera)
+        val pcg = PCG()
 
         val f : (Ray) -> Color = { Color(1.0F, 2.0F, 3.0F) }
-        tracer.fireAllRays ( f , 4)
+        tracer.fireAllRays ( f , 4, pcg)
         for (row in 0 until image.getHeight()) {
             for (col in 0 until image.getWidth()) {
                 assertTrue(image.getPixel(col, row) == Color(1.0F, 2.0F, 3.0F))

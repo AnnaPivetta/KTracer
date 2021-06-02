@@ -1,9 +1,9 @@
 #!/bin/zsh
 
-for angle in $(seq 0 359); do
+for angle in $(seq 25 32); do
     # Angle with three digits, e.g. angle="1" → angleNNN="001"
     angleNNN=$(printf "%03d" $angle)
-    ./KTracer demo --width=640 --height=480 -n 13 --luminosity 0.1 --angle-deg $angle --ldr-o=Animation/img$angleNNN.png
+    ./KTracer demo --width=640 --height=480 -n 10 --maxDepth 3 --luminosity 0.1 --angle-deg $angle --ldr-o=Animation/img$angleNNN.png
 done
 
 # -r 25: Number of frames per second
