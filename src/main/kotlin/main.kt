@@ -107,7 +107,8 @@ class Demo : CliktCommand(name = "demo") {
 
         //a textured sphere behind the camera
         val text = HdrImage()
-        text.readImg("../../../../src/main/src/blueTexture.pfm")
+        //text.readImg("../../../../src/main/src/blueTexture.pfm")
+        text.readImg("src/main/src/blueTexture.pfm")
         world.add(
             Sphere(
                 T = Transformation().scaling(Vector(0.4F, 0.4F, 0.4F)) *
@@ -151,7 +152,8 @@ class Demo : CliktCommand(name = "demo") {
 
         val T = Transformation()
         val worldMap = HdrImage()
-        worldMap.readImg("../../../../src/main/src/map.pfm")
+        //worldMap.readImg("../../../../src/main/src/map.pfm")
+        worldMap.readImg("src/main/src/map.pfm")
         world.add(
             Sphere(
                 T = T.translation(VECZ * 2.5F + (VECX + VECY)*1.3F) *
