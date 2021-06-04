@@ -20,11 +20,11 @@ class Sphere (T : Transformation = Transformation(), material: Material = Materi
 
 
     /**
-     * This function evaluates if the given [Ray] intersects the sphere and returns the
+     * This function evaluates if the given [Ray] intersects the [Sphere] and returns the
      * closest intersection from the observer point of view
      *
      * @param r The [Ray] to check the intersection with
-     * @return A [HitRecord] containing the  closest intersection to the [Ray.origin] if any. Otherwise null is returned
+     * @return A [HitRecord] containing the closest intersection to the [Ray.origin] if any. Otherwise null is returned
      */
     override fun rayIntersection(r: Ray): HitRecord? {
         val ir = T.inverse() * r
@@ -61,6 +61,21 @@ class Sphere (T : Transformation = Transformation(), material: Material = Materi
             shape = this
         )
     }
+
+    /**
+     * This function evaluates if the given [Ray] intersects the [Sphere] and returns the
+     * list of all the intersections
+     *
+     * This method is used for CSG.
+     *
+     * @param r The [Ray] to check the intersections with
+     * @return A [List] of[HitRecord] containing the intersections if any. Otherwise null is returned
+     *
+     * @see CSGUnion
+     * @see CSGDifference
+     * @see CSGIntersection
+     *
+     */
 
     override fun rayIntersectionList(r: Ray): List<HitRecord>? {
         val ir = T.inverse() * r

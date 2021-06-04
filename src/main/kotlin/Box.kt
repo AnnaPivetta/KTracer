@@ -45,7 +45,7 @@ class Box(
      * closest intersection from the observer point of view
      *
      * @param r The [Ray] to check the intersection with
-     * @return A [HitRecord] containing the  closest intersection to the [Ray.origin] if any. Otherwise null is returned
+     * @return A [HitRecord] containing the closest intersection to the [Ray.origin] if any. Otherwise null is returned
      */
     override fun rayIntersection(r: Ray): HitRecord? {
         val ir = T.inverse() * r
@@ -100,6 +100,21 @@ class Box(
             shape = this
         )
     }
+
+    /**
+     * This function evaluates if the given [Ray] intersects the [Box] and returns the
+     * list of all the intersections
+     *
+     * This method is used for CSG.
+     *
+     * @param r The [Ray] to check the intersections with
+     * @return A [List] of[HitRecord] containing the intersections if any. Otherwise null is returned
+     *
+     * @see CSGUnion
+     * @see CSGDifference
+     * @see CSGIntersection
+     *
+     */
 
     override fun rayIntersectionList(r: Ray): List<HitRecord>? {
         val ir = T.inverse() * r
@@ -195,7 +210,16 @@ class Box(
      * available on [Wikipedia](https://en.wikipedia.org/wiki/Cube_mapping).
      * Each face is uniquely identified with its own normal, since this is an AAB
      *
-     * When using this for texturing a Cube the original image should be take with no padding
+     * When using this for texturing a Cube the original image should be taken with width=height and the cube map should
+     * be deployed only in the 3/4 of its height starting from the bottom.
+     * As an example we provide the following scheme:
+     *
+     *           --------------
+     *           |            |
+     *           |   |2|      |
+     *           ||1||4||0||5||
+     *           |   |3|      |
+     *           --------------
      */
     private fun toSurPoint(hit: Point, normal: Normal): Vector2d {
 
@@ -206,11 +230,11 @@ class Box(
         // '''| 3 |''''''''
         //     '''
         val face = when {
-            normal.isClose(VECX.toNormal()) -> 0
+            normal.isClose(VECX.toNormal())  -> 0
             normal.isClose(-VECX.toNormal()) -> 1
-            normal.isClose(VECY.toNormal()) -> 2
+            normal.isClose(VECY.toNormal())  -> 2
             normal.isClose(-VECY.toNormal()) -> 3
-            normal.isClose(VECZ.toNormal()) -> 4
+            normal.isClose(VECZ.toNormal())  -> 4
             normal.isClose(-VECZ.toNormal()) -> 5
             else -> -1
         }
@@ -220,12 +244,12 @@ class Box(
         //Then the coordinate are scaled in the range [0,1] with respect to the face side
         //Another scaling is performed with respect to the entire image
         return when (face) {
-            0 -> Vector2d(u = 0.5F + (max.z - hit.z)/(max.z-min.z)*0.25F, v=1F/3F + (hit.y - min.y)/(max.y-min.y)/3.0F )
-            1 -> Vector2d(u =        (hit.z - min.z)/(max.z-min.z)*0.25F, v=1F/3F + (hit.y - min.y)/(max.y-min.y)/3.0F )
-            2 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=2F/3F + (max.z - hit.z)/(max.z-min.z)/3.0F )
-            3 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=        (hit.z - min.z)/(max.z-min.z)/3.0F )
-            4 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=1F/3F + (hit.y - min.y)/(max.y-min.y)/3.0F )
-            5 -> Vector2d(u = 0.75F+ (max.x - hit.x)/(max.x-min.x)*0.25F, v=1F/3F + (hit.y - min.y)/(max.y-min.y)/3.0F )
+            0 -> Vector2d(u = 0.5F + (max.z - hit.z)/(max.z-min.z)*0.25F, v=0.5F  + (hit.y - min.y)/(max.y-min.y)*0.25F )
+            1 -> Vector2d(u =        (hit.z - min.z)/(max.z-min.z)*0.25F, v=0.5F  + (hit.y - min.y)/(max.y-min.y)*0.25F )
+            2 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=0.25F + (max.z - hit.z)/(max.z-min.z)*0.25F )
+            3 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=0.75F + (hit.z - min.z)/(max.z-min.z)*0.25F )
+            4 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=0.5F  + (hit.y - min.y)/(max.y-min.y)*0.25F )
+            5 -> Vector2d(u = 0.75F+ (max.x - hit.x)/(max.x-min.x)*0.25F, v=0.5F  + (hit.y - min.y)/(max.y-min.y)*0.25F )
             else -> throw RuntimeException()
         }
 

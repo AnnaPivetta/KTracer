@@ -74,23 +74,27 @@ class Demo : CliktCommand(name = "demo") {
         val T = Transformation()
         //A plane for the floor
 
+       // val marble = HdrImage()
+        //marble.readImg("src/main/src/marble.pfm")
+
         world.add(
             Plane(
                 //T = Transformation().scaling(Vector()),
                 material = Material(
                     DiffuseBRDF(),
                     CheckeredPigment(numOfSteps = 2)
-                )
+               // ImagePigment(marble)
             )
+        )
         )
 
         //A big sphere for the sky
-        val sphereR = 100.0F
+        val sphereR = 50.0F
         world.add(
             Sphere(
                 T = Transformation().scaling(Vector(sphereR, sphereR, sphereR)),
                 material = Material(
-                    DiffuseBRDF(UniformPigment(BLACK.copy())),
+                    DiffuseBRDF(UniformPigment(SKYBLUE.copy())),
                     UniformPigment(SKYBLUE.copy())
                 )
             )
@@ -100,7 +104,7 @@ class Demo : CliktCommand(name = "demo") {
         world.add(
             Sphere(
                 T = Transformation().translation(0.7F * VECZ - 1.3F * VECY),// *
-                        //Transformation().scaling((Vector(1.0F, 1.0F, 1.0F))),
+                //Transformation().scaling((Vector(1.0F, 1.0F, 1.0F))),
                 material = Material(
                     SpecularBRDF(UniformPigment(SILVER.copy()))
                 )
@@ -165,9 +169,10 @@ class Demo : CliktCommand(name = "demo") {
         )
 
 
-
+ */
+        /*
         val texture = HdrImage()
-        texture.readImg("src/main/src/minecraft_hd.pfm")
+        texture.readImg("src/main/src/color_dice_4x4.pfm")
         world.add(
             Box(
                 T = T.translation( VECZ + VECY *1.3F) *
@@ -180,12 +185,38 @@ class Demo : CliktCommand(name = "demo") {
                 )
             )
         )
- */
 
-        world.add(
+
+         */
+
+
+        val firstCross = CSGUnion(
             Cylinder(
-                T = T.translation( 4F* VECZ + VECY * 1.3F) *
-                    T.scaling(Vector(0.3F, 0.3F, 5.0F)),
+                T = T.translation(2F * VECZ + VECY * 1.3F) *
+                        T.rotationY(PI.toFloat() * 0.5F) *
+                        T.scaling(Vector(0.3F, 0.3F, 2.0F)),
+                material = Material(
+                    brdf = DiffuseBRDF(UniformPigment(OLIVE.copy())),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            ),
+            Cylinder(
+                T = T.translation(2F * VECZ + VECY * 1.3F) *
+                        T.scaling(Vector(0.3F, 0.3F, 2.0F)),
+                material = Material(
+                    brdf = DiffuseBRDF(UniformPigment(OLIVE.copy())),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            )
+
+        )
+
+        val tripleCross = CSGUnion(
+            firstCross,
+            Cylinder(
+                T = T.translation(2F * VECZ + VECY * 1.3F) *
+                        T.rotationX(PI.toFloat() * 0.5F) *
+                        T.scaling(Vector(0.3F, 0.3F, 2.0F)),
                 material = Material(
                     brdf = DiffuseBRDF(UniformPigment(OLIVE.copy())),
                     emittedRad = UniformPigment(BLACK.copy())
@@ -193,8 +224,38 @@ class Demo : CliktCommand(name = "demo") {
             )
         )
 
+        val cubeS = CSGIntersection(
+            Box(
+                T = T.translation(2F * VECZ + VECY * 1.3F),
+                material = Material(
+                    brdf = DiffuseBRDF(UniformPigment(DARKRED.copy())),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            ),
+            Sphere(
+                T = T.translation(2F * VECZ + VECY * 1.3F) *
+                    T.scaling(Vector(0.65F,0.65F,0.65F)),
+                material = Material(
+                    brdf = DiffuseBRDF(UniformPigment(NAVY.copy())),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            )
+        )
+
+        world.add(
+            CSGDifference(
+                cubeS,
+            tripleCross
+            )
+
+        )
+
+
+
+
+
         val ar = width.toFloat() / height.toFloat()
-        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/180F) * T.translation(-4.5F* VECX + 3.0F*VECZ)
+        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat() / 180F) * T.translation(-4.5F * VECX + 3.0F * VECZ)
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = cameraT)
         else PerspectiveCamera(AR = ar, T = cameraT)
         val im = HdrImage(width, height)

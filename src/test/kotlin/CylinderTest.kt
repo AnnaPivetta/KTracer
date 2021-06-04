@@ -59,6 +59,19 @@ class CylinderTest {
         assertTrue(int4.normal.isClose(expectedNormal4))
         assertTrue(int4.t.isClose(expectedT4))
         assertTrue(int4.surfacePoint.isClose(expectedUV4))
+
+
+        val ray5 = Ray(origin = Point(-0.5F, 0.0F, 2.5F), dir=(0.1F*VECX-VECZ))
+        val expectedHitPoint5 = Point(-0.3F, 0.0F, 0.5F)
+        val expectedNormal5 = VECZ.toNormal()
+        val expectedUV5 = Vector2d(0.5F, 0.5F)
+        val expectedT5 = 2.0F
+        val int5 = c.rayIntersection(ray5)
+
+        assertTrue(int5?.worldPoint!!.isClose(expectedHitPoint5))
+        assertTrue(int5.normal.isClose(expectedNormal5))
+        assertTrue(int5.t.isClose(expectedT5))
+        assertTrue(int5.surfacePoint.isClose(expectedUV5))
     }
 
 
