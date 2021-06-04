@@ -1,6 +1,1 @@
 theme: jekyll-theme-midnight
-
-defaults:
-  -
-   values:
-    author: "Matteo Martinelli, Anna Pivetta"
