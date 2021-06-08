@@ -1,4 +1,5 @@
 import kotlin.math.*
+import kotlin.reflect.typeOf
 
 /**
  * Shape implementing a Cylinder
@@ -69,7 +70,13 @@ class Cylinder(
 
         //Intersections with lateral surface of cylinder
         var t1 = (-b - sqrt(b * b - a * c)) / a
-        val t2 = (-b + sqrt(b * b - a * c)) / a
+        var t2 = (-b + sqrt(b * b - a * c)) / a
+
+        if(a == 0.0F) {
+            t1 = Float.POSITIVE_INFINITY
+            t2 = Float.POSITIVE_INFINITY
+        }
+
 
         val xypos = ir.origin.x * ir.origin.x + ir.origin.y * ir.origin.y
         //time to reach the upper face

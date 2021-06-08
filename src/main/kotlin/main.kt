@@ -243,10 +243,12 @@ class Demo : CliktCommand(name = "demo") {
         )
 
         world.add(
-            CSGDifference(
+         CSGDifference(
                 cubeS,
             tripleCross
             )
+
+
 
         )
 
