@@ -357,6 +357,7 @@ class Render : CliktCommand(name = "KTracer") {
         )
 
 
+
         val worldMap = HdrImage()
         worldMap.readImg("src/main/src/map.pfm")
         world.add(
