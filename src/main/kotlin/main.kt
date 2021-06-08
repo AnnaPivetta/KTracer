@@ -153,7 +153,8 @@ class Demo : CliktCommand(name = "demo") {
 
         val T = Transformation()
         val worldMap = HdrImage()
-        worldMap.readImg("../../../../src/main/src/map.pfm")
+        //worldMap.readImg("../../../../src/main/src/map.pfm")
+        worldMap.readImg("src/main/src/map.pfm")
         world.add(
             Sphere(
                 T = T.translation(VECZ * 2.5F + (VECX + VECY)*1.3F) *
