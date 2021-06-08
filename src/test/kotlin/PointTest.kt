@@ -54,4 +54,14 @@ class PointTest {
         assertFailsWith<IndexOutOfBoundsException>{p[3]}
 
     }
+    @Test
+    fun set() {
+        val point = Point(0.0F, 1.0F, 2.0F)
+        point[1]=3.0F
+        assertTrue(point[1]==3.0F)
+
+        val list = mutableListOf<Int>(12)
+        list.set(1, 18)
+        print(list)
+    }
 }

@@ -36,5 +36,15 @@ class Point (var x : Float = 0.0F, var y : Float = 0.0F, var z : Float = 0.0F){
             }
         }
     }
+    operator fun set(i: Int, v : Float) {
+        when (i) {
+            0 -> x = v
+            1 -> y = v
+            2 -> z = v
+            else -> {
+                throw IndexOutOfBoundsException()
+            }
+        }
+    }
 }
 
