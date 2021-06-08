@@ -273,6 +273,9 @@ class Render : CliktCommand(name = "KTracer") {
 
         )
 
+/*
+//Translation applied to single shapes
+
         val funkyCube = CSGDifference(
             Box(
                 T = Transformation().translation(VECY + 0.5F * VECZ),
@@ -300,10 +303,16 @@ class Render : CliktCommand(name = "KTracer") {
                 )
             )
         )
+*/
 
 
 
-        /*
+
+
+
+//Translation applied to CSG
+
+
         val funkyCube = CSGDifference(
             Box(
                 material = Material(DiffuseBRDF(UniformPigment(DARKORANGE.copy())))
@@ -332,7 +341,9 @@ class Render : CliktCommand(name = "KTracer") {
             )
         )
 
-         */
+
+
+
 
         world.add(
             Sphere(
