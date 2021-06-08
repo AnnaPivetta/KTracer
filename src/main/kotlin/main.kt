@@ -6,8 +6,10 @@ import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.float
 import com.github.ajalt.clikt.parameters.types.int
+import com.github.ajalt.clikt.parameters.types.long
 
 import java.io.FileInputStream
+import kotlin.math.PI
 
 class KTracer : CliktCommand() {
     override fun run() = Unit
@@ -27,6 +29,10 @@ class Demo : CliktCommand(name = "demo") {
         help = "Image height"
     ).int().default(480)
     private val orthogonal by option(help = "Use orthogonal camera projection").flag(default = false)
+    private val angleDeg by option(
+        "--angle-deg",
+        help = "Angle of camera rotation (CCW) with respect to z axis in DEG"
+    ).float().default(0.0F)
     private val algorithm by option(
         "--algorithm", "-a",
         help = "Renderer algorithm (pt is for Path Tracer"
@@ -59,6 +65,11 @@ class Demo : CliktCommand(name = "demo") {
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
     private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A").int()
+    @kotlin.ExperimentalUnsignedTypes
+    private val initState by option("--initState").convert { it.toULong() }.default(42UL)
+    @kotlin.ExperimentalUnsignedTypes
+    private val initSeq by option("--initSeq").convert { it.toULong() }.default(54UL)
+
 
     @kotlin.ExperimentalUnsignedTypes
     override fun run() {
@@ -72,18 +83,18 @@ class Demo : CliktCommand(name = "demo") {
                 //T = Transformation().scaling(Vector()),
                 material = Material(
                     DiffuseBRDF(),
-                    CheckeredPigment(numOfSteps = 16)
+                    CheckeredPigment(numOfSteps = 2)
                 )
             )
         )
 
         //A big sphere for the sky
-        val sphereR = 100.0F
+        val sphereR = 30.0F
         world.add(
             Sphere(
                 T = Transformation().scaling(Vector(sphereR, sphereR, sphereR)),
                 material = Material(
-                    DiffuseBRDF(UniformPigment(BLACK.copy())),
+                    DiffuseBRDF(UniformPigment(SKYBLUE.copy())),
                     UniformPigment(SKYBLUE.copy())
                 )
             )
@@ -92,21 +103,22 @@ class Demo : CliktCommand(name = "demo") {
         //A mirrored grey sphere
         world.add(
             Sphere(
-                T = Transformation().translation(0.5F * VECZ - 2.0F * VECY) *
-                        Transformation().scaling((Vector(3.0F, 1.0F, 1.0F))),
+                T = Transformation().translation(0.7F * VECZ - 1.3F * VECY),// *
+                        //Transformation().scaling((Vector(1.0F, 1.0F, 1.0F))),
                 material = Material(
                     SpecularBRDF(UniformPigment(SILVER.copy()))
                 )
             )
         )
 
-        //a white sphere behind the camera
+        //a sphere behind the camera
         world.add(
             Sphere(
-                T = Transformation().scaling(Vector(0.4F, 0.4F, 0.4F)) *
-                        Transformation().translation(-VECX * 12.0F + VECZ * 6.0F),
+                T = Transformation().translation(-VECX * 5.0F + VECZ * 4.0F) *
+                        Transformation().scaling(Vector(0.6F, 0.6F, 0.6F)),
                 material = Material(
-                    DiffuseBRDF(UniformPigment(WHITE.copy())), UniformPigment(WHITE.copy())
+                    brdf = DiffuseBRDF(UniformPigment(OLIVE.copy())),
+                    emittedRad = UniformPigment(BLACK.copy())
                 )
             )
 
@@ -115,7 +127,7 @@ class Demo : CliktCommand(name = "demo") {
         val funkyCube = CSGDifference(
             Box(
                 T = Transformation().translation(VECY + 0.5F * VECZ),
-                material = Material(DiffuseBRDF(UniformPigment(TOMATO)))
+                material = Material(DiffuseBRDF(UniformPigment(DARKORANGE.copy())))
             ),
             Sphere(
                 T = Transformation().translation(0.5F * (VECY + VECZ)) *
@@ -126,38 +138,52 @@ class Demo : CliktCommand(name = "demo") {
             )
         )
 
-
-
         world.add(
             CSGDifference(
                 funkyCube,
                 Sphere(
                     T = Transformation().translation(-VECX * 0.5F + VECY * 1.5F + VECZ * 1.0F) *
-                            Transformation().scaling(Vector(0.2F, 0.2F, 0.2F)),
+                            Transformation().scaling(Vector(0.6F, 0.6F, 0.6F)),
                     material = Material(
-                        DiffuseBRDF(UniformPigment(OLIVE.copy()))
+                        DiffuseBRDF(UniformPigment(DARKRED.copy()))
                     )
                 )
             )
         )
 
+        val T = Transformation()
+        val worldMap = HdrImage()
+        worldMap.readImg("../../../../src/main/src/map.pfm")
+        world.add(
+            Sphere(
+                T = T.translation(VECZ * 2.5F + (VECX + VECY)*1.3F) *
+                        T.scaling(Vector(0.7F, 0.7F, 0.7F)),
+                material = Material(
+                    brdf = DiffuseBRDF(ImagePigment(worldMap)),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            )
+        )
+
         val ar = width.toFloat() / height.toFloat()
-        val obsPos = Transformation().translation(-2.0F * VECX + VECZ)
-        val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = obsPos)
-        else PerspectiveCamera(AR = ar, T = obsPos)
+        val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat()/180F) * T.translation(-2.5F* VECX + VECZ)
+        val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = cameraT)
+        else PerspectiveCamera(AR = ar, T = cameraT)
         val im = HdrImage(width, height)
+        val pcg = PCG(initState, initSeq)
         val computeColor = when (algorithm) {
             "onoff" -> OnOffRenderer(world).computeRadiance()
             "flat" -> FlatRenderer(world).computeRadiance()
             "pt" -> PathTracer(
                 world = world,
+                pcg = pcg,
                 nRays = nR,
                 maxDepth = maxDepth,
                 rrTrigger = rrTrigger
             ).computeRadiance()
             else -> throw RuntimeException()
         }
-        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid)
+        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid, pcg)
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)
@@ -218,6 +244,10 @@ class Render : CliktCommand(name = "KTracer") {
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
     private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A").int()
+    @kotlin.ExperimentalUnsignedTypes
+    private val initState by option("--initState").convert { it.toULong() }.default(42UL)
+    @kotlin.ExperimentalUnsignedTypes
+    private val initSeq by option("--initSeq").convert { it.toULong() }.default(54UL)
 
     @kotlin.ExperimentalUnsignedTypes
     override fun run() {
@@ -377,18 +407,20 @@ class Render : CliktCommand(name = "KTracer") {
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = obsPos)
         else PerspectiveCamera(AR = ar, T = obsPos)
         val im = HdrImage(width, height)
+        val pcg = PCG(initState, initSeq)
         val computeColor = when (algorithm) {
             "onoff" -> OnOffRenderer(world).computeRadiance()
             "flat" -> FlatRenderer(world).computeRadiance()
             "pt" -> PathTracer(
                 world = world,
                 nRays = nR,
+                pcg = pcg,
                 maxDepth = maxDepth,
                 rrTrigger = rrTrigger
             ).computeRadiance()
             else -> throw RuntimeException()
         }
-        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid)
+        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid, pcg)
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)

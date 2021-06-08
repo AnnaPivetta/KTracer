@@ -1,3 +1,3 @@
 
-rootProject.name = "CNGIF"
+rootProject.name = "KTracer"
 

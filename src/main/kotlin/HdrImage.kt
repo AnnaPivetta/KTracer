@@ -9,6 +9,14 @@ import javax.imageio.ImageIO
 import kotlin.math.log10
 import kotlin.math.pow
 
+/*** HDR 2D image
+ * This class contains:
+ *  - width : number of columns in the matrix of colors
+ *  - height : number of rows in the matrix of colors
+ *  - pixels : 1D array representing the matrix of colors
+ *
+ *  @See Color
+ */
 
 class HdrImage(
     private var width: Int = 0,
