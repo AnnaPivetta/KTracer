@@ -247,9 +247,6 @@ class Demo : CliktCommand(name = "demo") {
                 cubeS,
             tripleCross
             )
-
-
-
         )
 
 
