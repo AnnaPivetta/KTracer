@@ -18,7 +18,7 @@ class Box(
     private var min: Point = Point(-0.5F, -0.5F, -0.5F),
     private var max: Point = Point(0.5F, 0.5F, 0.5F),
     T: Transformation = Transformation(),
-    material : Material = Material()
+    material: Material = Material()
 ) : Shape(T, material) {
 
     init {

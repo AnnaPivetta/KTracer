@@ -6,6 +6,7 @@ import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.float
 import com.github.ajalt.clikt.parameters.types.int
+import com.github.ajalt.clikt.parameters.types.long
 
 import java.io.FileInputStream
 import kotlin.math.PI
@@ -64,6 +65,11 @@ class Demo : CliktCommand(name = "demo") {
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
     private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A").int()
+    @kotlin.ExperimentalUnsignedTypes
+    private val initState by option("--initState").convert { it.toULong() }.default(42UL)
+    @kotlin.ExperimentalUnsignedTypes
+    private val initSeq by option("--initSeq").convert { it.toULong() }.default(54UL)
+
 
     @kotlin.ExperimentalUnsignedTypes
     override fun run() {
@@ -74,22 +80,18 @@ class Demo : CliktCommand(name = "demo") {
         val T = Transformation()
         //A plane for the floor
 
-       // val marble = HdrImage()
-        //marble.readImg("src/main/src/marble.pfm")
-
         world.add(
             Plane(
                 //T = Transformation().scaling(Vector()),
                 material = Material(
                     DiffuseBRDF(),
                     CheckeredPigment(numOfSteps = 2)
-               // ImagePigment(marble)
+                )
             )
-        )
         )
 
         //A big sphere for the sky
-        val sphereR = 50.0F
+        val sphereR = 30.0F
         world.add(
             Sphere(
                 T = Transformation().scaling(Vector(sphereR, sphereR, sphereR)),
@@ -147,16 +149,17 @@ class Demo : CliktCommand(name = "demo") {
                 funkyCube,
                 Sphere(
                     T = Transformation().translation(-VECX * 0.5F + VECY * 1.5F + VECZ * 1.0F) *
-                            Transformation().scaling(Vector(0.2F, 0.2F, 0.2F)),
+                            Transformation().scaling(Vector(0.6F, 0.6F, 0.6F)),
                     material = Material(
-                        DiffuseBRDF(UniformPigment(OLIVE.copy()))
+                        DiffuseBRDF(UniformPigment(DARKRED.copy()))
                     )
                 )
             )
         )
 
         val worldMap = HdrImage()
-        worldMap.readImg("../../../../src/main/src/map.pfm")
+        //worldMap.readImg("../../../../src/main/src/map.pfm")
+        worldMap.readImg("src/main/src/map.pfm")
         world.add(
             Sphere(
                 T = T.translation(VECZ * 2.5F + (VECX + VECY)*1.3F) *
@@ -258,18 +261,20 @@ class Demo : CliktCommand(name = "demo") {
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = cameraT)
         else PerspectiveCamera(AR = ar, T = cameraT)
         val im = HdrImage(width, height)
+        val pcg = PCG(initState, initSeq)
         val computeColor = when (algorithm) {
             "onoff" -> OnOffRenderer(world).computeRadiance()
             "flat" -> FlatRenderer(world).computeRadiance()
             "pt" -> PathTracer(
                 world = world,
+                pcg = pcg,
                 nRays = nR,
                 maxDepth = maxDepth,
                 rrTrigger = rrTrigger
             ).computeRadiance()
             else -> throw RuntimeException()
         }
-        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid)
+        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid, pcg)
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)
@@ -330,6 +335,10 @@ class Render : CliktCommand(name = "KTracer") {
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
     private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A").int()
+    @kotlin.ExperimentalUnsignedTypes
+    private val initState by option("--initState").convert { it.toULong() }.default(42UL)
+    @kotlin.ExperimentalUnsignedTypes
+    private val initSeq by option("--initSeq").convert { it.toULong() }.default(54UL)
 
     @kotlin.ExperimentalUnsignedTypes
     override fun run() {
@@ -385,6 +394,9 @@ class Render : CliktCommand(name = "KTracer") {
 
         )
 
+/*
+//Translation applied to single shapes
+
         val funkyCube = CSGDifference(
             Box(
                 T = Transformation().translation(VECY + 0.5F * VECZ),
@@ -412,6 +424,47 @@ class Render : CliktCommand(name = "KTracer") {
                 )
             )
         )
+*/
+
+
+
+
+
+
+//Translation applied to CSG
+
+
+        val funkyCube = CSGDifference(
+            Box(
+                material = Material(DiffuseBRDF(UniformPigment(DARKORANGE.copy())))
+            ),
+            Sphere(
+                T = Transformation().translation(-0.5F * VECY ) *
+                        Transformation().scaling(Vector(0.3F, 0.3F, 0.3F)),
+                material = Material(
+                    DiffuseBRDF(UniformPigment(DARKCYAN.copy()))
+                )
+            )
+        )
+
+
+        world.add(
+            CSGDifference(
+                funkyCube,
+                Sphere(
+                    T = Transformation().translation(-VECX * 0.5F + VECY * 0.5F + VECZ * 0.5F) *
+                            Transformation().scaling(Vector(0.2F, 0.2F, 0.2F)),
+                    material = Material(
+                        DiffuseBRDF(UniformPigment(OLIVE.copy()))
+                    )
+                ),
+                T= T.translation(VECY + 0.5F*VECZ)
+            )
+        )
+
+
+
+
 
         world.add(
             Sphere(
@@ -423,6 +476,8 @@ class Render : CliktCommand(name = "KTracer") {
                 )
             )
         )
+
+
 
         val worldMap = HdrImage()
         worldMap.readImg("src/main/src/map.pfm")
@@ -443,18 +498,20 @@ class Render : CliktCommand(name = "KTracer") {
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = obsPos)
         else PerspectiveCamera(AR = ar, T = obsPos)
         val im = HdrImage(width, height)
+        val pcg = PCG(initState, initSeq)
         val computeColor = when (algorithm) {
             "onoff" -> OnOffRenderer(world).computeRadiance()
             "flat" -> FlatRenderer(world).computeRadiance()
             "pt" -> PathTracer(
                 world = world,
                 nRays = nR,
+                pcg = pcg,
                 maxDepth = maxDepth,
                 rrTrigger = rrTrigger
             ).computeRadiance()
             else -> throw RuntimeException()
         }
-        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid)
+        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid, pcg)
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)
