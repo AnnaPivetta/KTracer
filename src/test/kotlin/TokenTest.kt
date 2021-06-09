@@ -10,8 +10,8 @@ class TokenTest{
         assertTrue(t is KeywordToken)*/
         val token = KeywordToken(keyword = KeywordEnum.FLOAT)
         //val keyword : KeywordEnum
-        //assertTrue(token is KeywordToken)
-        assertTrue(true)
+        assertTrue(token is KeywordToken)
+        //assertTrue(true)
     }
 
     @Test

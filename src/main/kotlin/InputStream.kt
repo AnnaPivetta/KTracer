@@ -1,5 +1,5 @@
 import java.io.InputStreamReader
-import kotlin.test.assertTrue
+
 
 val WHITESPACE = listOf(' ', '\n', '\r', '\t')
 val SYMBOLS = listOf('(', ')', '<', '>', '[', ']', ',', '*')
