@@ -1,5 +1,3 @@
-package InputCompiler
-
 import RED
 import RESET
 

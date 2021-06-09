@@ -1,9 +1,4 @@
-package InputCompiler
-
-import RED
-import RESET
 import java.io.InputStreamReader
-import kotlin.test.assertFalse
 import kotlin.test.assertTrue
 
 val WHITESPACE = listOf(' ', '\n', '\r', '\t')
