@@ -1,5 +1,3 @@
-package InputCompiler
-
 enum class KeywordEnum() {
     NEW,
     MATERIAL,
@@ -30,7 +28,7 @@ val Dict = mapOf("new" to KeywordEnum.NEW, "New" to KeywordEnum.NEW,
                 "uniform" to KeywordEnum.UNIFORM, "Uniform" to KeywordEnum.UNIFORM,
                 "checkered" to KeywordEnum.CHECKERED, "Checkered" to KeywordEnum.CHECKERED,
                 "image" to KeywordEnum.IMAGE, "Image" to KeywordEnum.IMAGE,
-                "identidy" to KeywordEnum.IDENTITY, "Identity" to KeywordEnum.IDENTITY,
+                "identity" to KeywordEnum.IDENTITY, "Identity" to KeywordEnum.IDENTITY,
                 "translation" to KeywordEnum.TRANSLATION, "Translation" to KeywordEnum.TRANSLATION,
                 "rotation_x" to KeywordEnum.ROTATION_X, "Rotation_x" to KeywordEnum.ROTATION_X, "rotationX" to KeywordEnum.ROTATION_X, "RotationX" to KeywordEnum.ROTATION_X,
                 "rotation_y" to KeywordEnum.ROTATION_Y, "Rotation_y" to KeywordEnum.ROTATION_Y, "rotationY" to KeywordEnum.ROTATION_Y, "RotationY" to KeywordEnum.ROTATION_Y,
