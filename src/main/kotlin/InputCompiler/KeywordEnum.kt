@@ -21,7 +21,7 @@ enum class KeywordEnum() {
     PERSPECTIVE,
     FLOAT
 }
-val Dict = mapOf("new" to KeywordEnum.NEW, "New" to KeywordEnum.NEW,
+val KEYWORDS = mapOf("new" to KeywordEnum.NEW, "New" to KeywordEnum.NEW,
                 "material" to KeywordEnum.MATERIAL, "Material" to KeywordEnum.MATERIAL,
                 "plane" to KeywordEnum.PLANE, "Plane" to KeywordEnum.PLANE,
                 "sphere" to KeywordEnum.SPHERE, "Sphere" to KeywordEnum.SPHERE,
