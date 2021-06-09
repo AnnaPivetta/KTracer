@@ -1,5 +1,7 @@
-class SymbolToken (location : SourceLocation = SourceLocation(), val symbol : String) : Token(location){
+package InputCompiler
+
+class SymbolToken (location : SourceLocation = SourceLocation(), val symbol : Char) : Token(location){
     override fun toString(): String {
-        return symbol
+        return symbol.toString()
     }
 }
