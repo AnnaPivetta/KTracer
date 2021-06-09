@@ -85,7 +85,8 @@ class Demo : CliktCommand(name = "demo") {
                 //T = Transformation().scaling(Vector()),
                 material = Material(
                     DiffuseBRDF(),
-                    CheckeredPigment(numOfSteps = 2)
+                    //CheckeredPigment(numOfSteps = 2)
+                    MarblePigment(c2 = DARKRED.copy(), initSeq = 74UL, initState = 12UL)
                 )
             )
         )
@@ -191,6 +192,7 @@ class Demo : CliktCommand(name = "demo") {
 
 
          */
+        /*
 
 
         val firstCross = CSGUnion(
@@ -253,7 +255,7 @@ class Demo : CliktCommand(name = "demo") {
         )
 
 
-
+*/
 
 
         val ar = width.toFloat() / height.toFloat()
