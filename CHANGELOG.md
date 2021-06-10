@@ -3,7 +3,7 @@
 ### v0.2.1
 ##### New Features
  - [#12](https://github.com/AnnaPivetta/KTracer/pull/12) CSG objects can be transformed after their _assembling_
- - [14](https://github.com/AnnaPivetta/KTracer/pull/14) Box Texture has now changed the required format for Image Pigment. New shape Cylinder can be added to scenes
+ - [#14](https://github.com/AnnaPivetta/KTracer/pull/14) Box Texture has now changed the required format for Image Pigment. New shape Cylinder can be added to scenes
 
 
 ### v0.2.0
