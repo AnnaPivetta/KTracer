@@ -253,9 +253,6 @@ class Demo : CliktCommand(name = "demo") {
         )
 
 
-
-
-
         val ar = width.toFloat() / height.toFloat()
         val cameraT = T.rotationZ(angle = angleDeg * PI.toFloat() / 180F) * T.translation(-4.5F * VECX + 3.0F * VECZ)
         val camera = if (orthogonal) OrthogonalCamera(AR = ar, T = cameraT)
