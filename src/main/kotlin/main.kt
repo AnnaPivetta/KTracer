@@ -65,8 +65,10 @@ class Demo : CliktCommand(name = "demo") {
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
     private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A").int()
+
     @kotlin.ExperimentalUnsignedTypes
     private val initState by option("--initState").convert { it.toULong() }.default(42UL)
+
     @kotlin.ExperimentalUnsignedTypes
     private val initSeq by option("--initSeq").convert { it.toULong() }.default(54UL)
 
@@ -84,21 +86,42 @@ class Demo : CliktCommand(name = "demo") {
             Plane(
                 //T = Transformation().scaling(Vector()),
                 material = Material(
-                    DiffuseBRDF(),
+                    DiffuseBRDF(UniformPigment(OLIVE)),
                     //CheckeredPigment(numOfSteps = 2)
-                    MarblePigment(c2 = DARKRED.copy(), initSeq = 74UL, initState = 12UL)
+                    //MarblePigment(c2 = DARKRED.copy(), initSeq = 74UL, initState = 12UL)
+
+                )
+            )
+        )
+
+        world.add(
+            Sphere(
+                T.translation(2.0F * VECY + 1.5F * VECZ),
+                Material(
+                    DiffuseBRDF(MarblePigment())
+
+                )
+            )
+        )
+        world.add(
+            Sphere(
+                T.translation(-8.0F * VECX + 5F * VECZ) *
+                T.scaling(Vector(2.0F, 2.0F, 2.0F)),
+                Material(
+                    brdf = DiffuseBRDF(),
+                    emittedRad = UniformPigment(WHITE)
                 )
             )
         )
 
         //A big sphere for the sky
-        val sphereR = 30.0F
+        val sphereR = 50.0F
         world.add(
             Sphere(
                 T = Transformation().scaling(Vector(sphereR, sphereR, sphereR)),
                 material = Material(
-                    DiffuseBRDF(UniformPigment(SKYBLUE.copy())),
-                    UniformPigment(SKYBLUE.copy())
+                    DiffuseBRDF(UniformPigment(SKYBLUE.copy()))
+                    //UniformPigment(SKYBLUE.copy())
                 )
             )
         )
@@ -106,7 +129,7 @@ class Demo : CliktCommand(name = "demo") {
         //A mirrored grey sphere
         world.add(
             Sphere(
-                T = Transformation().translation(0.7F * VECZ - 1.3F * VECY),// *
+                T = Transformation().translation( VECZ - 1.3F * VECY),// *
                 //Transformation().scaling((Vector(1.0F, 1.0F, 1.0F))),
                 material = Material(
                     SpecularBRDF(UniformPigment(SILVER.copy()))
@@ -337,8 +360,10 @@ class Render : CliktCommand(name = "KTracer") {
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
     private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A").int()
+
     @kotlin.ExperimentalUnsignedTypes
     private val initState by option("--initState").convert { it.toULong() }.default(42UL)
+
     @kotlin.ExperimentalUnsignedTypes
     private val initSeq by option("--initSeq").convert { it.toULong() }.default(54UL)
 
@@ -429,10 +454,6 @@ class Render : CliktCommand(name = "KTracer") {
 */
 
 
-
-
-
-
 //Translation applied to CSG
 
 
@@ -441,7 +462,7 @@ class Render : CliktCommand(name = "KTracer") {
                 material = Material(DiffuseBRDF(UniformPigment(DARKORANGE.copy())))
             ),
             Sphere(
-                T = Transformation().translation(-0.5F * VECY ) *
+                T = Transformation().translation(-0.5F * VECY) *
                         Transformation().scaling(Vector(0.3F, 0.3F, 0.3F)),
                 material = Material(
                     DiffuseBRDF(UniformPigment(DARKCYAN.copy()))
@@ -460,7 +481,7 @@ class Render : CliktCommand(name = "KTracer") {
                         DiffuseBRDF(UniformPigment(OLIVE.copy()))
                     )
                 ),
-                T= T.translation(VECY + 0.5F*VECZ)
+                T = T.translation(VECY + 0.5F * VECZ)
             )
         )
 
@@ -478,7 +499,6 @@ class Render : CliktCommand(name = "KTracer") {
                 )
             )
         )
-
 
 
         val worldMap = HdrImage()
