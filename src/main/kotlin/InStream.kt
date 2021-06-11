@@ -1,9 +1,14 @@
 import java.io.InputStreamReader
+import kotlin.test.assertTrue
 
-
-val WHITESPACE = listOf(' ', '\n', '\r', '\t')
-val SYMBOLS = listOf('(', ')', '<', '>', '[', ']', ',', '*')
-
+/**
+ * Lexer and Parser
+ *
+ * This class is deputed to the reading and translating of input files for scenes that
+ * have to be rendered
+ *
+ *
+ */
 class InStream(
     private val stream: InputStreamReader,
     fileName: String = "",
