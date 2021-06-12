@@ -28,7 +28,7 @@ class Parameters (
 
         val ext = outputFileName.split(".").last()
         if (!ext.equals(format, ignoreCase= true)) {
-            println(RED + "Warning: Format mismatch between file extension and given format" + RESET)
+            println(VIDEORED + "Warning: Format mismatch between file extension and given format" + VIDEORESET)
         }
     }
 
