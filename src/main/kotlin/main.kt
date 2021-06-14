@@ -91,7 +91,7 @@ class Demo : CliktCommand(name = "demo") {
         )
 
         //A big sphere for the sky
-        val sphereR = 30.0F
+        val sphereR = 50.0F
         world.add(
             Sphere(
                 T = Transformation().scaling(Vector(sphereR, sphereR, sphereR)),
