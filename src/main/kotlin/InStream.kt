@@ -333,5 +333,70 @@ class InStream(
             else -> throw (RuntimeException( "This line should be unreachable"))
         }
     }
+
+    fun parseMaterial(scene: Scene) : Pair<String, Material> {
+        val name = expectIdentifier()
+        expectSymbol('(')
+        val brdf = parseBRDF(scene)
+        expectSymbol(',')
+        val emittedRadiance = parsePigment(scene)
+        expectSymbol(')')
+
+        return Pair(name, Material(brdf = brdf, emittedRad = emittedRadiance))
+    }
+
+    fun parseTransformation( scene: Scene) : Transformation{
+        var result = Transformation()
+
+        while (true) {
+            val tKW = expectKeywords(listOf(
+                    KeywordEnum.IDENTITY,
+                    KeywordEnum.TRANSLATION,
+                    KeywordEnum.ROTATION_X,
+                    KeywordEnum.ROTATION_Y,
+                    KeywordEnum.ROTATION_Z,
+                    KeywordEnum.SCALING,
+            )
+            )
+            when (tKW) {
+                KeywordEnum.IDENTITY -> {} // Do nothing
+                KeywordEnum.TRANSLATION -> {
+                    expectSymbol('(')
+                    result *= result.translation(parseVector( scene))
+                    expectSymbol(')')
+                }
+                KeywordEnum.ROTATION_X -> {
+                    expectSymbol('(')
+                    result *= result.rotationX(expectNumber(scene))
+                    expectSymbol(')')
+                }
+                KeywordEnum.ROTATION_Y -> {
+                    expectSymbol('(')
+                    result *= result.rotationY(expectNumber(scene))
+                    expectSymbol(')')
+                }
+                KeywordEnum.ROTATION_Z -> {
+                    expectSymbol('(')
+                    result *= result.rotationZ(expectNumber(scene))
+                    expectSymbol(')')
+                }
+                KeywordEnum.SCALING -> {
+                    expectSymbol('(')
+                    result *= result.translation(parseVector( scene))
+                    expectSymbol(')')
+                }
+                else -> throw (RuntimeException( "This line should be unreachable"))
+            }
+            //We must peek the next token to check if there is another transformation that is being
+            //chained or if the sequence ends.Thus, this is a LL(1) parser.
+            val nextKW = readToken()
+            if (nextKW !is SymbolToken || nextKW.symbol != '*') {
+             //Pretend you never read this token and put it back !
+                unreadToken(nextKW)
+                break
+            }
+        }
+        return result
+    }
 }
 
