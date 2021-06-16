@@ -15,7 +15,7 @@ class InStream(
     fileName: String = "",
     private val tab: Int = 4
 ) {
-    val parseShape = mapOf<KeywordEnum, (Scene) -> Shape>(
+    private val shape2Parser = mapOf<KeywordEnum, (Scene) -> Shape>(
         KeywordEnum.SPHERE to ::parseSphere,
         KeywordEnum.BOX to ::parseBox,
         KeywordEnum.CYLINDER to ::parseCylinder,
@@ -34,13 +34,13 @@ class InStream(
      */
     fun updatePos(ch: Char?) {
 
-        when {
-            ch == null -> return
-            ch == '\n' -> {
+        when (ch) {
+            null -> return
+            '\n' -> {
                 location.line += 1
                 location.col = 1
             }
-            ch == '\t' -> location.col += tab
+            '\t' -> location.col += tab
             else -> location.col += 1
         }
     }
@@ -126,7 +126,7 @@ class InStream(
 
     }
 
-    fun parseKeywordOrIdentifierToken(firstChar: String, tokenLoc: SourceLocation): Token  {
+    fun parseKeywordOrIdentifierToken(firstChar: String, tokenLoc: SourceLocation): Token {
         var token = firstChar
         var ch: Char?
 
@@ -155,7 +155,7 @@ class InStream(
 
     fun readToken(): Token {
         if (savedToken != null) {
-            val result : Token = savedToken!!
+            val result: Token = savedToken!!
             savedToken = null
             return result
         }
@@ -163,7 +163,7 @@ class InStream(
         this.skipWhiteAndComment()
         // At this point we're sure that ch does *not* contain a whitespace character
         //Neither it's part of a comment
-        val ch = this.readChar() ?: return StopToken(location=location)
+        val ch = this.readChar() ?: return StopToken(location = location)
 
         // At this point we must check what kind of token begins with the "ch" character (which has been
         // put back in the stream with unreadChar). First, we save the position in the stream
@@ -189,41 +189,60 @@ class InStream(
      * Make as if `token` were never read from Input File
      */
     fun unreadToken(token: Token) {
-        assertTrue(savedToken== null)
+        assertTrue(savedToken == null)
         savedToken = token
     }
 
-    fun expectSymbol (symbol : Char) {
+    fun expectSymbol(symbol: Char) {
         val token = readToken()
-        if (token !is SymbolToken || token.symbol!=symbol) {
-            throw GrammarError(token.location, "got ${token.toString()} instead of $symbol")
+        if (token !is SymbolToken || token.symbol != symbol) {
+            throw GrammarError(token.location, "got $token instead of $symbol")
         }
     }
-    fun expectKeywords (keywords : List<KeywordEnum>) : KeywordEnum {
+
+    fun expectKeywords(keywords: List<KeywordEnum>): KeywordEnum {
         val token = readToken()
         if (token !is KeywordToken) {
-            throw GrammarError(token.location, "got ${token.toString()} instead of keyword")
+            throw GrammarError(token.location, "Got $token instead of keyword")
         }
         if (token.keyword !in keywords) {
-            throw GrammarError(token.location, "expected one of the keywords ${KeywordEnum.values()} instead of ${token}")
+            throw GrammarError(
+                token.location,
+                "Expected one of the keywords ${KeywordEnum.values()} instead of $token"
+            )
         }
         return token.keyword
     }
+
+    fun expectKeywordsOrIdentifier(keywords: List<KeywordEnum>): Any {
+        return when (val token = readToken()) {
+            is KeywordToken -> {
+                if (token.keyword !in keywords) throw GrammarError(
+                    token.location,
+                    "Expected one of the keywords ${KeywordEnum.values()} instead of $token"
+                )
+                else token.keyword
+            }
+            is IdentifierToken -> token
+            else -> throw GrammarError(token.location, "Got '$token' not listed in $keywords")
+        }
+    }
+
     /**
      * Read a token from `input file` and check that it is either a literal number or a variable in `scene`.
      *
      * @return the [Float] number read
      */
-    fun expectNumber(scene: Scene) : Float {
+    fun expectNumber(scene: Scene): Float {
         val token = this.readToken()
-        val vName : String
-        when (token){
+        val vName: String
+        when (token) {
             is LiteralNumberToken -> return token.value
             is IdentifierToken -> vName = token.identifier
-            else -> throw GrammarError (token.location, "Got '$token' instead of a number")
+            else -> throw GrammarError(token.location, "Got '$token' instead of a number")
         }
-        if (vName in scene.floatVariables) return scene.floatVariables[vName]!!
-        else throw GrammarError (token.location, "Unknown variable '$vName'")
+        if (vName in scene.floatVariables.keys) return scene.floatVariables[vName]!!
+        else throw GrammarError(token.location, "Unknown variable '$vName'")
     }
 
     /**
@@ -231,9 +250,9 @@ class InStream(
      *
      * @return the literal [String] read
      */
-    fun expectString() : String {
+    fun expectString(): String {
         val token = this.readToken()
-        if ( token !is StringToken) throw GrammarError (token.location, "Got '$token' instead of a string")
+        if (token !is StringToken) throw GrammarError(token.location, "Got '$token' instead of a string")
         else return token.string
     }
 
@@ -242,14 +261,14 @@ class InStream(
      *
      * @return A [String] that is the name of Identifier
      */
-    fun expectIdentifier() : String {
+    fun expectIdentifier(): String {
         val token = this.readToken()
-        if ( token !is IdentifierToken) throw GrammarError (token.location, "Got '$token' instead of an identifier")
+        if (token !is IdentifierToken) throw GrammarError(token.location, "Got '$token' instead of an identifier")
         else return token.identifier
     }
 
 
-    fun parseVector(scene: Scene) : Vector {
+    fun parseVector(scene: Scene): Vector {
         expectSymbol('[')
         val x = expectNumber(scene)
         expectSymbol(',')
@@ -260,7 +279,7 @@ class InStream(
         return Vector(x, y, z)
     }
 
-    fun parsePoint(scene: Scene) : Point {
+    fun parsePoint(scene: Scene): Point {
         expectSymbol('(')
         val x = expectNumber(scene)
         expectSymbol(',')
@@ -271,7 +290,7 @@ class InStream(
         return Point(x, y, z)
     }
 
-    fun parseBRDF(scene: Scene) : BRDF {
+    fun parseBRDF(scene: Scene): BRDF {
         val keyword = expectKeywords(listOf(KeywordEnum.DIFFUSE, KeywordEnum.SPECULAR))
         expectSymbol('(')
         val pigment = parsePigment(scene)
@@ -279,11 +298,11 @@ class InStream(
         when (keyword) {
             KeywordEnum.DIFFUSE -> return DiffuseBRDF(p = pigment)
             KeywordEnum.SPECULAR -> return SpecularBRDF(p = pigment)
-            else -> throw (RuntimeException( "This line should be unreachable"))
+            else -> throw (RuntimeException("This line should be unreachable"))
         }
     }
 
-    fun parseColor(scene: Scene) : Color {
+    fun parseColor(scene: Scene): Color {
         expectSymbol('<')
         val red = expectNumber(scene)
         expectSymbol(',')
@@ -294,7 +313,7 @@ class InStream(
         return Color(red, green, blue)
     }
 
-    fun parsePigment(scene: Scene) : Pigment {
+    fun parsePigment(scene: Scene): Pigment {
         val keyword = expectKeywords(listOf(KeywordEnum.UNIFORM, KeywordEnum.CHECKERED, KeywordEnum.IMAGE))
         expectSymbol('(')
         when (keyword) {
@@ -313,11 +332,11 @@ class InStream(
                 img.readImg(fileName)
                 return ImagePigment(image = img)
             }
-            else -> throw (RuntimeException( "This line should be unreachable"))
+            else -> throw (RuntimeException("This line should be unreachable"))
         }
     }
 
-    fun parseMaterial(scene: Scene) : Pair<String, Material> {
+    fun parseMaterial(scene: Scene): Pair<String, Material> {
         val name = expectIdentifier()
         expectSymbol('(')
         val brdf = parseBRDF(scene)
@@ -328,21 +347,23 @@ class InStream(
         return Pair(name, Material(brdf = brdf, emittedRad = emittedRadiance))
     }
 
-    fun parseTransformation( scene: Scene) : Transformation{
+    fun parseTransformation(scene: Scene): Transformation {
         var result = Transformation()
 
         while (true) {
-            val tKW = expectKeywords(listOf(
+            val tKW = expectKeywords(
+                listOf(
                     KeywordEnum.IDENTITY,
                     KeywordEnum.TRANSLATION,
                     KeywordEnum.ROTATION_X,
                     KeywordEnum.ROTATION_Y,
                     KeywordEnum.ROTATION_Z,
                     KeywordEnum.SCALING,
-            )
+                )
             )
             when (tKW) {
-                KeywordEnum.IDENTITY -> {} // Do nothing
+                KeywordEnum.IDENTITY -> {
+                } // Do nothing
                 KeywordEnum.TRANSLATION -> {
                     expectSymbol('(')
                     result *= result.translation(parseVector(scene))
@@ -365,16 +386,16 @@ class InStream(
                 }
                 KeywordEnum.SCALING -> {
                     expectSymbol('(')
-                    result *= result.translation(parseVector( scene))
+                    result *= result.translation(parseVector(scene))
                     expectSymbol(')')
                 }
-                else -> throw (RuntimeException( "This line should be unreachable"))
+                else -> throw (RuntimeException("This line should be unreachable"))
             }
             //We must peek the next token to check if there is another transformation that is being
             //chained or if the sequence ends.Thus, this is a LL(1) parser.
             val nextKW = readToken()
             if (nextKW !is SymbolToken || nextKW.symbol != '*') {
-             //Pretend you never read this token and put it back !
+                //Pretend you never read this token and put it back !
                 unreadToken(nextKW)
                 break
             }
@@ -382,7 +403,32 @@ class InStream(
         return result
     }
 
-    fun parseSphere(scene:Scene) : Sphere {
+    fun parseShape(scene: Scene): Shape {
+        val s = expectKeywordsOrIdentifier(
+            listOf(
+                KeywordEnum.SPHERE,
+                KeywordEnum.BOX,
+                KeywordEnum.CYLINDER,
+                KeywordEnum.CSGUNION,
+                KeywordEnum.CSGDIFFERENCE,
+                KeywordEnum.CSGINTERSECTION
+            )
+        )
+
+        return when (s) {
+            is KeywordEnum -> shape2Parser[s]!!(scene)
+            is IdentifierToken -> {
+                if (s.identifier !in scene.shapeVariables.keys) throw GrammarError(
+                    s.location,
+                    "Unknown variable '${s.identifier}'"
+                )
+                else scene.shapeVariables[s.identifier]!!
+            }
+            else -> throw (RuntimeException("This line should be unreachable"))
+        }
+    }
+
+    fun parseSphere(scene: Scene): Sphere {
         expectSymbol('(')
         val materialName = expectIdentifier()
         if (materialName !in scene.materials) {
@@ -392,9 +438,10 @@ class InStream(
         val transformation = parseTransformation(scene)
         expectSymbol(')')
 
-        return Sphere(T=transformation, material = scene.materials[materialName]!!)
+        return Sphere(T = transformation, material = scene.materials[materialName]!!)
     }
-    fun parsePlane(scene: Scene) : Plane {
+
+    fun parsePlane(scene: Scene): Plane {
         expectSymbol('(')
         val materialName = expectIdentifier()
         if (materialName !in scene.materials) {
@@ -403,10 +450,10 @@ class InStream(
         expectSymbol(',')
         val transformation = parseTransformation(scene)
         expectSymbol(')')
-        return Plane(T=transformation, material = scene.materials[materialName]!!)
+        return Plane(T = transformation, material = scene.materials[materialName]!!)
     }
 
-    fun parseBox (scene: Scene) : Box{
+    fun parseBox(scene: Scene): Box {
         expectSymbol('(')
         val min = parsePoint(scene)
         expectSymbol(',')
@@ -420,10 +467,10 @@ class InStream(
         val transformation = parseTransformation(scene)
         expectSymbol(')')
 
-        return Box(min = min, max= max, T=transformation, material = scene.materials[materialName]!!)
+        return Box(min = min, max = max, T = transformation, material = scene.materials[materialName]!!)
     }
 
-    fun parseCylinder (scene: Scene) : Cylinder {
+    fun parseCylinder(scene: Scene): Cylinder {
         expectSymbol('(')
         val materialName = expectIdentifier()
         if (materialName !in scene.materials) {
@@ -433,22 +480,14 @@ class InStream(
         val transformation = parseTransformation(scene)
         expectSymbol(')')
 
-        return Cylinder(T=transformation, material = scene.materials[materialName]!!)
+        return Cylinder(T = transformation, material = scene.materials[materialName]!!)
     }
 
-    fun parseCSGUnion (scene: Scene) : CSGUnion {
-        val sKW = expectKeywords(listOf(
-            KeywordEnum.SPHERE,
-            KeywordEnum.BOX,
-            KeywordEnum.CYLINDER,
-            KeywordEnum.CSGUNION,
-            KeywordEnum.CSGDIFFERENCE,
-            KeywordEnum.CSGINTERSECTION)
-        )
+    fun parseCSGUnion(scene: Scene): CSGUnion {
         expectSymbol('(')
-        val s1 = parseShape[sKW]!!(scene)
+        val s1 = parseShape(scene)
         expectSymbol(',')
-        val s2 = parseShape[sKW]!!(scene)
+        val s2 = parseShape(scene)
         expectSymbol(',')
         val transformation = parseTransformation(scene)
         expectSymbol(')')
@@ -456,19 +495,12 @@ class InStream(
         return CSGUnion(s1 = s1, s2 = s2, T = transformation)
 
     }
-    fun parseCSGDifference (scene: Scene) : CSGDifference {
-        val sKW = expectKeywords(listOf(
-            KeywordEnum.SPHERE,
-            KeywordEnum.BOX,
-            KeywordEnum.CYLINDER,
-            KeywordEnum.CSGUNION,
-            KeywordEnum.CSGDIFFERENCE,
-            KeywordEnum.CSGINTERSECTION)
-        )
+
+    fun parseCSGDifference(scene: Scene): CSGDifference {
         expectSymbol('(')
-        val s1 = parseShape[sKW]!!(scene)
+        val s1 = parseShape(scene)
         expectSymbol(',')
-        val s2 = parseShape[sKW]!!(scene)
+        val s2 = parseShape(scene)
         expectSymbol(',')
         val transformation = parseTransformation(scene)
         expectSymbol(')')
@@ -476,19 +508,12 @@ class InStream(
         return CSGDifference(s1 = s1, s2 = s2, T = transformation)
 
     }
-    fun parseCSGIntersection (scene: Scene) : CSGIntersection {
-        val sKW = expectKeywords(listOf(
-            KeywordEnum.SPHERE,
-            KeywordEnum.BOX,
-            KeywordEnum.CYLINDER,
-            KeywordEnum.CSGUNION,
-            KeywordEnum.CSGDIFFERENCE,
-            KeywordEnum.CSGINTERSECTION)
-        )
+
+    fun parseCSGIntersection(scene: Scene): CSGIntersection {
         expectSymbol('(')
-        val s1 = parseShape[sKW]!!(scene)
+        val s1 = parseShape(scene)
         expectSymbol(',')
-        val s2 = parseShape[sKW]!!(scene)
+        val s2 = parseShape(scene)
         expectSymbol(',')
         val transformation = parseTransformation(scene)
         expectSymbol(')')
