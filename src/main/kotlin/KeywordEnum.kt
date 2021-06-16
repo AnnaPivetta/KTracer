@@ -3,6 +3,11 @@ enum class KeywordEnum() {
     MATERIAL,
     PLANE,
     SPHERE,
+    BOX,
+    CYLINDER,
+    CSGUNION,
+    CSGDIFFERENCE,
+    CSGINTERSECTION,
     DIFFUSE,
     SPECULAR,
     UNIFORM,
@@ -19,7 +24,8 @@ enum class KeywordEnum() {
     PERSPECTIVE,
     FLOAT
 }
-val KEYWORDS = mapOf("new" to KeywordEnum.NEW, "New" to KeywordEnum.NEW,
+val KEYWORDS = mapOf(
+                "new" to KeywordEnum.NEW, "New" to KeywordEnum.NEW,
                 "material" to KeywordEnum.MATERIAL, "Material" to KeywordEnum.MATERIAL,
                 "plane" to KeywordEnum.PLANE, "Plane" to KeywordEnum.PLANE,
                 "sphere" to KeywordEnum.SPHERE, "Sphere" to KeywordEnum.SPHERE,
@@ -37,4 +43,9 @@ val KEYWORDS = mapOf("new" to KeywordEnum.NEW, "New" to KeywordEnum.NEW,
                 "camera" to KeywordEnum.CAMERA, "Camera" to KeywordEnum.CAMERA,
                 "orthogonal" to KeywordEnum.ORTHOGONAL, "Orthogonal" to KeywordEnum.ORTHOGONAL,
                 "perspective" to KeywordEnum.PERSPECTIVE, "Perspective" to KeywordEnum.PERSPECTIVE,
-                "float" to KeywordEnum.FLOAT, "Float" to KeywordEnum.FLOAT)
+                "float" to KeywordEnum.FLOAT, "Float" to KeywordEnum.FLOAT,
+                "box" to KeywordEnum.BOX, "Box" to KeywordEnum.BOX,
+                "cylinder" to KeywordEnum.CYLINDER, "Cylinder" to KeywordEnum.CYLINDER,
+                "union" to KeywordEnum.CSGUNION, "Union" to KeywordEnum.CSGUNION,
+                "difference" to KeywordEnum.CSGDIFFERENCE, "Difference" to KeywordEnum.CSGDIFFERENCE,
+                "intersection" to KeywordEnum.CSGINTERSECTION, "intersection" to KeywordEnum.CSGINTERSECTION)

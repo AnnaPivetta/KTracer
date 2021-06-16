@@ -1,6 +1,7 @@
 //Terminal fancy settings
 const val VIDEORED = "\u001b[0;31m"
 const val VIDEORESET = "\u001b[0m"
+
 //Input constants
 val WHITESPACE = listOf(' ', '\n', '\r', '\t')
 val SYMBOLS = listOf('(', ')', '<', '>', '[', ']', ',', '*')
