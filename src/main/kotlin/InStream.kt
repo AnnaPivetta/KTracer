@@ -251,6 +251,17 @@ class InStream(
         return Vector(x, y, z)
     }
 
+    fun parseBRDF(scene: Scene) : BRDF {
+        val keyword = expectKeywords(listOf(KeywordEnum.DIFFUSE, KeywordEnum.SPECULAR))
+        expectSymbol('(')
+        val pigment = parsePigment(scene)
+        expectSymbol(')')
+        when (keyword) {
+            KeywordEnum.DIFFUSE -> return DiffuseBRDF(p = pigment)
+            KeywordEnum.SPECULAR -> return SpecularBRDF(p = pigment)
+            else -> throw (RuntimeException( "This line should be unreachable"))
+        }
+    }
 
     fun parseColor(scene: Scene) : Color {
         expectSymbol('<')
