@@ -208,7 +208,7 @@ class InStream(
      */
     fun expectNumber(scene: Scene) : Float {
         val token = this.readToken()
-        val vName :; String()
+        val vName : String
         when (token){
             is LiteralNumberToken -> return token.value
             is IdentifierToken -> vName = token.identifier
@@ -240,18 +240,50 @@ class InStream(
         else return token.identifier
     }
 
-
     fun parseVector(scene: Scene) : Vector {
-        expectSymbol("[")
+        expectSymbol('[')
         val x = expectNumber(scene)
-        expectSymbol(",")
+        expectSymbol(',')
         val y = expectNumber(scene)
-        expectSymbol(",")
+        expectSymbol(',')
         val z = expectNumber(scene)
-        expectSymbol("]")
+        expectSymbol(']')
         return Vector(x, y, z)
     }
 
 
+    fun parseColor(scene: Scene) : Color {
+        expectSymbol('<')
+        val red = expectNumber(scene)
+        expectSymbol(',')
+        val green = expectNumber(scene)
+        expectSymbol(',')
+        val blue = expectNumber(scene)
+        expectSymbol('>')
+        return Color(red, green, blue)
+    }
+
+    fun parsePigment(scene: Scene) : Pigment {
+        val keyword = expectKeywords(listOf(KeywordEnum.UNIFORM, KeywordEnum.CHECKERED, KeywordEnum.IMAGE))
+        expectSymbol('(')
+        when (keyword) {
+            KeywordEnum.UNIFORM -> return UniformPigment(color = parseColor(scene))
+            KeywordEnum.CHECKERED -> {
+                val c1 = parseColor(scene)
+                expectSymbol(',')
+                val c2 = parseColor(scene)
+                expectSymbol(',')
+                val nSteps = expectNumber(scene).toInt()
+                return CheckeredPigment(color1 = c1, color2 = c2, numOfSteps = nSteps)
+            }
+            KeywordEnum.IMAGE -> {
+                val fileName = expectString()
+                val img = HdrImage()
+                img.readImg(fileName)
+                return ImagePigment(image = img)
+            }
+            else -> throw (RuntimeException( "This line should be unreachable"))
+        }
+    }
 }
 
