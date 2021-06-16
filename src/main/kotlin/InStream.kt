@@ -178,7 +178,7 @@ class InStream(
     }
 
     /**
-     * Make as if `token` were never read from `input_file`
+     * Make as if `token` were never read from Input File
      */
     fun unreadToken(token: Token) {
         assertTrue(savedToken== null)
@@ -201,5 +201,56 @@ class InStream(
         }
         return token.keyword
     }
+    /**
+     * Read a token from `input file` and check that it is either a literal number or a variable in `scene`.
+     *
+     * @return the [Float] number read
+     */
+    fun expectNumber(scene: Scene) : Float {
+        val token = this.readToken()
+        val vName :; String()
+        when (token){
+            is LiteralNumberToken -> return token.value
+            is IdentifierToken -> vName = token.identifier
+            else -> throw GrammarError (token.location, "Got '$token' instead of a number")
+        }
+        if (vName in scene.floatVariables) return scene.floatVariables[vName]!!
+        else throw GrammarError (token.location, "Unknown variable '$vName'")
+    }
+
+    /**
+     * Read a token from `input file` and check that it is a literal string.
+     *
+     * @return the literal [String] read
+     */
+    fun expectString() : String {
+        val token = this.readToken()
+        if ( token !is StringToken) throw GrammarError (token.location, "Got '$token' instead of a string")
+        else return token.string
+    }
+
+    /**
+     * Read a token from `input file` and check that it is an identifier.
+     *
+     * @return A [String] that is the name of Identifier
+     */
+    fun expectIdentifier() : String {
+        val token = this.readToken()
+        if ( token !is IdentifierToken) throw GrammarError (token.location, "Got '$token' instead of an identifier")
+        else return token.identifier
+    }
+
+
+    fun parseVector(scene: Scene) : Vector {
+        expectSymbol("[")
+        val x = expectNumber(scene)
+        expectSymbol(",")
+        val y = expectNumber(scene)
+        expectSymbol(",")
+        val z = expectNumber(scene)
+        expectSymbol("]")
+        return Vector(x, y, z)
+    }
+
 }
 
