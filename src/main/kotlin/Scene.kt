@@ -3,6 +3,6 @@ data class Scene (
     var world : World = World(),
     var camera : Camera? = null,
     var floatVariables: MutableMap<String, Float> = mutableMapOf(),
-    val shapeVariables: Map<String, Shape>,
+    val shapeVariables: MutableMap<String, Shape> = mutableMapOf(),
     var overriddenVariables: Set<String> = setOf()
     )
