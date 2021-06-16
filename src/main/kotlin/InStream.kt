@@ -196,8 +196,8 @@ class InStream(
         if (token !is KeywordToken) {
             throw GrammarError(token.location, "got ${token.toString()} instead of keyword")
         }
-        if (token !in keywords) {
-            throw GrammarError(token.location, "expected one of the keywords ${KeywordEnum.values()} instead of ${token.toString()}")
+        if (token.keyword !in keywords) {
+            throw GrammarError(token.location, "expected one of the keywords ${KeywordEnum.values()} instead of ${token}")
         }
         return token.keyword
     }
@@ -262,6 +262,43 @@ class InStream(
             else -> throw (RuntimeException( "This line should be unreachable"))
         }
     }
+
+    fun parseSphere(scene:Scene) : Sphere {
+        expectSymbol('(')
+        val materialName = expectIdentifier()
+        if (materialName !in scene.materials) {
+            throw GrammarError(location, "unknown material $materialName")
+        }
+        expectSymbol(',')
+        val transformation = parseTransformation(scene)
+        expectSymbol(')')
+
+        return Sphere(T=transformation, material = scene.materials[materialName]!!)
+    }
+    fun parsePlane(scene: Scene) : Plane {
+        expectSymbol('(')
+        val materialName = expectIdentifier()
+        if (materialName !in scene.materials) {
+            throw GrammarError(location, "unknown material $materialName")
+        }
+        expectSymbol(',')
+        val transformation = parseTransformation(scene)
+        expectSymbol(')')
+        return Plane(T=transformation, material = scene.materials[materialName]!!)
+    }
+    /*fun parseCamera(scene : Scene) : Camera {
+        expectSymbol('(')
+        val keyword = expectKeywords(listOf(KeywordEnum.PERSPECTIVE, KeywordEnum.ORTHOGONAL))
+        expectSymbol(',')
+        val transformation = parseTransformation(scene)
+        expectSymbol(',')
+        val aspectRatio = expectNumber(scene)
+        expectSymbol(',')
+        val distance = expectNumber(scene)
+        expectSymbol(')')
+        when ()
+
+    }*/
 
     fun parseColor(scene: Scene) : Color {
         expectSymbol('<')
