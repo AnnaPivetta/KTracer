@@ -286,7 +286,7 @@ class InStream(
         expectSymbol(')')
         return Plane(T=transformation, material = scene.materials[materialName]!!)
     }
-    /*fun parseCamera(scene : Scene) : Camera {
+    fun parseCamera(scene : Scene) : Camera {
         expectSymbol('(')
         val keyword = expectKeywords(listOf(KeywordEnum.PERSPECTIVE, KeywordEnum.ORTHOGONAL))
         expectSymbol(',')
@@ -296,9 +296,13 @@ class InStream(
         expectSymbol(',')
         val distance = expectNumber(scene)
         expectSymbol(')')
-        when ()
 
-    }*/
+        when (keyword) {
+            KeywordEnum.PERSPECTIVE -> return PerspectiveCamera(dist = distance, AR = aspectRatio, T = transformation)
+            KeywordEnum.ORTHOGONAL -> return OrthogonalCamera(AR = aspectRatio, T = transformation)
+            else -> throw (RuntimeException( "This line should be unreachable"))
+        }
+    }
 
     fun parseColor(scene: Scene) : Color {
         expectSymbol('<')
@@ -397,6 +401,51 @@ class InStream(
             }
         }
         return result
+    }
+    fun parseScene (variables : MutableMap<String, Float>) : Scene {
+        val scene = Scene()
+        scene.floatVariables = variables
+        scene.overriddenVariables = variables.keys
+        while (true) {
+            val what = readToken()
+            if (what is StopToken) {
+                break
+            }
+            if (what !is KeywordToken) {
+                throw GrammarError(what.location, "got $what instead of expected keyword")
+            }
+            if (what.keyword == KeywordEnum.FLOAT) {
+                val variableName = expectIdentifier()
+                val variableLocation = location
+                expectSymbol('(')
+                val variableValue = expectNumber(scene)
+                expectSymbol(')')
+                if (variableName in scene.floatVariables && variableName !in scene.overriddenVariables) {
+                    throw GrammarError(source = variableLocation, "variable $variableName cannot be redefined")
+                }
+                if (variableName !in scene.overriddenVariables) {
+                    scene.floatVariables.put(variableName, variableValue)
+                }
+                else if (what.keyword == KeywordEnum.SPHERE) {
+                    scene.world.add(parseSphere(scene))
+                }
+                else if (what.keyword == KeywordEnum.PLANE) {
+                    scene.world.add(parsePlane(scene))
+                }
+                else if (what.keyword == KeywordEnum.CAMERA) {
+                    if (scene.camera != null) {
+                        throw GrammarError(what.location, "One camera already defined. You cannot define more than one camera")
+                    }
+                    scene.camera = parseCamera(scene)
+                }
+                else if (what.keyword == KeywordEnum.MATERIAL) {
+                    val pair = parseMaterial(scene)
+                    scene.materials[pair.first] = pair.second
+                }
+            }
+        }
+    return scene
+
     }
 }
 
