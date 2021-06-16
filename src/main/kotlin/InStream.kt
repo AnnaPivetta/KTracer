@@ -185,5 +185,21 @@ class InStream(
         savedToken = token
     }
 
+    fun expectSymbol (symbol : Char) {
+        val token = readToken()
+        if (token !is SymbolToken || token.symbol!=symbol) {
+            throw GrammarError(token.location, "got ${token.toString()} instead of $symbol")
+        }
+    }
+    fun expectKeywords (keywords : List<KeywordEnum>) : KeywordEnum {
+        val token = readToken()
+        if (token !is KeywordToken) {
+            throw GrammarError(token.location, "got ${token.toString()} instead of keyword")
+        }
+        if (token !in keywords) {
+            throw GrammarError(token.location, "expected one of the keywords ${KeywordEnum.values()} instead of ${token.toString()}")
+        }
+        return token.keyword
+    }
 }
 
