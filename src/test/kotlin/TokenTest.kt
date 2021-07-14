@@ -26,7 +26,7 @@ class TokenTest{
 
     @Test
     fun number(){
-        val token =LiteralNumberToken(value = 3.0F)
+        val token = LiteralNumberToken(value = 3.0F)
         assertTrue(token is LiteralNumberToken)
         assertTrue(token.value == 3.0F)
     }

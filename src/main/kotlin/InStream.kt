@@ -1,4 +1,4 @@
-import java.io.InputStreamReader
+import java.io.*
 import kotlin.test.assertTrue
 
 
@@ -11,10 +11,14 @@ import kotlin.test.assertTrue
  *
  */
 class InStream(
-    private val stream: InputStreamReader,
+    private var stream: InputStreamReader,
     fileName: String = "",
     private val tab: Int = 4
 ) {
+    //Stream initialization
+     init {stream = FileReader(fileName)}
+
+    //Dictionary for mapping Shapes KW to its parser
     private val shape2Parser = mapOf<KeywordEnum, (Scene) -> Shape>(
         KeywordEnum.SPHERE to ::parseSphere,
         KeywordEnum.BOX to ::parseBox,
@@ -23,10 +27,10 @@ class InStream(
         KeywordEnum.CSGDIFFERENCE to ::parseCSGDifference,
         KeywordEnum.CSGINTERSECTION to ::parseCSGIntersection
     )
-
+    //Variables for read/unread and location
     var location = SourceLocation(fileName, 1, 1)
-    private var savedChar: Char? = null
     private var savedLoc = location.copy()
+    private var savedChar: Char? = null
     private var savedToken: Token? = null
 
     /**
@@ -160,10 +164,10 @@ class InStream(
             return result
         }
 
-        this.skipWhiteAndComment()
+        skipWhiteAndComment()
         // At this point we're sure that ch does *not* contain a whitespace character
         //Neither it's part of a comment
-        val ch = this.readChar() ?: return StopToken(location = location)
+        val ch = readChar() ?: return StopToken(location = location)
 
         // At this point we must check what kind of token begins with the "ch" character (which has been
         // put back in the stream with unreadChar). First, we save the position in the stream
@@ -176,7 +180,7 @@ class InStream(
         else if (ch == '"') this.parseStringToken(tokenLoc)
 
         // A floating-point number
-        else if (ch.isDigit() || ch in listOf('+', '-', '.')) this.parseFloatToken(ch.toString(), tokenLoc)
+        else if (ch.isDigit() || ch in listOf('+', '-', '.')) parseFloatToken(ch.toString(), tokenLoc)
 
         //If it begins with an alphabetic character, it must either be a keyword or a identifier
         else if (ch.isLetter() || ch == '_') this.parseKeywordOrIdentifierToken(ch.toString(), tokenLoc)
@@ -425,9 +429,8 @@ class InStream(
         scene.overriddenVariables = variables.keys
         while (true) {
             val what = readToken()
-            if (what is StopToken) {
-                break
-            }
+            if (what is StopToken) break
+
             if (what !is KeywordToken) {
                 throw GrammarError(what.location, "got $what instead of expected keyword")
             }
@@ -441,7 +444,7 @@ class InStream(
                     throw GrammarError(source = variableLocation, "variable $variableName cannot be redefined")
                 }
                 if (variableName !in scene.overriddenVariables) {
-                    scene.floatVariables.put(variableName, variableValue)
+                    scene.floatVariables[variableName] = variableValue
                 }
                 else if (what.keyword == KeywordEnum.SPHERE) {
                     scene.world.add(parseSphere(scene))
@@ -581,7 +584,6 @@ class InStream(
         expectSymbol(')')
 
         return CSGIntersection(s1 = s1, s2 = s2, T = transformation)
-
     }
 
 }
