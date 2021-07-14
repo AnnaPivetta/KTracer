@@ -16,7 +16,9 @@ class InStream(
     private val tab: Int = 4
 ) {
     //Stream initialization
-     init {stream = FileReader(fileName)}
+     init {
+        if (fileName != "" ) stream = FileReader(fileName)
+     }
 
     //Dictionary for mapping Shapes KW to its parser
     private val shape2Parser = mapOf<KeywordEnum, (Scene) -> Shape>(

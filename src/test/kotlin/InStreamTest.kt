@@ -2,7 +2,6 @@ import org.junit.Test
 
 import org.junit.Assert.*
 import java.io.*
-import java.util.stream.Stream
 
 class InStreamTest {
 
