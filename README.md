@@ -42,6 +42,16 @@ Distributions can be built from source code running the command:
 Examples of some features can be seen running the command:
 
     ./KTracer demo
+# Conversion mode
+You can convert an existing .pfm file to a LDR file (format list available [here](https://github.com/AnnaPivetta/KTracer/blob/master/Format_List.txt) running the command: 
+
+   ./KTracer pfm2ldr --input <FILE IN> --output <FILE OUT> --format <FORMAT>
+   
+Running:
+   
+   ./KTracer pfm2ldr --help
+   
+you can find a list of all the available options
 
 
 
