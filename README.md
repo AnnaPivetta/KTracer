@@ -7,6 +7,9 @@ This project is developed for the rayTracing course (a.y. 20-21) held by profess
 
 The contributors to the project are [Matteo Martinelli](https://github.com/MatteoMartinelli97) and [Anna Pivetta](https://github.com/AnnaPivetta). 
 
+## Table of Contents
+* Requirements[requirements]
+
 ### Requirements
 KTracers uses [Kotlin](https://github.com/JetBrains/kotlin) version 1.4.31. It is built with [Gradle](https://github.com/gradle/gradle).  
 The only external library needed is [clikt](https://github.com/ajalt/clikt/), whose dependency can be added with:
