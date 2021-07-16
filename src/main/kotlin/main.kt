@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.parameters.types.int
 import com.github.ajalt.clikt.parameters.types.long
 
 import java.io.FileInputStream
+import java.io.FileReader
 import kotlin.math.PI
 
 class KTracer : CliktCommand() {
@@ -35,7 +36,7 @@ class Demo : CliktCommand(name = "demo") {
     ).float().default(0.0F)
     private val algorithm by option(
         "--algorithm", "-a",
-        help = "Renderer algorithm (pt is for Path Tracer"
+        help = "Renderer algorithm (pt is for Path Tracer)"
     ).choice("onoff", "flat", "pt").default("pt")
     private val pfmoutput by option(
         "--pfm-o", "--hdr-o", "--pfmoutput",
@@ -79,7 +80,6 @@ class Demo : CliktCommand(name = "demo") {
         //Set a transformation for future use
         val T = Transformation()
         //A plane for the floor
-
         world.add(
             Plane(
                 //T = Transformation().scaling(Vector()),
@@ -89,7 +89,6 @@ class Demo : CliktCommand(name = "demo") {
                 )
             )
         )
-
         //A big sphere for the sky
         val sphereR = 50.0F
         world.add(
@@ -141,7 +140,6 @@ class Demo : CliktCommand(name = "demo") {
                 )
             )
         )
-
 
 
         world.add(
@@ -251,9 +249,6 @@ class Demo : CliktCommand(name = "demo") {
             tripleCross
             )
         )
-
-
-
 
 
         val ar = width.toFloat() / height.toFloat()
@@ -552,6 +547,98 @@ class Conversion : CliktCommand(name = "pfm2ldr") {
     }
 }
 
-fun main(args: Array<String>) = KTracer().subcommands(Demo(), Conversion(), Render()).main(args)
+class FromFile : CliktCommand(name = "file") {
+    private val width by option(
+        "--width", "-w",
+        help = "Image width"
+    ).int().default(480)
+    private val height by option(
+        "--height", "-h",
+        help = "Image height"
+    ).int().default(480)
+    private val orthogonal by option(help = "Use orthogonal camera projection").flag(default = false)
+    private val angleDeg by option(
+        "--angle-deg",
+        help = "Angle of camera rotation (CCW) with respect to z axis in DEG"
+    ).float().default(0.0F)
+    private val algorithm by option(
+        "--algorithm", "-a",
+        help = "Renderer algorithm (pt is for Path Tracer)"
+    ).choice("onoff", "flat", "pt").default("pt")
+    private val pfmoutput by option(
+        "--pfm-o", "--hdr-o", "--pfmoutput",
+        help = "File name for pfm output"
+    ).default("KTracerDemo.pfm")
+    private val ldroutput by option(
+        "--ldr-o", "--ldroutput",
+        help = "File name for ldr output"
+    ).default("KTracerDemo.png")
+    private val factor by option(help = "Tone mapping factor").float().default(0.2F)
+    private val luminosity by option(help = "The required average luminosity").float()
+    private val gamma by option(help = "Gamma correction value").float().default(1.0F)
+    private val nR by option(
+        "--nr", "-n",
+        help = "Number of rays for evaluating integral"
+    ).int().default(10)
+    private val maxDepth by option(
+        "--maxDepth", "-Md",
+        help = "Max number of reflections per ray"
+    ).int().default(3)
+    private val rrTrigger by option(
+        "--rrTrigger", "-rr",
+        help = "Depth value after which Russian Roulette is activated"
+    ).int().default(2)
+    private val format by option(help = "Image format value - MUST correspond to ldr output name").choice(
+        "BMP", "bmp", "jpeg", "wbmp",
+        "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
+    ).default("png")
+    private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A").int()
+    @kotlin.ExperimentalUnsignedTypes
+    private val initState by option("--initState").convert { it.toULong() }.default(42UL)
+    @kotlin.ExperimentalUnsignedTypes
+    private val initSeq by option("--initSeq").convert { it.toULong() }.default(54UL)
+
+    val filename by option(
+        "--inputfile", "--file",
+        help = "File describing the scene to render"
+    ).required()
+    val variables : Map<String, String> by option("--declare-float", "-D").associate()
+    @kotlin.ExperimentalUnsignedTypes
+    override fun run() {
+        echo("CHECK STAMPA")
+        val map : MutableMap<String, Float> = mutableMapOf<String,Float>()
+        for (i in variables.keys) {
+            map[i]=variables[i]!!.toFloat()
+        }
+        val stream = InStream(stream = FileReader(filename), fileName = filename)
+        val scene = stream.parseScene(map)
+
+        val im = HdrImage(width, height)
+        val pcg = PCG(initState, initSeq)
+        val computeColor = PathTracer(
+                world = scene.world,
+                nRays = nR,
+                pcg = pcg,
+                maxDepth = maxDepth,
+                rrTrigger = rrTrigger
+            ).computeRadiance()
+
+        ImageTracer(im, scene.camera!!).fireAllRays(computeColor, AAgrid, pcg)
+
+        //Save HDR Image
+        im.saveHDRImg(pfmoutput)
+        echo("PFM Image has been saved to ${System.getProperty("user.dir")}/${pfmoutput}")
+
+        //Tone Mapping
+        echo("Applying tone mapping...")
+        im.normalizeImg(factor = factor, luminosity = luminosity)
+        im.clampImg()
+        im.saveLDRImg(ldroutput, format, gamma)
+        echo("LDR Image has been saved to ${System.getProperty("user.dir")}/${ldroutput}")
+        echo("STAMPA FINALE")
+    }
+}
+
+fun main(args: Array<String>) = KTracer().subcommands(Demo(), Conversion(), Render(), FromFile()).main(args)
 
 

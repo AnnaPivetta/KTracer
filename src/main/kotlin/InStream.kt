@@ -23,12 +23,25 @@ class InStream(
     //Dictionary for mapping Shapes KW to its parser
     private val shape2Parser = mapOf<KeywordEnum, (Scene) -> Shape>(
         KeywordEnum.SPHERE to ::parseSphere,
+        KeywordEnum.PLANE to ::parsePlane,
         KeywordEnum.BOX to ::parseBox,
         KeywordEnum.CYLINDER to ::parseCylinder,
         KeywordEnum.CSGUNION to ::parseCSGUnion,
         KeywordEnum.CSGDIFFERENCE to ::parseCSGDifference,
         KeywordEnum.CSGINTERSECTION to ::parseCSGIntersection
     )
+
+    private val name2color = mapOf<String, Color>(
+        "white" to WHITE.copy(),
+        "black" to BLACK.copy(),
+        "navy" to NAVY.copy(),
+        "skyblue" to SKYBLUE.copy(),
+        "pink" to PINK.copy(),
+        "darkred" to DARKRED.copy(),
+        "olive" to OLIVE.copy(),
+        "green" to GREEN.copy()
+    )
+
     //Variables for read/unread and location
     var location = SourceLocation(fileName, 1, 1)
     private var savedLoc = location.copy()
@@ -88,7 +101,6 @@ class InStream(
         while (ch in WHITESPACE || ch == '#') {
             // It's a comment! Keep reading until the end of the line (include the case "", the end-of-file)
             if (ch == '#') while (this.readChar() !in listOf(null, '\n', '\t')) continue
-
             ch = readChar()
             if (ch == null) return
         }
@@ -159,7 +171,7 @@ class InStream(
      * Raise :class:`.ParserError` if a lexical error is found."""
      */
 
-    private fun readToken(): Token {
+    fun readToken(): Token {
         if (savedToken != null) {
             val result: Token = savedToken!!
             savedToken = null
@@ -310,36 +322,53 @@ class InStream(
 
     private fun parseColor(scene: Scene): Color {
         expectSymbol('<')
-        val red = expectNumber(scene)
-        expectSymbol(',')
-        val green = expectNumber(scene)
-        expectSymbol(',')
-        val blue = expectNumber(scene)
+        val token = readToken()
+        var result : Color = Color()
+        if (token is LiteralNumberToken) {
+            //val red = expectNumber(scene)
+            val red = token.value
+            expectSymbol(',')
+            val green = expectNumber(scene)
+            expectSymbol(',')
+            val blue = expectNumber(scene)
+            result = Color(red, green, blue)
+        }
+        else if (token is IdentifierToken) {
+            if (token.identifier !in name2color.keys) throw (RuntimeException("you must specify an allowed color between <>"))
+            else result = name2color[token.identifier]!!
+        }
+        else throw (RuntimeException("you must specify a color between <>"))
         expectSymbol('>')
-        return Color(red, green, blue)
+        return result
     }
 
     private fun parsePigment(scene: Scene): Pigment {
         val keyword = expectKeywords(listOf(KeywordEnum.UNIFORM, KeywordEnum.CHECKERED, KeywordEnum.IMAGE))
         expectSymbol('(')
+        val result : Pigment
         when (keyword) {
-            KeywordEnum.UNIFORM -> return UniformPigment(color = parseColor(scene))
+            KeywordEnum.UNIFORM -> {
+                val color = parseColor(scene)
+                result = UniformPigment(color)
+            }
             KeywordEnum.CHECKERED -> {
                 val c1 = parseColor(scene)
                 expectSymbol(',')
                 val c2 = parseColor(scene)
                 expectSymbol(',')
                 val nSteps = expectNumber(scene).toInt()
-                return CheckeredPigment(color1 = c1, color2 = c2, numOfSteps = nSteps)
+                result = CheckeredPigment(color1 = c1, color2 = c2, numOfSteps = nSteps)
             }
             KeywordEnum.IMAGE -> {
                 val fileName = expectString()
                 val img = HdrImage()
                 img.readImg(fileName)
-                return ImagePigment(image = img)
+                result =  ImagePigment(image = img)
             }
             else -> throw (RuntimeException("This line should be unreachable"))
         }
+        expectSymbol(')')
+        return result
     }
 
     private fun parseMaterial(scene: Scene): Pair<String, Material> {
@@ -448,22 +477,42 @@ class InStream(
                 if (variableName !in scene.overriddenVariables) {
                     scene.floatVariables[variableName] = variableValue
                 }
-                else if (what.keyword == KeywordEnum.SPHERE) {
-                    scene.world.add(parseSphere(scene))
+            }
+            else if (what.keyword in shape2Parser.keys) {
+                unreadToken(what)
+                scene.world.add(parseShape(scene))
+            }
+            /*else if (what.keyword == KeywordEnum.SPHERE) {
+                scene.world.add(parseSphere(scene))
+            }
+            else if (what.keyword == KeywordEnum.PLANE) {
+                scene.world.add(parsePlane(scene))
+            }
+            else if (what.keyword == KeywordEnum.BOX) {
+                scene.world.add(parseBox(scene))
+            }
+            else if (what.keyword == KeywordEnum.CYLINDER) {
+                scene.world.add(parseCylinder(scene))
+            }
+            else if (what.keyword == KeywordEnum.CSGUNION) {
+                scene.world.add(parseCSGUnion(scene))
+            }
+            else if (what.keyword == KeywordEnum.CSGDIFFERENCE) {
+                scene.world.add(parseCSGDifference(scene))
+            }
+            else if (what.keyword == KeywordEnum.CSGINTERSECTION) {
+                scene.world.add(parseCSGIntersection(scene))
+            }*/
+
+            else if (what.keyword == KeywordEnum.CAMERA) {
+                if (scene.camera != null) {
+                    throw GrammarError(what.location, "One camera already defined. You cannot define more than one camera")
                 }
-                else if (what.keyword == KeywordEnum.PLANE) {
-                    scene.world.add(parsePlane(scene))
-                }
-                else if (what.keyword == KeywordEnum.CAMERA) {
-                    if (scene.camera != null) {
-                        throw GrammarError(what.location, "One camera already defined. You cannot define more than one camera")
-                    }
-                    scene.camera = parseCamera(scene)
-                }
-                else if (what.keyword == KeywordEnum.MATERIAL) {
-                    val pair = parseMaterial(scene)
-                    scene.materials[pair.first] = pair.second
-                }
+                scene.camera = parseCamera(scene)
+            }
+            else if (what.keyword == KeywordEnum.MATERIAL) {
+                val pair = parseMaterial(scene)
+                scene.materials[pair.first] = pair.second
             }
         }
     return scene
@@ -474,6 +523,7 @@ class InStream(
         val s = expectKeywordsOrIdentifier(
             listOf(
                 KeywordEnum.SPHERE,
+                KeywordEnum.PLANE,
                 KeywordEnum.BOX,
                 KeywordEnum.CYLINDER,
                 KeywordEnum.CSGUNION,

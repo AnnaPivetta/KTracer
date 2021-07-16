@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="TokenTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2021-06-14T07:42:39" hostname="cln-184-115.eduroam.unimi.it" time="0.002">
-  <properties/>
-  <testcase name="string" classname="TokenTest" time="0.002"/>
-  <system-out><![CDATA[]]></system-out>
-  <system-err><![CDATA[]]></system-err>
-</testsuite>
