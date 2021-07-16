@@ -43,7 +43,7 @@ Examples of some features can be seen running the command:
 
     ./KTracer demo
     
-#### Conversion mode
+### Conversion mode :arrows_counterclockwise:
 You can convert an existing .pfm file to a LDR file (format list available [here](https://github.com/AnnaPivetta/KTracer/blob/master/Format_List.txt) running the command: 
 
     ./KTracer pfm2ldr --input <FILE IN> --output <FILE OUT> --format <FORMAT>
