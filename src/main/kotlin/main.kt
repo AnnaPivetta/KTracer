@@ -522,12 +522,13 @@ class Demo : CliktCommand(name = "demo") {
 }*/
 
 class Conversion : CliktCommand(name = "pfm2ldr") {
-    private val inputPFMFileName by option("--input", "-i").required()
-    private val factor by option("--factor").float().default(0.2F)
-    private val luminosity by option("--luminosity", help = "The required average luminosity").float().default(0.1F)
-    private val gamma by option("--gamma").float().default(1.0F)
-    private val format by option("--format").choice("BMP", "bmp", "jpeg", "wbmp", "png", "JPG", "PNG", "jpg", "WBMP", "JPEG").required()
-    private val outputFileName by option("--output", "-o").required()
+    private val inputPFMFileName by option("--input", "-i", help = "required: the pfm file to convert").required()
+    private val factor by option("--factor", help="optional: a factor needed for the conversion.").float().default(0.2F)
+    private val luminosity by option("--luminosity", help = "optional: he required average luminosity").float().default(0.1F)
+    private val gamma by option("--gamma", help = "optional: the gamma factor that characterizes the answer of the monitor." +
+            "If you know the gamma factor of your monitor you can specify it, otherwise the default value is 1").float().default(1.0F)
+    private val format by option("--format", help= "required: the format of the output file").choice("BMP", "bmp", "jpeg", "wbmp", "png", "JPG", "PNG", "jpg", "WBMP", "JPEG").required()
+    private val outputFileName by option("--output", "-o", help= "required: the name of the output file").required()
 
     override fun run() {
         val img = HdrImage()
@@ -556,7 +557,6 @@ class Render : CliktCommand(name = "render") {
         "--height", "-h",
         help = "Image height"
     ).int().default(480)
-    private val orthogonal by option(help = "Use orthogonal camera projection").flag(default = false)
     private val angleDeg by option(
         "--angle-deg",
         help = "Angle of camera rotation (CCW) with respect to z axis in DEG"
