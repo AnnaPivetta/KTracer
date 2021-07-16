@@ -284,7 +284,7 @@ class Demo : CliktCommand(name = "demo") {
     }
 }
 
-class Render : CliktCommand(name = "KTracer") {
+/*class Render : CliktCommand(name = "KTracer") {
     init {
         context { helpFormatter = CliktHelpFormatter(showDefaultValues = true) }
     }
@@ -519,15 +519,15 @@ class Render : CliktCommand(name = "KTracer") {
         im.saveLDRImg(ldroutput, format, gamma)
         echo("LDR Image has been saved to ${System.getProperty("user.dir")}/${ldroutput}")
     }
-}
+}*/
 
 class Conversion : CliktCommand(name = "pfm2ldr") {
-    private val inputPFMFileName by option("--input", "-i")
-    private val factor by option().float().default(0.2F)
-    private val luminosity by option(help = "The required average luminosity").float()
-    private val gamma by option().float().default(1.0F)
-    private val format by option().choice("BMP", "bmp", "jpeg", "wbmp", "png", "JPG", "PNG", "jpg", "WBMP", "JPEG")
-    private val outputFileName by option("--output", "-o")
+    private val inputPFMFileName by option("--input", "-i").required()
+    private val factor by option("--factor").float().default(0.2F)
+    private val luminosity by option("--luminosity", help = "The required average luminosity").float().default(0.1F)
+    private val gamma by option("--gamma").float().default(1.0F)
+    private val format by option("--format").choice("BMP", "bmp", "jpeg", "wbmp", "png", "JPG", "PNG", "jpg", "WBMP", "JPEG").required()
+    private val outputFileName by option("--output", "-o").required()
 
     override fun run() {
         val img = HdrImage()
@@ -547,7 +547,7 @@ class Conversion : CliktCommand(name = "pfm2ldr") {
     }
 }
 
-class FromFile : CliktCommand(name = "file") {
+class Render : CliktCommand(name = "render") {
     private val width by option(
         "--width", "-w",
         help = "Image width"
@@ -573,9 +573,9 @@ class FromFile : CliktCommand(name = "file") {
         "--ldr-o", "--ldroutput",
         help = "File name for ldr output"
     ).default("KTracerDemo.png")
-    private val factor by option(help = "Tone mapping factor").float().default(0.2F)
-    private val luminosity by option(help = "The required average luminosity").float()
-    private val gamma by option(help = "Gamma correction value").float().default(1.0F)
+    private val factor by option("--factor", help = "Tone mapping factor").float().default(0.2F)
+    private val luminosity by option("--luminosity", help = "The required average luminosity").float().default(0.1F)
+    private val gamma by option("--gamma", help = "Gamma correction value").float().default(1.0F)
     private val nR by option(
         "--nr", "-n",
         help = "Number of rays for evaluating integral"
@@ -605,7 +605,6 @@ class FromFile : CliktCommand(name = "file") {
     val variables : Map<String, String> by option("--declare-float", "-D").associate()
     @kotlin.ExperimentalUnsignedTypes
     override fun run() {
-        echo("CHECK STAMPA")
         val map : MutableMap<String, Float> = mutableMapOf<String,Float>()
         for (i in variables.keys) {
             map[i]=variables[i]!!.toFloat()
@@ -622,8 +621,12 @@ class FromFile : CliktCommand(name = "file") {
                 maxDepth = maxDepth,
                 rrTrigger = rrTrigger
             ).computeRadiance()
-
-        ImageTracer(im, scene.camera!!).fireAllRays(computeColor, AAgrid, pcg)
+        if (scene.camera == null) {
+            print("no camera defined. A default camera will be used")}
+        ImageTracer(
+            im,
+            scene.camera ?: PerspectiveCamera(T = Transformation().translation(-VECX + VECZ), dist=1.0F, AR=width/height.toFloat())
+        ).fireAllRays(computeColor, AAgrid, pcg)
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)
@@ -635,10 +638,9 @@ class FromFile : CliktCommand(name = "file") {
         im.clampImg()
         im.saveLDRImg(ldroutput, format, gamma)
         echo("LDR Image has been saved to ${System.getProperty("user.dir")}/${ldroutput}")
-        echo("STAMPA FINALE")
     }
 }
 
-fun main(args: Array<String>) = KTracer().subcommands(Demo(), Conversion(), Render(), FromFile()).main(args)
+fun main(args: Array<String>) = KTracer().subcommands(Demo(), Conversion(), Render()).main(args)
 
 
