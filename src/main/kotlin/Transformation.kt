@@ -106,6 +106,17 @@ class Transformation(
         )
     }
 
+    operator fun times(other: HitRecord): HitRecord {
+        return HitRecord(
+            worldPoint = this * other.worldPoint,
+            normal = this * other.normal,
+            surfacePoint = other.surfacePoint,
+            t = other.t,
+            ray = this * other.ray,
+            shape = other.shape
+        )
+    }
+
     /*
     Transformations
         inverse     --> returns the inverse of this Transformation

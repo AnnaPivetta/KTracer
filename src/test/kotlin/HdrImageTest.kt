@@ -123,7 +123,6 @@ class HdrImageTest {
             assertTrue( img.getPixel(0, 0).isClose(Color(1.0e1F, 2.0e1F, 3.0e1F)))
             assertTrue( img.getPixel(1, 1).isClose(Color(4.0e2F, 5.0e2F, 6.0e2F)))
             assertTrue( img.getPixel(2, 1).isClose(Color(7.0e2F, 8.0e2F, 9.0e2F)))
-
         }
     }
 

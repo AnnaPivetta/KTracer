@@ -1,7 +1,7 @@
 #!/bin/zsh
 
-#for angle in $(seq 237 359); do
-    # Angle with three digits, e.g. angle="1" → angleNNN="001"
+#for angle in $(seq 145 359); do
+     #Angle with three digits, e.g. angle="1" → angleNNN="001"
  #   angleNNN=$(printf "%03d" $angle)
   #  ./KTracer demo --width=640 --height=480 -n 10 --luminosity 0.1 --angle-deg $angle --ldr-o=Animation/img$angleNNN.png --hdr-o=Animation/pfm/img$angleNNN.pfm
 #done
