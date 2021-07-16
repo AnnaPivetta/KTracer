@@ -7,6 +7,11 @@ This project is developed for the rayTracing course (a.y. 20-21) held by profess
 
 The contributors to the project are [Matteo Martinelli](https://github.com/MatteoMartinelli97) and [Anna Pivetta](https://github.com/AnnaPivetta). 
 
+## Table of Contents
+* [Requirements](#requirements)
+* [Distribution](#distribution)
+* [Basic Usage](#basic-usage)
+
 ### Requirements
 KTracers uses [Kotlin](https://github.com/JetBrains/kotlin) version 1.4.31. It is built with [Gradle](https://github.com/gradle/gradle).  
 The only external library needed is [clikt](https://github.com/ajalt/clikt/), whose dependency can be added with:
@@ -37,6 +42,19 @@ Distributions can be built from source code running the command:
 Examples of some features can be seen running the command:
 
     ./KTracer demo
+### Render mode     
+
+
+### Conversion mode :arrows_counterclockwise:
+You can convert an existing .pfm file to a LDR file (format list available [here](https://github.com/AnnaPivetta/KTracer/blob/master/Format_List.txt)) running the command: 
+
+    ./KTracer pfm2ldr --input <FILE IN> --output <FILE OUT> --format <FORMAT>
+   
+Running:
+   
+    ./KTracer pfm2ldr --help
+   
+you can find a list of all the available options
 
 
 
