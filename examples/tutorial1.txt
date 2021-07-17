@@ -1,0 +1,63 @@
+#let's see how to create a simple scene
+#first of all, every line starting with the hash mark are comments
+#we will create a simple scene with a checkered plane (as a floor), an upper plane (as the sky) and a sphere
+
+
+# The material of the floor:
+material ground_material(		#the name of this material is ground_material
+	diffuse(			#the BRDF type (you can choose between diffuse or specular)
+		checkered(		#the pigment type (you can choose between uniform, checkered and image)
+		<0, 0.5, 0>, <1,1,1>,	#here we specify the 2 colors needed to build a checkered pigment. Note that colors need <>!
+		4)),			#the number of iterations of the pattern
+	uniform(			#the pigment type associated to emitted radiance
+		<0,0,0>)		#emitted color (note that to build a uniform pigment you have to specify only one color)
+)
+
+# The material of the sky:
+material sky_material(			#the name of this material si sky_material
+	diffuse (			#note that blank spaces are allowed
+		uniform(
+		<skyblue>)),		#there are some default colors. You can use one of them writing the name between <>
+					#(link to the list of available colors in the README)
+	uniform(<skyblue>)
+)
+
+# The material of the sphere:
+material sphere_material(		#the name of this material is sphere_material
+	specular(
+		uniform(
+		<darkred>)),
+	uniform(<0,0,0>)
+)
+ 
+# Define the floor plane:
+plane(					#we add a plane to the scene
+	ground_material,		#the material of the plane
+	identity			#the transformation to be applied to this plane. "identity" means no transformation
+					#so this plane will be the x,y plane passing through the origin (x=0, y=0, z=0)
+)
+# Define the sky plae:
+# now we use a non trivial (but very easy) transformation! Other transformations will be used in the next tutorials
+plane(
+	sky_material,
+	translation([0,0,50])		#we want to translate the plane by the vector [0,0,50]
+					#note that vectors are specified between [] !
+)
+# Define the sphere:
+sphere(sphere_material, translation([0, 0, 1]))
+
+# Now we have to define a camera (you can define only one camera in the scene. If you don't define a cmera, a default one
+# will be used)
+camera(perspective,			#you can choose between perspective and orthogonal camera
+	translation([-4,0,1]),		#the transformation you want to applay.
+					#the aim of this transformation is to place the camera where you like
+	1.0,				#the aspect ratio of the camera
+	1.0				#the distance between the camera and the screen
+)
+
+#you can use this input file to create an image, typing:
+# ./KTracer render --inputfile tutorial1.txt
+#the result is in image1.png
+#if you type:
+# ./KTracer render --inputfile tutorial1.txt --AA 4
+#you will use antialiasing (dividing each size of s pixel in 4 parts) and the result is in image1AA.png
