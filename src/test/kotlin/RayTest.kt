@@ -27,7 +27,7 @@ class RayTest {
     fun transform() {
         val ray = Ray(origin = Point(1.0F, 2.0F, 3.0F), dir = Vector(6.0F, 5.0F, 4.0F))
         val t = Transformation()
-        val transformation = t.translation(Vector(10.0F, 11.0F, 12.0F)) * t.rotationX(PI.toFloat()/2 )
+        val transformation = t.translation(Vector(10.0F, 11.0F, 12.0F)) * t.rotationX(90.0F )
         val transformed = ray.transform(transformation)
 
         assertTrue(transformed.origin.isClose(Point(11.0F, 8.0F, 14.0F)))
