@@ -156,7 +156,7 @@ class Transformation(
     }
 
     fun rotationX(angle: Float): Transformation { //angle must be in radians
-        var radAngle = angle*(180.0F/PI.toFloat())
+        var radAngle = angle*(PI.toFloat()/180.0F)
         val COS = cos(radAngle)
         val SIN = sin(radAngle)
         val m = arrayOf(
@@ -171,7 +171,7 @@ class Transformation(
     }
 
     fun rotationY(angle: Float): Transformation { //angle must be in radians
-        var radAngle = angle*(180.0F/PI.toFloat())
+        var radAngle = angle*(PI.toFloat()/180.0F)
         val COS = cos(radAngle)
         val SIN = sin(radAngle)
         val m = arrayOf(
@@ -186,7 +186,7 @@ class Transformation(
     }
 
     fun rotationZ(angle: Float): Transformation { //angle must be in radians
-        var radAngle = angle*(180.0F/PI.toFloat())
+        var radAngle = angle*(PI.toFloat()/180.0F)
         val COS = cos(radAngle)
         val SIN = sin(radAngle)
         val m = arrayOf(

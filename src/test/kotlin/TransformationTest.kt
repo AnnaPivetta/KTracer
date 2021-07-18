@@ -86,9 +86,9 @@ class TransformationTest {
         assertTrue(t.rotationY(0.1F).isConsistent())
         assertTrue(t.rotationZ(0.1F).isConsistent())
 
-        assertTrue((t.rotationX(angle = PI.toFloat() * 0.5F) * VECY).isClose(VECZ, epsilon=1e-7F))
-        assertTrue((t.rotationY(angle = PI.toFloat() * 0.5F) * VECZ).isClose(VECX, epsilon=1e-7F))
-        assertTrue((t.rotationZ(angle = PI.toFloat() * 0.5F) * VECX).isClose(VECY, epsilon=1e-7F))
+        assertTrue((t.rotationX(angle = 90.0F) * VECY).isClose(VECZ, epsilon=1e-7F))
+        assertTrue((t.rotationY(angle = 90.0F) * VECZ).isClose(VECX, epsilon=1e-7F))
+        assertTrue((t.rotationZ(angle = 90.0F) * VECX).isClose(VECY, epsilon=1e-7F))
     }
 
 
