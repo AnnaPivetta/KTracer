@@ -2,7 +2,7 @@
 #let's create another scene, exploring all the available basic shapes and how to combine them
 
 float angle_1(50)		#this is how you can create a float variable named "angle_1" whose value is 50
-float angle_2(30)		#another float variable named "angle_2" whose value is 30
+float angle_2(60)		#another float variable named "angle_2" whose value is 30
 
 #let's create some very simple materials for the shapes
 #remember that you can specify a color by his name or by his r,g,b values
@@ -33,7 +33,7 @@ box(					#we start with the keyword "box"
 					#otherwise, a default box will be used.
 	mat_5,				#now we have to specify the material for this box
 	rotation_z(angle_1)*		#and now we have to specify a transformation: we rotate the box aroud z axis by the value of angle_1 degrees
-	translation([1,-1,0.5])		#and we move the box
+	translation([-0.5,0,0.5])		#and we move the box
 )
 
 #another new shape: cylinder
@@ -71,9 +71,5 @@ intersection(							#keyword intersection (you can also use Intersection with ca
 #the camera to observe the scene:
 camera(perspective,translation([-4, 0, 1]), 1.0, 1.0)
 
-#you can create a scene using this input file (like the one saved in image2.png) typing:
+#you can create the image saved in image2.png typing:
 # ./KTracer render --inputfile tutorial2.txt
-#if you want to use antialiasing algorithm, you can type:
-# ./KTracer render --inoutfile tutorial2.txt --AA <the number of divisions in each side of each pixel>
-
-
