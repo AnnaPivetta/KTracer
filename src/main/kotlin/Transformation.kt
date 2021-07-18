@@ -1,3 +1,4 @@
+import kotlin.math.PI
 import kotlin.math.abs
 import kotlin.math.cos
 import kotlin.math.sin
@@ -155,8 +156,9 @@ class Transformation(
     }
 
     fun rotationX(angle: Float): Transformation { //angle must be in radians
-        val COS = cos(angle)
-        val SIN = sin(angle)
+        var radAngle = angle*(180.0F/PI.toFloat())
+        val COS = cos(radAngle)
+        val SIN = sin(radAngle)
         val m = arrayOf(
             floatArrayOf(1.0F, 0.0F, 0.0F, 0.0F), floatArrayOf(0.0F, COS, -SIN, 0.0F),
             floatArrayOf(0.0F, SIN, COS, 0.0F), floatArrayOf(0.0F, 0.0F, 0.0F, 1.0F)
@@ -169,8 +171,9 @@ class Transformation(
     }
 
     fun rotationY(angle: Float): Transformation { //angle must be in radians
-        val COS = cos(angle)
-        val SIN = sin(angle)
+        var radAngle = angle*(180.0F/PI.toFloat())
+        val COS = cos(radAngle)
+        val SIN = sin(radAngle)
         val m = arrayOf(
             floatArrayOf(COS, 0.0F, SIN, 0.0F), floatArrayOf(0.0F, 1.0F, 0.0F, 0.0F),
             floatArrayOf(-SIN, 0.0F, COS, 0.0F), floatArrayOf(0.0F, 0.0F, 0.0F, 1.0F)
@@ -183,8 +186,9 @@ class Transformation(
     }
 
     fun rotationZ(angle: Float): Transformation { //angle must be in radians
-        val COS = cos(angle)
-        val SIN = sin(angle)
+        var radAngle = angle*(180.0F/PI.toFloat())
+        val COS = cos(radAngle)
+        val SIN = sin(radAngle)
         val m = arrayOf(
             floatArrayOf(COS, -SIN, 0.0F, 0.0F), floatArrayOf(SIN, COS, 0.0F, 0.0F),
             floatArrayOf(0.0F, 0.0F, 1.0F, 0.0F), floatArrayOf(0.0F, 0.0F, 0.0F, 1.0F)

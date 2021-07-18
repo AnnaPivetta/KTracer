@@ -39,7 +39,16 @@ class InStream(
         "pink" to PINK.copy(),
         "darkred" to DARKRED.copy(),
         "olive" to OLIVE.copy(),
-        "green" to GREEN.copy()
+        "green" to GREEN.copy(),
+        "darkcyan" to DARKCYAN.copy(),
+        "brown" to BROWN.copy(),
+        "silver" to SILVER.copy(),
+        "crimson" to CRIMSON.copy(),
+        "tomato" to TOMATO.copy(),
+        "gold" to GOLD.copy(),
+        "limegreen" to LIMEGREEN.copy(),
+        "darkorange" to DARKORANGE.copy(),
+        "purple" to PURPLE.copy()
     )
 
     //Variables for read/unread and location
@@ -421,7 +430,7 @@ class InStream(
                 }
                 KeywordEnum.SCALING -> {
                     expectSymbol('(')
-                    result *= result.translation(parseVector(scene))
+                    result *= result.scaling(parseVector(scene))
                     expectSymbol(')')
                 }
                 else -> throw (RuntimeException("This line should be unreachable"))

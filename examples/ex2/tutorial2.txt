@@ -1,0 +1,79 @@
+#TUTORIAL 2
+#let's create another scene, exploring all the available basic shapes and how to combine them
+
+float angle_1(50)		#this is how you can create a float variable named "angle_1" whose value is 50
+float angle_2(30)		#another float variable named "angle_2" whose value is 30
+
+#let's create some very simple materials for the shapes
+#remember that you can specify a color by his name or by his r,g,b values
+material mat_1(diffuse(uniform(<navy>)),uniform(<black>))
+material mat_2(diffuse(uniform(<olive>)),uniform(<black>))
+material mat_3(diffuse(uniform(<skyblue>)), uniform(<skyblue>))
+material mat_4(diffuse(checkered(<black>, <white>, 12)), uniform(<black>))
+material mat_5(diffuse(uniform(<green>)), uniform(<black>))
+material mat_6(diffuse(uniform(<0.87,0.19,0.388>)), uniform(<black>))
+material mat_7(diffuse(uniform(<1,0.84,0>)), uniform(<black>))
+material mat_8(diffuse(uniform(<darkred>)), uniform(<black>))
+material mat_9(diffuse(uniform(<darkcyan>)), uniform(<black>))
+
+#let's now  add to the scene some basic shapes
+
+#a big sphere for the sky:
+sphere(mat_3, scaling([70,70,70]))
+
+#a plane as the floor:
+plane(mat_2, identity)
+
+#a new shape: box
+box(					#we start with the keyword "box"
+	(-0.5,-0.5,-0.5),		#this is the first vertex of the box. Note that a point is specified between ()
+	(0.5,0.5,0.5),			#this is the opposite vertex
+					#every component of the first point you specify must be smaller
+					#than the corrisponding component of the second point! 
+					#otherwise, a default box will be used.
+	mat_5,				#now we have to specify the material for this box
+	rotation_z(angle_1)*		#and now we have to specify a transformation: we rotate the box aroud z axis by the value of angle_1 degrees
+	translation([1,-1,0.5])		#and we move the box
+)
+
+#another new shape: cylinder
+cylinder(				#we start with the keyword "cylinder"
+	mat_9,				#the first argument must be the material for this cylinder
+	scaling([0.4,0.4,7])*		#and the second argument must be the transformation we want to apply
+	translation([4, -8, 0])
+)
+
+#now let's combine different shapes using constructive solid geometry!
+#we can combine all our basic shapes by Union, Difference or Intersection
+
+#let's start whith a difference: we will subctract a sphere from a box:
+difference(					#we have to start with the keyword difference (you can type Difference with capital letter if you prefer)
+	box((1,1,0),(3,3,2),mat_1,identity),	#first we need to specify the first shape
+	sphere(mat_4,translation([0.7,1,1.5])),	#than the second shape
+	identity				#the transformation we want to apply to this new shape
+)
+
+#now we add the union of two spheres:
+union(									#keyword union (you can also use Union with capital letter)
+	sphere(mat_6, scaling([0.5,0.5,0.5])*translation([0,6,1])),	#the first shape
+	sphere(mat_5, scaling([0.5,0.5,0.5])*translation([0,6.7,1])),	#the second shape
+	identity							#the transformation we want to apply to the union of the two spheres
+)
+
+#now we add the intersection of two shapes:
+
+intersection(							#keyword intersection (you can also use Intersection with capital letter)
+	sphere(mat_7, identity),				#the first shape
+	box((0,0,0), (3,3,3), mat_8, identity),			#the second shape
+	rotation_z(angle_2)*translation([-1, 0, 3])		#the transformation we want to apply to this new shape
+)
+
+#the camera to observe the scene:
+camera(perspective,translation([-4, 0, 1]), 1.0, 1.0)
+
+#you can create a scene using this input file (like the one saved in image2.png) typing:
+# ./KTracer render --inputfile tutorial2.txt
+#if you want to use antialiasing algorithm, you can type:
+# ./KTracer render --inoutfile tutorial2.txt --AA <the number of divisions in each side of each pixel>
+
+

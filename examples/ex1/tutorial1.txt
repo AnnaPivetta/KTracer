@@ -1,5 +1,7 @@
+#TUTORIAL 1
 #let's see how to create a simple scene
 #first of all, every line starting with the hash mark are comments
+#blank spaces and carriage return between kweywords, identifiers, symbols or numbers are always allowed 
 #we will create a simple scene with a checkered plane (as a floor), an upper plane (as the sky) and a sphere
 
 
@@ -15,7 +17,7 @@ material ground_material(		#the name of this material is ground_material
 
 # The material of the sky:
 material sky_material(			#the name of this material si sky_material
-	diffuse (			#note that blank spaces are allowed
+	diffuse (			
 		uniform(
 		<skyblue>)),		#there are some default colors. You can use one of them writing the name between <>
 					#(link to the list of available colors in the README)
