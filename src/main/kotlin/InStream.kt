@@ -48,7 +48,8 @@ class InStream(
         "gold" to GOLD.copy(),
         "limegreen" to LIMEGREEN.copy(),
         "darkorange" to DARKORANGE.copy(),
-        "purple" to PURPLE.copy()
+        "purple" to PURPLE.copy(),
+        "red" to RED.copy()
     )
 
     //Variables for read/unread and location
@@ -109,7 +110,7 @@ class InStream(
         var ch: Char? = this.readChar() ?: return
         while (ch in WHITESPACE || ch == '#') {
             // It's a comment! Keep reading until the end of the line (include the case "", the end-of-file)
-            if (ch == '#') while (this.readChar() !in listOf(null, '\n', '\t')) continue
+            if (ch == '#') while (this.readChar() !in listOf(null, '\n')) continue
             ch = readChar()
             if (ch == null) return
         }
@@ -343,10 +344,10 @@ class InStream(
             result = Color(red, green, blue)
         }
         else if (token is IdentifierToken) {
-            if (token.identifier !in name2color.keys) throw (RuntimeException("you must specify an allowed color between <>"))
+            if (token.identifier !in name2color.keys) throw (GrammarError(token.location,"you must specify an allowed color between <>"))
             else result = name2color[token.identifier]!!
         }
-        else throw (RuntimeException("you must specify a color between <>"))
+        else throw (GrammarError(token.location,"you must specify a color between <>"))
         expectSymbol('>')
         return result
     }
