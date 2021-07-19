@@ -11,7 +11,7 @@ import kotlin.math.sqrt
  *
  * Class properties:
  * - [p] - The [Pigment] that weights the BRDF contribution given the specific point in the surface. Default is a
- * white [UniformPigment]
+ * black [UniformPigment]
  *
  * @see BRDF
  */
