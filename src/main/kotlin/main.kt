@@ -111,12 +111,12 @@ class Demo : CliktCommand(name = "demo") {
             )
         )
 
-        val cameraT = T.translation(-4.0F * VECX + 3.0F * VECZ)
+        val cameraT = T.translation(-2.0F * VECX + 3.0F * VECZ)
         val camera = PerspectiveCamera(AR = 1.0F, T = cameraT)
         val im = HdrImage(width, height)
         val pcg = PCG(initState, initSeq)
         val computeColor = FlatRenderer(world).computeRadiance()
-        ImageTracer(im, camera).fireAllRays(computeColor, AAgrid, pcg)
+        ImageTracer(im, camera).fireAllRays(computeColor)
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)
