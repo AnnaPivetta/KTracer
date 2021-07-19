@@ -1,0 +1,13 @@
+material plane_material (diffuse(uniform(<0.87,0.19,0.388>)), uniform(<black>))
+material sky_material (diffuse(uniform(<skyblue>)), uniform(<skyblue>))
+material mat_1 (diffuse(uniform(<purple>)), uniform(<black>))
+material mat_2(diffuse(checkered(<black>, <white>, 12)), uniform(<black>))
+material mat_3(specular(uniform(<silver>)), uniform(<black>))
+
+plane(plane_material, identity)
+sphere(sky_material, scaling([50,50,50]))
+sphere(mat_2, translation([0,-1.5,3]))
+sphere(mat_3, translation([1.5,0,0]))
+box((0,0,0),(1,1,1), mat_1, translation([-1, 1, 0]))
+
+camera(perspective, rotation_z(angle)*translation([-4,0,1]), 1.0, 1.0)
