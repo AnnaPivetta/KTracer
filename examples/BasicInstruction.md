@@ -135,7 +135,7 @@ You can add a sphere to the scene in this way:
     sphere(sphere_material, sphere_transformation)
 The default sphere is centered in the origin and has radius 1. Using the transformation you can move and deform the sphere
 
-##Box
+## Box
 This is how you can create a box:
 
     box(lower_point, upper_point, box_material, box_transformation)
