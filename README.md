@@ -39,10 +39,15 @@ Distributions can be built from source code running the command:
     ./gradlew assembleDist
 
 ### Basic Usage
-Examples of some features can be seen running the command:
+### Demo mode
+<img align="right" width="300" src="./images/demo.png.png">
+To do a quick check that everything works you can type the command:
 
     ./KTracer demo
+and this will generate the image "demo.png" (if you like this image and want to modify it, you can use the render mode with input file [demo.txt](ricordati di mettere il link))
+
 ### Render mode     
+Render mode is the most important one: you can use it to create your own images.
 
 
 ### Conversion mode :arrows_counterclockwise:

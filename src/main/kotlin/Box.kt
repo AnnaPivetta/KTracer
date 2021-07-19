@@ -207,7 +207,7 @@ class Box(
      * Function to map the surface of a cube onto a 2d projection
      *
      * The numeration of faces and their orientation in 3D space are consistent with the explanation
-     * available on [Wikipedia](https://en.wikipedia.org/wiki/Cube_mapping).
+     * available on [Wikipedia](https://en.wikipedia.org/wiki/Cube_mapping:).
      * Each face is uniquely identified with its own normal, since this is an AAB
      *
      * When using this for texturing a Cube the original image should be taken with width=height and the cube map should
