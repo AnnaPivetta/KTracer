@@ -39,17 +39,45 @@ Distributions can be built from source code running the command:
     ./gradlew assembleDist
 
 ### Basic Usage
-### Demo mode
+### Demo mode :white_check_mark:
 <img align="right" width="200" src="images/demo.png">
 To do a quick check that everything works you can type the command:
 
     ./KTracer demo
-and this will generate the image "demo.png" (if you like this image and want to modify it, you can use the render mode with input file [demo.txt](ricordati di mettere il link))
+and this will generate the image [demo.png](https://github.com/AnnaPivetta/KTracer/blob/master/images/demo.png) (if you like this image and want to modify it, you can use the render mode with input file [demo.txt](https://github.com/AnnaPivetta/KTracer/blob/master/examples/demo_input.txt))
 
-### Render mode     
-Render mode is the most important one: you can use it to create your own images.
+### Render mode :art: 
+Render mode is the most important one: you can use it to create your own images!
+In this mode, the program is able to accept an input file containing a description of the scene to render.
+Input file syntax has to follow some very simple rules. You can learn how to write a suitable input file 
+looking at these tutorials:
+* [Tutorial 1](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex1/tutorial1.txt) (result: [image 1](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex1/image1.png))
+* [Tutorial 2](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex2/tutorial2.txt) (result: [image 1](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex2/image2.png))
+* [Tutorial 3](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex2/tutorial3.txt) (result: [image 1](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex3/image3.png))
+
+Once your input file is ready in order to create your image you can use the command:
+
+    ./KTracer render --inputfile <FILE IN>
+The name of the input file is the only required option, but you can also specify some other useful parameters, as:
+
+- `--width | -h <WIDTH>` the width of the image (default is 480)
+- `--height | -h <WIDTH>` the height of the image (default is 480)
+- `--algorithm | -a <ALGORITHM>` the algorithm used to render the image. Choices are `onoff` (for on-off renderer), `flat` (for flat renderer) and `pt` (for path-tracing renderer). Default is `pt` 
+- `--ldr-o | --ldroutput <FILE OUT>` the name of the LDR File containing the image. Default is "renderedimage.png".
+- `--nr | -n <NUMBER OF RAYS>` number of rays generated at each surface-ray interaction. Default is 10.
+- `--maxDepth | -Md <NUMBER OF REFLECTIONS>` maximum number of reflections per ray. Default is 3.
+- `--rrTrigger | -rr <TRIGGER>` depth value after which Russian Roulette algorithm is activated. Default is 2.
+- `--AAgrid | --AA | --aa | -A <NUMBER>` number of divisions in each pixel's side to perform antialiasing. If not specified, antialiasing won't be performed.
 
 
+If you want to know all the options you can specify, type:
+
+    ./KTracer render --help
+You can also declare floating-point variable from the command line. For example typing
+
+    ./KTrscer render --inputfile <FILE IN> --declare-float var1=3 --declare-float var2=4.4
+you will declare a variable named *var1* whose value is 1 and a variable named *var2* whose value is 4.4.
+If your input file already contains floating point variables named *var1* and *var2*, they will take the value passed by command line (command line wins over input file).
 
 ### Conversion mode :arrows_counterclockwise:
 You can convert an existing .pfm file to a LDR file (format list available [here](https://github.com/AnnaPivetta/KTracer/blob/master/Format_List.txt)) running the command: 
@@ -62,6 +90,12 @@ Running:
    
 you can find a list of all the available options
 
+### Animation 
+<img align="right" src="images/demoworld-perspective.gif" width="300"/>
+Rotating the camera around the scene, you can create an animation.
+We provide you a script you can use [here](https://github.com/AnnaPivetta/KTracer/blob/master/build/distributions/KTracer-0.2.0/bin/Animation.zsh).
+As input file, you can use something like 
+In order to use this script, you have to install [ffmpeg](https://github.com/FFmpeg/FFmpeg).
 
 
 ### Documentation

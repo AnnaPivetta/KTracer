@@ -415,14 +415,14 @@ class Render : CliktCommand(name = "render") {
     private val pfmoutput by option(
         "--pfm-o", "--hdr-o", "--pfmoutput",
         help = "File name for pfm output"
-    ).default("KTracerDemo.pfm")
+    ).default("renderedimage.pfm")
     private val ldroutput by option(
         "--ldr-o", "--ldroutput",
         help = "File name for ldr output"
-    ).default("KTracerDemo.png")
+    ).default("renderedimage.png")
     private val factor by option("--factor", help = "Tone mapping factor").float().default(0.2F)
     private val luminosity by option("--luminosity", help = "The required average luminosity").float().default(0.1F)
-    private val gamma by option("--gamma", help = "Gamma correction value").float().default(1.0F)
+    private val gamma by option("--gamma", help = "Gamma value").float().default(1.0F)
     private val nR by option(
         "--nr", "-n",
         help = "Number of rays for evaluating integral"
@@ -439,11 +439,11 @@ class Render : CliktCommand(name = "render") {
         "BMP", "bmp", "jpeg", "wbmp",
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
-    private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A").int()
+    private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A", help = "number of divisions in each pixel's side to perform antialiasing").int()
     @kotlin.ExperimentalUnsignedTypes
-    private val initState by option("--initState").convert { it.toULong() }.default(42UL)
+    private val initState by option("--initState", help = "initial state of random number generator").convert { it.toULong() }.default(42UL)
     @kotlin.ExperimentalUnsignedTypes
-    private val initSeq by option("--initSeq").convert { it.toULong() }.default(54UL)
+    private val initSeq by option("--initSeq", help= "initial sequence of random number generator").convert { it.toULong() }.default(54UL)
 
     val filename by option(
         "--inputfile", "--file",
