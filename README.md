@@ -50,6 +50,7 @@ and this will generate the image "demo.png" (if you like this image and want to 
 Render mode is the most important one: you can use it to create your own images.
 
 
+
 ### Conversion mode :arrows_counterclockwise:
 You can convert an existing .pfm file to a LDR file (format list available [here](https://github.com/AnnaPivetta/KTracer/blob/master/Format_List.txt)) running the command: 
 
