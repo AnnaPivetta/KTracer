@@ -20,7 +20,7 @@ material sky_material(			#the name of this material si sky_material
 	diffuse (			
 		uniform(
 		<skyblue>)),		#there are some default colors. You can use one of them writing the name between <>
-					#(link to the list of available colors in the README)
+					#(you can find the list of all the available colors at https://github.com/AnnaPivetta/KTracer/blob/master/ColorList.txt)
 	uniform(<skyblue>)
 )
 
