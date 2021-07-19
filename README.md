@@ -40,7 +40,7 @@ Distributions can be built from source code running the command:
 
 ### Basic Usage
 ### Demo mode
-<img align="right" width="300" src="./images/demo.png.png">
+<img align="right" width="200" src="images/demo.png.png">
 To do a quick check that everything works you can type the command:
 
     ./KTracer demo
