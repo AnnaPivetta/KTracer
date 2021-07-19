@@ -91,10 +91,11 @@ Running:
 you can find a list of all the available options
 
 ### Animation 
-<img align="right" src="images/demoworld-perspective.gif" width="300"/>
-Rotating the camera around the scene, you can create an animation.
-We provide you a script you can use [here](https://github.com/AnnaPivetta/KTracer/blob/master/build/distributions/KTracer-0.2.0/bin/Animation.zsh).
-As input file, you can use something like 
+//<img align="right" src="images/demoworld-perspective.gif" width="300"/>
+Rotating the camera around the scene you can create an animation.
+We provide you a script to create an animation [here](https://github.com/AnnaPivetta/KTracer/blob/master/build/distributions/KTracer-0.2.0/bin/Animation.zsh).
+As input file, you can use something like [this](https://github.com/AnnaPivetta/KTracer/blob/master/examples/animation_input.txt), where the camera is rotated by an angle whose value is saved in a variable called *angle*.
+If you have an input file you want to use, remember to replace "animation_input.txt" with your file name in the script.
 In order to use this script, you have to install [ffmpeg](https://github.com/FFmpeg/FFmpeg).
 
 
