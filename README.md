@@ -102,5 +102,5 @@ If you have an input file you want to use, remember to replace "animation_input.
 In order to use this script, you have to install [ffmpeg](https://github.com/FFmpeg/FFmpeg).
 
 
-### Documentation
-The documentation can be found on the [website](https://annapivetta.github.io/KTracer/).
+### Galley
+<img src="./images/cup.png" height="200" />

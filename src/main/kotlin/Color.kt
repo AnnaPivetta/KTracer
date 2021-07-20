@@ -1,7 +1,7 @@
 import kotlin.math.abs
 
 /*** RGB Color
- * The members of this class are r (level of red), g(level of green) and b(level of blue
+ * The members of this class are r (level of red), g(level of green) and b(level of blue)
  */
 data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) {
     /* RGB Color

@@ -492,27 +492,7 @@ class InStream(
                 unreadToken(what)
                 scene.world.add(parseShape(scene))
             }
-            /*else if (what.keyword == KeywordEnum.SPHERE) {
-                scene.world.add(parseSphere(scene))
-            }
-            else if (what.keyword == KeywordEnum.PLANE) {
-                scene.world.add(parsePlane(scene))
-            }
-            else if (what.keyword == KeywordEnum.BOX) {
-                scene.world.add(parseBox(scene))
-            }
-            else if (what.keyword == KeywordEnum.CYLINDER) {
-                scene.world.add(parseCylinder(scene))
-            }
-            else if (what.keyword == KeywordEnum.CSGUNION) {
-                scene.world.add(parseCSGUnion(scene))
-            }
-            else if (what.keyword == KeywordEnum.CSGDIFFERENCE) {
-                scene.world.add(parseCSGDifference(scene))
-            }
-            else if (what.keyword == KeywordEnum.CSGINTERSECTION) {
-                scene.world.add(parseCSGIntersection(scene))
-            }*/
+
 
             else if (what.keyword == KeywordEnum.CAMERA) {
                 if (scene.camera != null) {

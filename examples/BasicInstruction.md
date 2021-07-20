@@ -4,7 +4,7 @@ In input files, all the line starting with '#' are considered comments.
 White spaces and carriage return are always allowed between words, symbols and numbers.
 We'll now go through all the elements you need to construct a scene
 
-### Point
+## Point
 This is how you can specify a point (brackets are required):
 
     (coordinate x, coordinate y, coordinate z)
@@ -14,7 +14,7 @@ for example:
     (5,3, 6.7)
     (5,
         3.2,90)
-### Vector
+## Vector
 This is how you can create a vector (square brackets are required):
 
     [component x, component y, component z]
@@ -23,7 +23,7 @@ for example:
 
     [8.7,3, 4]
 
-### Color
+## Color
 This is how you can create a color (angular brackets are required):
 
     <r component, g component, b component>
@@ -32,9 +32,9 @@ If the color you want to specify is one of our already implemented colors you ca
     <green>
 The list of the available colors is [here](https://github.com/AnnaPivetta/KTracer/blob/master/ColorList.txt).
 
-### Pigment
+## Pigment
 You can choose between uniform, checkered or image pigment:
-#### Uniform
+### Uniform
 to create a uniform pigment you can use:
 
     uniform(color)
@@ -42,14 +42,14 @@ and you have to specify a color between brackets, for example:
 
     uniform(<0.8, 0.3, 0.4>)
     uniform(<red>)
-#### Checkered 
+### Checkered 
 If you want a chekered pigment you can use:
     
     checkered(color1, color2, number or repetitions)
 exemple:
     
     checkered(<black>, <white>, 4)
-#### Image
+### Image
 and if you want an image pigment:
     
     image(file)
@@ -57,15 +57,15 @@ The file must be in pfm format and if it isn't in the folder you are working in,
 
     image("my_image.pfm")
 
-### BRDF
-#### Diffusive
+## BRDF
+### Diffusive
 To create a diffusive brdf:
 
     diffuse(pigment)
 
 where you have to specify a pigment between brackets
 
-#### Specular
+### Specular
 To create a specular brdf:
 
     specular(pigment)
@@ -82,15 +82,15 @@ An exemple is:
 
     material beautiful_material(diffuse(uniform(<navy>)), uniform(<black>))
 
-### Transformations
-#### Translation
+## Transformations
+### Translation
 This is how you can operate a translation:
 
     translation(vector)
 you have to specify between brackets what is the vector you want to describe the translation, for example:
 
     translation([7.3, 4, 9.0])
-#### Rotation
+### Rotation
 This is how you can operate a rotation around x, y or z axis:
 
     rotation_x(angle)
