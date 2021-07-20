@@ -38,7 +38,7 @@ plane(					#we add a plane to the scene
 	identity			#the transformation to be applied to this plane. "identity" means no transformation
 					#so this plane will be the x,y plane passing through the origin (x=0, y=0, z=0)
 )
-# Define the sky plae:
+# Define the sky plane:
 # now we use a non trivial (but very easy) transformation! Other transformations will be used in the next tutorials
 plane(
 	sky_material,
