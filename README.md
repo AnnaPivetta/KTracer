@@ -11,6 +11,7 @@ The contributors to the project are [Matteo Martinelli](https://github.com/Matte
 * [Requirements](#requirements)
 * [Distribution](#distribution)
 * [Basic Usage](#usage)
+* [Gallery](#gallery)
 
 ### Requirements
 KTracers uses [Kotlin](https://github.com/JetBrains/kotlin) version 1.4.31. It is built with [Gradle](https://github.com/gradle/gradle).  
@@ -102,7 +103,7 @@ If you have an input file you want to use, remember to replace "animation_input.
 In order to use this script, you have to install [ffmpeg](https://github.com/FFmpeg/FFmpeg).
 
 
-### Galley
+### Gallery :fireworks:
 <p float="center">
 <img src="./images/cup.png" height="300" />
 
