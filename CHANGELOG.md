@@ -1,4 +1,11 @@
-# CHANGELOG 
+# CHANGELOG
+
+### v1.0.0
+##### New Features
+ - [#17](https://github.com/AnnaPivetta/KTracer/pull/17) render mode is able to read input files
+##### User API 
+ - angles must be specified in degrees
+
 
 ### v0.2.1
 ##### New Features
