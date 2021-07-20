@@ -103,4 +103,8 @@ In order to use this script, you have to install [ffmpeg](https://github.com/FFm
 
 
 ### Galley
-<img src="./images/cup.png" height="200" />
+<p float="center">
+<img src="./images/cup.png" height="300" />
+
+</p>
+
