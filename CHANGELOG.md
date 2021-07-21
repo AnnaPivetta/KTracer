@@ -1,5 +1,9 @@
 # CHANGELOG
 
+### v1.0.1
+##### Fixes
+- bug fixed in box (u,v) mapping
+
 ### v1.0.0
 ##### New Features
  - [#17](https://github.com/AnnaPivetta/KTracer/pull/17) render mode is able to read input files
