@@ -176,7 +176,7 @@ class Render : CliktCommand(name = "render") {
         help = "Renderer algorithm (pt is for Path Tracer)"
     ).choice("onoff", "flat", "pt").default("pt")
     private val pfmoutput by option(
-        "--pfm-o", "--hdr-o", "--pfmoutput",
+        "--pfm-o", "--hdr-o", "--pfmoutput", "--hdroutput",
         help = "File name for pfm output"
     ).default("renderedimage.pfm")
     private val ldroutput by option(

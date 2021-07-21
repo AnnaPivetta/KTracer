@@ -110,7 +110,7 @@ class InStream(
         var ch: Char? = this.readChar() ?: return
         while (ch in WHITESPACE || ch == '#') {
             // It's a comment! Keep reading until the end of the line (include the case "", the end-of-file)
-            if (ch == '#') while (this.readChar() !in listOf(null, '\n')) continue
+            if (ch == '#') while (this.readChar() !in listOf(null, '\n', '\r' )) continue
             ch = readChar()
             if (ch == null) return
         }
@@ -236,7 +236,7 @@ class InStream(
         if (token.keyword !in keywords) {
             throw GrammarError(
                 token.location,
-                "Expected one of the keywords ${KeywordEnum.values()} instead of $token"
+                "Expected one of the keywords ${keywords} instead of $token"
             )
         }
         return token.keyword
@@ -247,7 +247,7 @@ class InStream(
             is KeywordToken -> {
                 if (token.keyword !in keywords) throw GrammarError(
                     token.location,
-                    "Expected one of the keywords ${KeywordEnum.values()} instead of $token"
+                    "Expected one of the keywords ${keywords} instead of $token"
                 )
                 else token.keyword
             }
