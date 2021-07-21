@@ -16,3 +16,6 @@ limegreen
 darkorange
 purple
 red
+gray
+darkgray
+dimgray

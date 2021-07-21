@@ -49,7 +49,10 @@ class InStream(
         "limegreen" to LIMEGREEN.copy(),
         "darkorange" to DARKORANGE.copy(),
         "purple" to PURPLE.copy(),
-        "red" to RED.copy()
+        "red" to RED.copy(),
+        "grey" to GRAY.copy(),
+        "darkgray" to DARKGRAY.copy(),
+        "dimgray" to DIMGRAY.copy()
     )
 
     //Variables for read/unread and location
