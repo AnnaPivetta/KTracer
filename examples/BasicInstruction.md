@@ -150,6 +150,7 @@ You can create a cylinder in this way:
 
     cylinder(cylinder_material, transformation)
 the default cylinder has height 1 (from z=-0.5 to z=0.5), radius 1 and is centered in the origin, but you can move and deform it applying a suitable transformation.
+The pigment of the material you specify for the cylinder can only be uniform or specular, since we haven't implemented (u,v) mapping on cylinders yet.
 
 ## Union
 You can add the union of two different shapes in the scene in this way:

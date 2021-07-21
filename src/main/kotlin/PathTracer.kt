@@ -4,7 +4,7 @@
  * This class inherits from abstract class [Renderer] and implements the algorithm of Path Tracer.
  * Hit [Shape]s in the [world] are visualized using their associated [Pigment]. Any contribution of light is
  * neglected.
- *
+ *©
  *
  * @see Renderer
  */

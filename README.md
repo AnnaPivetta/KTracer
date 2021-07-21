@@ -106,6 +106,6 @@ In order to use this script, you have to install [ffmpeg](https://github.com/FFm
 ### Gallery :fireworks:
 <p float="center">
 <img src="./images/cup.png" height="300" />
-
+<img src="./images/scene.png" height="300" />
 </p>
 
