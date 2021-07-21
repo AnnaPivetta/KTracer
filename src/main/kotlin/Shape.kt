@@ -13,12 +13,17 @@
  * - [Sphere]
  * - [Box]
  * - [Plane]
+ * - [Cylinder]
  * - CSGs
  *
  *
  * @see Sphere
  * @see Box
  * @see Plane
+ * @see CSGDifference
+ * @see CSGUnion
+ * @see CSGIntersection
+ * @see Cylinder
 
  */
 
