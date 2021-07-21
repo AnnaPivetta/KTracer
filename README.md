@@ -109,3 +109,8 @@ In order to use this script, you have to install [ffmpeg](https://github.com/FFm
 <img src="./images/scene.png" height="300" />
 </p>
 
+<p float="center">
+<img src="./images/chair.png" height="300" />
+
+</p>
+
