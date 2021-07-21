@@ -26,11 +26,6 @@ More information can be found at [clikt](https://github.com/ajalt/clikt/) reposi
 In order to use and modify the code you can clone the repository with the command:
     
     git clone git@github.com:AnnaPivetta/KTracer.git
-
-To check that everything work as expected run the command:
-
-    ./gradlew test
-
 The latest version is available at: 
 https://github.com/AnnaPivetta/KTracer/tags  
 Each version includes the source code and the built executable.
@@ -38,6 +33,9 @@ Each version includes the source code and the built executable.
 Distributions can be built from source code running the command:
 
     ./gradlew assembleDist
+To check that everything work as expected run the command:
+
+    ./gradlew test
 
 ### Usage
 ### Demo mode :white_check_mark:
@@ -111,6 +109,6 @@ In order to use this script, you have to install [ffmpeg](https://github.com/FFm
 
 <p float="center">
 <img src="./images/chair.png" height="300" />
-
+<img src="./images/mirrors.png" height="300" />
 </p>
 
