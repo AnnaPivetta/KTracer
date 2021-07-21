@@ -15,7 +15,11 @@ The contributors to the project are [Matteo Martinelli](https://github.com/Matte
 * [Requirements](#requirements)
 * [Distribution](#distribution)
 * [Basic Usage](#usage)
-* [Gallery](#gallery)
+  - [Demo](#demo-mode-white_check_mark)
+  - [Render](#render-mode-art)
+  - [Converter](#conversion-mode-arrows_counterclockwise)
+* [Animation](#animation-movie_camera)
+* [Gallery](#gallery-fireworks)
 
 ### Requirements
 KTracers uses [Kotlin](https://github.com/JetBrains/kotlin) version 1.4.31. It is built with [Gradle](https://github.com/gradle/gradle).  
