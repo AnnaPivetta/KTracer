@@ -335,21 +335,17 @@ class InStream(
     private fun parseColor(scene: Scene): Color {
         expectSymbol('<')
         val token = readToken()
-        val result : Color
-        if (token is LiteralNumberToken) {
-            //val red = expectNumber(scene)
+        val result : Color = if (token is LiteralNumberToken) {
             val red = token.value
             expectSymbol(',')
             val green = expectNumber(scene)
             expectSymbol(',')
             val blue = expectNumber(scene)
-            result = Color(red, green, blue)
-        }
-        else if (token is IdentifierToken) {
+            Color(red, green, blue)
+        } else if (token is IdentifierToken) {
             if (token.identifier !in name2color.keys) throw (GrammarError(token.location,"you must specify an allowed color between <>"))
-            else result = name2color[token.identifier]!!
-        }
-        else throw (GrammarError(token.location,"you must specify a color between <>"))
+            else name2color[token.identifier]!!
+        } else throw (GrammarError(token.location,"you must specify a color between <>"))
         expectSymbol('>')
         return result
     }
