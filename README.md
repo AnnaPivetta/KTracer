@@ -45,7 +45,7 @@ To check that everything work as expected run the command:
 
     ./gradlew test
 
-### Usage
+## Usage
 ### Demo mode :white_check_mark:
 <img align="right" width="200" src="images/demo.png">
 To do a quick check that everything works you can type the command:
