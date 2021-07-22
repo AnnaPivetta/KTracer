@@ -98,6 +98,7 @@ You can set some useful parametersm as:
 - `--luminosity <LUMINOSITY>` the required average luminosity (default is 0.1)
 - `--gamma <GAMMA>` the gamma parameter of the monitor (dafault is 1)
 - `--factor <FACTOR>` a rescaling factor (you can find more detailes in [S&M](https://books.google.it/books/about/Realistic_Ray_Tracing_Second_Edition.html?id=ywOtPMpCcY8C&redir_esc=y) (deafult is 2)
+
 Running:
    
     ./KTracer pfm2ldr --help
