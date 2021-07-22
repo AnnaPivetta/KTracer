@@ -8,7 +8,6 @@ import kotlin.test.assertTrue
  * This class is deputed to the reading and translating of input files for scenes that
  * have to be rendered
  *
- *
  */
 class InStream(
     private var stream: InputStreamReader,
@@ -336,7 +335,7 @@ class InStream(
     private fun parseColor(scene: Scene): Color {
         expectSymbol('<')
         val token = readToken()
-        var result : Color = Color()
+        val result : Color
         if (token is LiteralNumberToken) {
             //val red = expectNumber(scene)
             val red = token.value

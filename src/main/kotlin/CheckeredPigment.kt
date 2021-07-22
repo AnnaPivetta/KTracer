@@ -1,5 +1,4 @@
 import kotlin.math.floor
-import kotlin.time.measureTime
 
 /** A checkered pigment
  *

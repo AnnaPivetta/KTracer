@@ -1,3 +1,8 @@
+/**
+ * Creates the OrthoNormal Basis of the space, using as z axis a surface normal.
+ * It uses the algorithm developed by _Duff et al._ in  _JCGT - Vol. 6, No. 1, 2017_
+ */
+
 fun createONBfromZ (normal : Normal) :  Triple<Vector, Vector, Vector> {
     normal.normalize()
     val sign = if (normal.z > 0.0F) {

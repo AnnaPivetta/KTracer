@@ -20,6 +20,13 @@ class DiffuseBRDF (p : Pigment = UniformPigment(BLACK.copy())) : BRDF(p){
         return p.getColor(uv) * (1.0F / PI.toFloat() )
     }
 
+    /**
+     * Generates a random directed ray in a 2pi solid angle, with respect to hit surface.
+     * Rays are distributed as a Phong distribution with n=1. This is due to the importance sampling implemented in
+     * path tracer.
+     *
+     * @see [PathTracer]
+     */
     @kotlin.ExperimentalUnsignedTypes
     override fun scatterRay(pcg: PCG, inDir: Vector, hitPoint: Point, normal: Normal, depth: Int): Ray {
         val (e1, e2, e3) = createONBfromZ(normal)

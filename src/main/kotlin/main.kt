@@ -6,11 +6,9 @@ import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.float
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.parameters.types.long
 
 import java.io.FileInputStream
 import java.io.FileReader
-import kotlin.math.PI
 
 class KTracer : CliktCommand() {
     override fun run() = Unit
@@ -25,20 +23,19 @@ class Demo : CliktCommand(name = "demo") {
     override fun run() {
         val width = 480
         val height = 480
-        val AAgrid = 1
         val pfmoutput = "demo.pfm"
         val ldroutput = "demo.png"
         val factor = 0.2F
         val luminosity = 0.1F
         val gamma = 1.0F
         val format="png"
-        val initState = 42UL
-        val initSeq = 54UL
 
         //Set the World
         val world = World()
+
         //Set a transformation for future use
         val T = Transformation()
+
         world.add(Plane(material=Material(DiffuseBRDF(p=UniformPigment(GREEN.copy())))))
         val sphereR = 50.0F
         world.add(Sphere(
@@ -114,7 +111,6 @@ class Demo : CliktCommand(name = "demo") {
         val cameraT = T.translation(-2.0F * VECX + 3.0F * VECZ)
         val camera = PerspectiveCamera(AR = 1.0F, T = cameraT)
         val im = HdrImage(width, height)
-        val pcg = PCG(initState, initSeq)
         val computeColor = FlatRenderer(world).computeRadiance()
         ImageTracer(im, camera).fireAllRays(computeColor)
 
@@ -143,7 +139,7 @@ class Conversion : CliktCommand(name = "pfm2ldr") {
     override fun run() {
         val img = HdrImage()
         echo("Reading file...")
-        FileInputStream(inputPFMFileName.toString()).use { INStream ->
+        FileInputStream(inputPFMFileName).use { INStream ->
             img.readPfmFile(INStream)
         }
         echo("File successfully read")
@@ -153,7 +149,7 @@ class Conversion : CliktCommand(name = "pfm2ldr") {
         echo("Image normalized")
         echo("Writing image on disk...")
 
-        img.saveLDRImg(outputFileName.toString(), format.toString(), gamma)
+        img.saveLDRImg(outputFileName, format, gamma)
         println("Done! Your image has been saved to ${System.getProperty("user.dir")}/${outputFileName}")
     }
 }
@@ -176,7 +172,7 @@ class Render : CliktCommand(name = "render") {
         help = "Renderer algorithm (pt is for Path Tracer)"
     ).choice("onoff", "flat", "pt").default("pt")
     private val pfmoutput by option(
-        "--pfm-o", "--hdr-o", "--pfmoutput", "--hdroutput",
+        "--pfm-o", "--hdr-o", "--hdroutput", "--pfmoutput",
         help = "File name for pfm output"
     ).default("renderedimage.pfm")
     private val ldroutput by option(

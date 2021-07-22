@@ -1,12 +1,14 @@
 /** A Pigment given through an image
  *
- * This class inherits from [Pigment] and represents a pigment whose color is taken from a PFM image
+ * This class inherits from [Pigment] and represents a pigment whose color is taken from a PFM image.
  *
- * When using this for texturing a [Box] the [image] should be take with no padding
+ * When using this for texturing a [Box] check how to choose the [image].
  *
- * @param image The [HdrImage] from which color is taken
+ * Class properties:
+ * - [image] - The [HdrImage] from which color is taken
  *
  * @see Pigment
+ * @see Box
 */
 
 class ImagePigment (val image : HdrImage = HdrImage()) : Pigment() {

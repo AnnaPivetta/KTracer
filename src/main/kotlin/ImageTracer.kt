@@ -1,15 +1,22 @@
-/*** sends lights rays through each pixel and traces the image
- * @param image : the [HdrImage] whose pixels are passed through
- * @param camera : the [Camera] observing the scene
+/**
+ * Ray Tracer
+ * This class sends light rays through each pixel of the screen and computes the associated radiance
+ *
+ * Class properties:
+ * - [image] - The [HdrImage] to fill with colors
+ * - [camera] - The [Camera] observing the scene
  */
 class ImageTracer (
     var image : HdrImage,
     var camera: Camera
     )  {
+
     /**
-     * sends one light ray through the pixel (col, row)
-     * @param uPixel is a number in range [0,1] specifying where the ray should hit the pixel along the horizontal direction
-     * @param vPixel is a number in range [0,1] specifying where the ray should hit the pixel along the vertical direction
+     * Sends one light ray from the [camera] through the selected pixel
+     * @param col The column index of the pixel
+     * @param row The row index of the pixel
+     * @param uPixel A number in range [0,1] specifying where the ray should hit the pixel along the horizontal direction
+     * @param vPixel A number in range [0,1] specifying where the ray should hit the pixel along the vertical direction
      */
     fun fireRay (col : Int, row : Int, uPixel : Float =0.5F, vPixel :Float =0.5F) : Ray {
         val u = (col + uPixel)/image.getWidth()
@@ -18,7 +25,9 @@ class ImageTracer (
     }
 
     /**
-     * sends a light ray through each pixel and computes the color of each pixel
+     * Sends light rays through each pixel and computes the radiance of each pixel
+     *
+     * @param function The function specifying how to compute the radiance
      */
     fun fireAllRays (function : (Ray) -> Color ) {
         for (row in 0 until image.getHeight()) {
@@ -32,7 +41,14 @@ class ImageTracer (
     }
 
     /**
-     * sends several rays through each pixel and computes the color of each pixel using antialiasing algorithm
+     * Overloads [fireAllRays] adding the algorithm of Anti Aliasing.
+     * I consists in sampling the radiance of each pixel multiple time, dividing it in squares and randomly choosing
+     * the position where the ray is sent at.
+     * Averaging the results improves the quality of the renedering
+     *
+     * @param AAgrid The number of squares in which each side of the pixel is divided. Namely AAgrid*AAgrid is the total
+     * number of samples per pixel
+     * @param pcg The random number generator used
      */
     @ExperimentalUnsignedTypes
     fun fireAllRays(function: (Ray) ->Color, AAgrid : Int?, pcg: PCG) {
