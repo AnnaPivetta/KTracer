@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.parameters.types.int
 
 import java.io.FileInputStream
 import java.io.FileReader
+import kotlin.system.measureTimeMillis
 
 class KTracer : CliktCommand() {
     override fun run() = Unit
@@ -128,13 +129,31 @@ class Demo : CliktCommand(name = "demo") {
 }
 
 class Conversion : CliktCommand(name = "pfm2ldr") {
-    private val inputPFMFileName by option("--input", "-i", help = "required: the pfm file to convert").required()
-    private val factor by option("--factor", help="optional: a factor needed for the conversion.").float().default(0.2F)
-    private val luminosity by option("--luminosity", help = "optional: he required average luminosity").float().default(0.1F)
-    private val gamma by option("--gamma", help = "optional: the gamma factor that characterizes the answer of the monitor." +
-            "If you know the gamma factor of your monitor you can specify it, otherwise the default value is 1").float().default(1.0F)
-    private val format by option("--format", help= "required: the format of the output file").choice("BMP", "bmp", "jpeg", "wbmp", "png", "JPG", "PNG", "jpg", "WBMP", "JPEG").required()
-    private val outputFileName by option("--output", "-o", help= "required: the name of the output file").required()
+    private val inputPFMFileName by option(
+        "--input", "-i",
+        help = "[Required]: the pfm file to convert"
+    ).required()
+    private val factor by option(
+        "--factor",
+        help="optional: a factor needed for the conversion."
+    ).float().default(0.2F)
+    private val luminosity by option(
+        "--luminosity", "-l",
+        help = "optional: he required average luminosity"
+    ).float().default(0.1F)
+    private val gamma by option(
+        "--gamma", "-g",
+        help = "optional: the gamma factor that characterizes the answer of the monitor." +
+            "If you know the gamma factor of your monitor you can specify it, otherwise the default value is 1"
+    ).float().default(1.0F)
+    private val format by option(
+        "--format",
+        help= "[Required]: The format of the output file"
+    ).choice("BMP", "bmp", "jpeg", "wbmp", "png", "JPG", "PNG", "jpg", "WBMP", "JPEG").required()
+    private val outputFileName by option(
+        "--output", "-o",
+        help= "[Required]: the name of the output file"
+    ).required()
 
     override fun run() {
         val img = HdrImage()
@@ -163,10 +182,6 @@ class Render : CliktCommand(name = "render") {
         "--height", "-h",
         help = "Image height"
     ).int().default(480)
-    private val angleDeg by option(
-        "--angle-deg",
-        help = "Angle of camera rotation (CCW) with respect to z axis in DEG"
-    ).float().default(0.0F)
     private val algorithm by option(
         "--algorithm", "-a",
         help = "Renderer algorithm (pt is for Path Tracer)"
@@ -198,20 +213,26 @@ class Render : CliktCommand(name = "render") {
         "BMP", "bmp", "jpeg", "wbmp",
         "png", "JPG", "PNG", "jpg", "WBMP", "JPEG"
     ).default("png")
-    private val AAgrid by option("--AAgrid", "--AA", "--aa", "-A", help = "number of divisions in each pixel's side to perform antialiasing").int()
+    private val AAgrid by option(
+        "--AAgrid", "--AA", "--aa", "-A",
+        help = "Number of divisions in each pixel's side to perform antialiasing").int()
+    private val nCores by option(
+        "-N", "--nCores", "--nC",
+    help = "Number of cores to use for parallelization speed up. If 1 no sequential code is used"
+    ).int().default(1)
     @kotlin.ExperimentalUnsignedTypes
     private val initState by option("--initState", help = "initial state of random number generator").convert { it.toULong() }.default(42UL)
     @kotlin.ExperimentalUnsignedTypes
     private val initSeq by option("--initSeq", help= "initial sequence of random number generator").convert { it.toULong() }.default(54UL)
 
-    val filename by option(
-        "--inputfile", "--file",
+    private val filename by option(
+        "--inputfile", "--file", "-i",
         help = "File describing the scene to render"
     ).required()
-    val variables : Map<String, String> by option("--declare-float", "-D").associate()
+    private val variables : Map<String, String> by option("--declare-float", "-D").associate()
     @kotlin.ExperimentalUnsignedTypes
     override fun run() {
-        val map : MutableMap<String, Float> = mutableMapOf<String,Float>()
+        val map : MutableMap<String, Float> = mutableMapOf()
         for (i in variables.keys) {
             map[i]=variables[i]!!.toFloat()
         }
@@ -236,10 +257,12 @@ class Render : CliktCommand(name = "render") {
 
         if (scene.camera == null) {
             print("no camera defined. A default camera will be used")}
-        ImageTracer(
+        val elapsed = measureTimeMillis { ImageTracer(
             im,
             scene.camera ?: PerspectiveCamera(T = Transformation().translation(-VECX + VECZ), dist=1.0F, AR=width/height.toFloat())
-        ).fireAllRays(computeColor, AAgrid, pcg)
+        ).fireAllRays(computeColor, AAgrid, pcg, nCores)
+        }
+        println ("Total tracing time $elapsed ms")
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)
