@@ -39,7 +39,7 @@ box(					#we start with the keyword "box"
 #another new shape: cylinder
 cylinder(				#we start with the keyword "cylinder"
 	mat_9,				#the first argument must be the material for this cylinder
-	                    #the pigment of the material associated with the cylinder can only be diffusive or specular.
+	                    #the pigment of the material associated with the cylinder can only be uniform.
 	                    #image pigment and checkered pigment are not available for cylinder.
 	scaling([0.4,0.4,7])*		#and the second argument must be the transformation we want to apply
 	translation([4, -8, 0])
