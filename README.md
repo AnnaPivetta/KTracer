@@ -68,7 +68,7 @@ Once your input file is ready in order to create your image you can use the comm
 The name of the input file is the only required option, but you can also specify some other useful parameters, as:
 
 - `--width | -h <WIDTH>` the width of the image (default is 480)
-- `--height | -h <WIDTH>` the height of the image (default is 480)
+- `--height | -h <HEIGTH>` the height of the image (default is 480)
 - `--algorithm | -a <ALGORITHM>` the algorithm used to render the image. Choices are `onoff` (for on-off renderer), `flat` (for flat renderer) and `pt` (for path-tracing renderer). Default is `pt` 
 - `--ldr-o | --ldroutput <FILE OUT>` the name of the LDR File containing the image. Default is "renderedimage.png".
 - `--nr | -n <NUMBER OF RAYS>` number of rays generated at each surface-ray interaction. Default is 10.
