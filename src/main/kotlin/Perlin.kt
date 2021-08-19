@@ -78,5 +78,18 @@ object Perlin {
                 (if ((h and 2) == 0) v else -v)
     }
 
+    fun turbulence(x: Float, y: Float, octaves: Float): Float {
+        //To get the turbulence different zoomed image are added together,
+        //the lesser the zoom, the darker the image (to lower their effect of noise)
+
+        var value = 0.0F
+        var size = 1.0F
+        while (size <= octaves) {
+            value += noise(x * size, y * size) / size
+            size *= 2.0F
+        }
+        return value
+    }
+
 }
 

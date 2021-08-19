@@ -99,11 +99,11 @@ class Demo : CliktCommand(name = "demo") {
                 material = Material(
                     DiffuseBRDF(
                         MarblePigment(
-                            c1 = Color(0.5F, 0.5F, 0.5F),
-                            c2 = BLACK.copy(),
-                            turbPower = 2.0F,
-                            yPeriod = 0.5F
+                            turbPower = 4.0F,
+                            xPeriod = 0.9F,
+                            yPeriod = 0.0F
                         )
+
                     ),
                     //DiffuseBRDF(UniformPigment(WHITE.copy())),
                     UniformPigment(BLACK.copy())
@@ -140,8 +140,8 @@ class Demo : CliktCommand(name = "demo") {
                 //Transformation().scaling((Vector(1.0F, 1.0F, 1.0F))),
                 material = Material(
                     //SpecularBRDF(UniformPigment(SILVER.copy())),
-                    //DiffuseBRDF(WoodPigment(xyPeriod = 12.0F, turbPower = 0.05F)),
-                    DiffuseBRDF(FirePigment()),
+                    DiffuseBRDF(WoodPigment(c2 = BLACK.copy(), xyPeriod = 12.0F, turbPower = 0.1F)),
+                    //DiffuseBRDF(LavaPigment()),
                     UniformPigment(BLACK.copy())
                 )
             )
