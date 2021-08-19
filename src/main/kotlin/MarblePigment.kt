@@ -28,9 +28,9 @@ class MarblePigment(
     val c1: Color = WHITE.copy(),
     val c2: Color = BLACK.copy(),
     val xPeriod: Float = 0.0F,
-    val yPeriod: Float = 1.0F,
-    val turbPower: Float = 4.0F,
-    val octaves: Int = 128
+    val yPeriod: Float = 0.8F,
+    val turbPower: Float = 5.0F,
+    val octaves: Int = 256
 ) : Pigment() {
 
     override fun getColor(vec: Vector2d): Color {

@@ -230,6 +230,17 @@ class InStream(
         }
     }
 
+    private fun expectSymbols(symbols: List<Char>) : Char {
+        val token = readToken()
+        if (token !is SymbolToken) {
+            throw GrammarError(token.location, "got $token instead of symbol")
+        }
+        if ( token.symbol !in symbols) {
+            throw GrammarError(token.location, "Expected one of the ${symbols} instead of $token")
+        }
+        return token.symbol
+    }
+
     private fun expectKeywords(keywords: List<KeywordEnum>): KeywordEnum {
         val token = readToken()
         if (token !is KeywordToken) {
@@ -351,7 +362,8 @@ class InStream(
     }
 
     private fun parsePigment(scene: Scene): Pigment {
-        val keyword = expectKeywords(listOf(KeywordEnum.UNIFORM, KeywordEnum.CHECKERED, KeywordEnum.IMAGE))
+        val keyword = expectKeywords(listOf(KeywordEnum.UNIFORM, KeywordEnum.CHECKERED, KeywordEnum.IMAGE,
+            KeywordEnum.MARBLE, KeywordEnum.WOOD, KeywordEnum.LAVA))
         expectSymbol('(')
         val result : Pigment
         when (keyword) {
@@ -372,6 +384,67 @@ class InStream(
                 val img = HdrImage()
                 img.readImg(fileName)
                 result =  ImagePigment(image = img)
+            }
+            KeywordEnum.MARBLE ->{
+                val t = expectSymbols(listOf(')', '<'))
+                if (t == ')') {
+                    unreadChar(')')
+                    result = MarblePigment()
+                }
+                else {
+                    unreadChar('<')
+                    val c1 = parseColor(scene)
+                    expectSymbol(',')
+                    val c2 = parseColor(scene)
+                    expectSymbol(',')
+                    val xPeriod = expectNumber(scene)
+                    expectSymbol(',')
+                    val yPeriod = expectNumber(scene)
+                    expectSymbol(',')
+                    val turbPower = expectNumber(scene)
+                    expectSymbol(',')
+                    val octaves = expectNumber(scene).toInt()
+                    result = MarblePigment(
+                        c1 = c1,
+                        c2=c2,
+                        xPeriod = xPeriod,
+                        yPeriod=yPeriod,
+                        turbPower=turbPower,
+                        octaves=octaves
+                    )
+                }
+                                 }
+            KeywordEnum.WOOD -> {
+                val t = expectSymbols(listOf(')', '<'))
+                if (t == ')') {
+                    unreadChar(')')
+                    result = WoodPigment()
+                }
+                else {
+                    unreadChar('<')
+                    val c1 = parseColor(scene)
+                    expectSymbol(',')
+                    val c2 = parseColor(scene)
+                    expectSymbol(',')
+                    val xyPeriod = expectNumber(scene)
+                    expectSymbol(',')
+                    val turbPower = expectNumber(scene)
+                    expectSymbol(',')
+                    val octaves = expectNumber(scene).toInt()
+                    result = WoodPigment(
+                        c1 = c1,
+                        c2=c2,
+                        xyPeriod = xyPeriod,
+                        turbPower=turbPower,
+                        octaves=octaves
+                    )
+                }
+            }
+            KeywordEnum.LAVA -> {
+                val scale = expectNumber(scene)
+                expectSymbol(',')
+                val octaves = expectNumber(scene).toInt()
+                result = LavaPigment(scale, octaves)
             }
             else -> throw (RuntimeException("This line should be unreachable"))
         }
