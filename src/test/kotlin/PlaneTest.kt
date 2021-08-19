@@ -33,7 +33,7 @@ class PlaneTest {
 
     @Test
     fun transformation () {
-        val plane = Plane(Transformation().rotationY((PI/2.0F).toFloat()))
+        val plane = Plane(Transformation().rotationY(90.0F))
         val ray1= Ray(origin = Point(1.0F, 0.0F, 0.0F), dir =-VECX)
         val intersection1 = plane.rayIntersection(ray1)
         assertTrue(intersection1 != null)

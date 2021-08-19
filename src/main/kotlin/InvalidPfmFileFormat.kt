@@ -1,2 +1,1 @@
-class InvalidPfmFileFormat (val mex : String): RuntimeException (mex){
-}
+class InvalidPfmFileFormat (mex : String): RuntimeException (mex)

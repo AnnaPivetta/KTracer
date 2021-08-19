@@ -1,6 +1,10 @@
 //Terminal fancy settings
-const val RED = "\u001b[0;31m"
-const val RESET = "\u001b[0m"
+const val VIDEORED = "\u001b[0;31m"
+const val VIDEORESET = "\u001b[0m"
+
+//Input constants
+val WHITESPACE = listOf(' ', '\n', '\r', '\t')
+val SYMBOLS = listOf('(', ')', '<', '>', '[', ']', ',', '*')
 
 //Geometry constants
 val ID4X4 = Array(4) { i -> FloatArray(4) { k -> if (k != i) 0.0F else 1.0F } }
@@ -24,6 +28,12 @@ val GOLD = Color (1.0F, 0.8431372549F, 0.0F)
 val LIMEGREEN = Color(0.19607843137F, 0.80392156862F,0.19607843137F)
 val GREEN = Color (0.0F, 0.50196078431F, 0.0F)
 val DARKORANGE = Color(1.0F, 0.54901960784F, 0.0F)
+val PURPLE = Color(0.50196078431F, 0.0F, 0.50196078431F)
+val BROWN = Color(0.64705882352F,0.16470588235F, 0.16470588235F)
+val RED = Color(1.0F, 0F, 0F)
+val GRAY = Color(0.50196078431F, 0.50196078431F, 0.50196078431F)
+val DARKGRAY = Color(0.66274509803F, 0.66274509803F, 0.66274509803F)
+val DIMGRAY = Color(0.41176470588F, 0.41176470588F, 0.41176470588F)
 val SADDLEBROWN = Color(0.54509803921F, 0.27058823529F, 0.07450980392F)
 val DARKBROWN = Color(0.32156862745F, 0.16862745098F, 0.05882352941F)
 val YELLOW = Color (1.0F, 1.0F, 0.0F)

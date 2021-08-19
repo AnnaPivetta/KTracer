@@ -46,5 +46,11 @@ class BoxTest {
         assertTrue(int3.t.isClose(expectedT3))
         assertTrue(int3.surfacePoint.isClose(expectedUV3))
 
+        val ray4 = Ray(origin = Point(0.5F, 0.5F, 1.0F), dir= -VECZ)
+        val expectedHitPoint4 = Point(0.5F, 0.5F, 0.5F)
+        val expectedNormal4 = VECZ.toNormal()
+        val expectedUV4 = Vector2d(0.5F, 0.5F)
+        val expectedT4 = 0.5F
+        val int4 = b.rayIntersection(ray4)
     }
 }

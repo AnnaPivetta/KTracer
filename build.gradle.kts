@@ -6,7 +6,7 @@ plugins {
 }
 
 group = "me.annapivetta"
-version = "0.2.0"
+version = "1.0.1"
 
 repositories {
     mavenCentral()
@@ -15,6 +15,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test-junit"))
     implementation("com.github.ajalt.clikt:clikt:3.1.0")
+    implementation(kotlin("test"))
 }
 
 tasks.test {

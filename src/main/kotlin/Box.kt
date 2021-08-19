@@ -25,8 +25,8 @@ class Box(
         for (i in 0 until 3) {
             if (min[i] > max[i]) {
                 println(
-                    RED + "Warning: Box has no consistent minimum and maximum vertices. " +
-                            "Default values will be used" + RESET
+                    VIDEORED + "Warning: Box has no consistent minimum and maximum vertices. " +
+                            "Default values will be used" + VIDEORESET
                 )
                 min = Point(-0.5F, -0.5F, -0.5F)
                 max = Point(0.5F, 0.5F, 0.5F)
@@ -199,7 +199,7 @@ class Box(
             2 -> VECZ.toNormal()
             else -> Normal()
         }
-        return if (norm.toVector() * rayDir > 0) -norm else norm
+        return if (norm.toVector() * rayDir >= 0) -norm else norm
     }
 
 
@@ -207,7 +207,7 @@ class Box(
      * Function to map the surface of a cube onto a 2d projection
      *
      * The numeration of faces and their orientation in 3D space are consistent with the explanation
-     * available on [Wikipedia](https://en.wikipedia.org/wiki/Cube_mapping).
+     * available on [Wikipedia](https://en.wikipedia.org/wiki/Cube_mapping:).
      * Each face is uniquely identified with its own normal, since this is an AAB
      *
      * When using this for texturing a Cube the original image should be taken with width=height and the cube map should
@@ -241,15 +241,25 @@ class Box(
 
         //For a complete understanding you may want to look to cited reference
         //Each face has a shift (may be 0) along u and v axes
+        //The shift along v is negative because each face is mapped like :
+        //            (1, 0)-(1, 1)
+        //              |       |
+        //            (0, 0)-(1, 0)
+        //But the full image is mapped from a PFM file, which is:
+        //
+        //            (0, 0)-(0, 1)
+        //              |       |
+        //            (0, 1)-(1, 1)
+        //
         //Then the coordinate are scaled in the range [0,1] with respect to the face side
-        //Another scaling is performed with respect to the entire image
+        //Another scaling is performed with respect to the entire image, namely each face is a 1/4 of the full width/height
         return when (face) {
-            0 -> Vector2d(u = 0.5F + (max.z - hit.z)/(max.z-min.z)*0.25F, v=0.5F  + (hit.y - min.y)/(max.y-min.y)*0.25F )
-            1 -> Vector2d(u =        (hit.z - min.z)/(max.z-min.z)*0.25F, v=0.5F  + (hit.y - min.y)/(max.y-min.y)*0.25F )
-            2 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=0.25F + (max.z - hit.z)/(max.z-min.z)*0.25F )
-            3 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=0.75F + (hit.z - min.z)/(max.z-min.z)*0.25F )
-            4 -> Vector2d(u = 0.25F+ (hit.x - min.x)/(max.x-min.x)*0.25F, v=0.5F  + (hit.y - min.y)/(max.y-min.y)*0.25F )
-            5 -> Vector2d(u = 0.75F+ (max.x - hit.x)/(max.x-min.x)*0.25F, v=0.5F  + (hit.y - min.y)/(max.y-min.y)*0.25F )
+            0 -> Vector2d(u = 0.50F + (max.z - hit.z)/(max.z-min.z)*0.25F, v=0.75F - (hit.y - min.y)/(max.y-min.y)*0.25F )
+            1 -> Vector2d(u =         (hit.z - min.z)/(max.z-min.z)*0.25F, v=0.75F - (hit.y - min.y)/(max.y-min.y)*0.25F )
+            2 -> Vector2d(u = 0.25F + (hit.x - min.x)/(max.x-min.x)*0.25F, v=0.50F - (max.z - hit.z)/(max.z-min.z)*0.25F )
+            3 -> Vector2d(u = 0.25F + (hit.x - min.x)/(max.x-min.x)*0.25F, v=1.00F - (hit.z - min.z)/(max.z-min.z)*0.25F )
+            4 -> Vector2d(u = 0.25F + (hit.x - min.x)/(max.x-min.x)*0.25F, v=0.75F - (hit.y - min.y)/(max.y-min.y)*0.25F )
+            5 -> Vector2d(u = 0.75F + (max.x - hit.x)/(max.x-min.x)*0.25F, v=0.75F - (hit.y - min.y)/(max.y-min.y)*0.25F )
             else -> throw RuntimeException()
         }
 

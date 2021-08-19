@@ -1,6 +1,3 @@
-import kotlin.math.abs
-import kotlin.math.acos
-
 /** Bidirectional Reflectance Distribution Function (BRDF)
  *
  * This class is an abstract class for BRDF of different surfaces

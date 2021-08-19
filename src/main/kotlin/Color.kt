@@ -1,7 +1,12 @@
 import kotlin.math.abs
 
-/*** RGB Color
- * The members of this class are r (level of red), g(level of green) and b(level of blue
+/**
+ * RGB Color
+ *
+ * Class properties:
+ * - [r] - Level of red component
+ * - [g] - Level of green component
+ * - [b] - Level of blue component
  */
 data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) {
     /* RGB Color
@@ -20,14 +25,14 @@ data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) 
     override fun toString(): String {
         return "Color ($r, $g, $b)"
     }
-    /***
-     * sum two colors
+    /**
+     * Sum two colors
      */
     operator fun plus(other: Color): Color {
         return Color(r + other.r, g + other.g, b + other.b)
     }
 
-    /***
+    /**
      * Multiply each component of a color with a scalar
      */
 
@@ -35,7 +40,7 @@ data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) 
         return Color(r * scalar, g * scalar, b * scalar)
     }
 
-    /***
+    /**
      * Multiply with another color
      */
 
@@ -43,8 +48,9 @@ data class Color(var r: Float = 0.0F, var g: Float = 0.0F, var b: Float = 0.0F) 
         return Color(r * other.r, g * other.g, b * other.b)
     }
 
-    /***
-     * returns true if the r, g and b component of two colors are closer than epsilon
+    /**
+     * Check equality within a range
+     * @return true if the r, g and b component of two colors are closer than epsilon
      */
 
     fun isClose(other: Color, epsilon: Float = 1e-10F): Boolean {
