@@ -6,7 +6,7 @@ import com.github.ajalt.clikt.parameters.options.*
 import com.github.ajalt.clikt.parameters.types.choice
 import com.github.ajalt.clikt.parameters.types.float
 import com.github.ajalt.clikt.parameters.types.int
-import com.github.ajalt.clikt.parameters.types.long
+
 
 import java.io.FileInputStream
 import kotlin.math.PI
@@ -86,8 +86,7 @@ class Demo : CliktCommand(name = "demo") {
             Plane(
                 //T = Transformation().scaling(Vector()),
                 material = Material(
-                    DiffuseBRDF(UniformPigment(OLIVE)),
-                    //CheckeredPigment(numOfSteps = 2)
+                    DiffuseBRDF(CheckeredPigment(color1 = GREEN.copy(), color2 = WHITE.copy(), numOfSteps = 2))
                     //MarblePigment(c2 = DARKRED.copy(), initSeq = 74UL, initState = 12UL)
 
                 )
@@ -96,10 +95,18 @@ class Demo : CliktCommand(name = "demo") {
 
         world.add(
             Sphere(
-                T.translation(2.0F * VECY + 1.5F * VECZ),
-                Material(
-                    DiffuseBRDF(MarblePigment())
-
+                T = T.translation(2.0F * VECY + 1.5F * VECZ),
+                material = Material(
+                    DiffuseBRDF(
+                        MarblePigment(
+                            c1 = Color(0.5F, 0.5F, 0.5F),
+                            c2 = BLACK.copy(),
+                            turbPower = 2.0F,
+                            yPeriod = 0.5F
+                        )
+                    ),
+                    //DiffuseBRDF(UniformPigment(WHITE.copy())),
+                    UniformPigment(BLACK.copy())
                 )
             )
         )
@@ -115,13 +122,13 @@ class Demo : CliktCommand(name = "demo") {
         )
 
         //A big sphere for the sky
-        val sphereR = 50.0F
+        val sphereR = 30.0F
         world.add(
             Sphere(
                 T = Transformation().scaling(Vector(sphereR, sphereR, sphereR)),
                 material = Material(
-                    DiffuseBRDF(UniformPigment(SKYBLUE.copy()))
-                    //UniformPigment(SKYBLUE.copy())
+                    DiffuseBRDF(UniformPigment(SKYBLUE.copy())),
+                    UniformPigment(SKYBLUE.copy())
                 )
             )
         )
@@ -132,7 +139,10 @@ class Demo : CliktCommand(name = "demo") {
                 T = Transformation().translation( VECZ - 1.3F * VECY),// *
                 //Transformation().scaling((Vector(1.0F, 1.0F, 1.0F))),
                 material = Material(
-                    SpecularBRDF(UniformPigment(SILVER.copy()))
+                    //SpecularBRDF(UniformPigment(SILVER.copy())),
+                    //DiffuseBRDF(WoodPigment(xyPeriod = 12.0F, turbPower = 0.05F)),
+                    DiffuseBRDF(FirePigment()),
+                    UniformPigment(BLACK.copy())
                 )
             )
         )
