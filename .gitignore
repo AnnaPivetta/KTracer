@@ -1,2 +1,27 @@
 # Project exclude paths
 /.gradle/
+build/classes/kotlin/main/ConstantsKt.class
+build/classes/kotlin/main/MainKt.class
+build/kotlin/compileKotlin/build-history.bin
+build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab
+build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.keystream
+build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.keystream.len
+build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.len
+build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab.values.at
+build/kotlin/compileKotlin/caches-jvm/inputs/source-to-output.tab_i
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-attributes.tab
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-attributes.tab.keystream
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-attributes.tab.keystream.len
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-attributes.tab.len
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-attributes.tab.values.at
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-attributes.tab_i
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.keystream.len
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.len
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab.values.at
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/class-fq-name-to-source.tab_i
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/constants.tab
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/constants.tab.values.at
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab
+build/kotlin/compileKotlin/caches-jvm/jvm/kotlin/internal-name-to-source.tab.keystream
