@@ -126,3 +126,6 @@ In order to use this script, you have to install [ffmpeg](https://github.com/FFm
 <img src="./images/mirrors.png" height="300" />
 </p>
 
+<p float="center">
+<img src="./images/CornellBox.png" height="300" />
+</p>
