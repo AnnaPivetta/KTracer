@@ -1,5 +1,14 @@
 import kotlin.math.floor
 
+/**
+ * Perlin noise
+ *
+ * This object implements the Perlin noise for the generation of Procedural [Pigment]s.
+ * The noise is generated in 2D, following the improved version of the original one, as
+ * explained in this [paper](https://mrl.cs.nyu.edu/~perlin/paper445.pdf), and adapting it in 2 dimension,
+ * with the contribution of this [forum](https://stackoverflow.com/questions/8659351/2d-perlin-noise)
+ *
+ */
 object Perlin {
     val p = IntArray(512)
     private val permutation = intArrayOf(
