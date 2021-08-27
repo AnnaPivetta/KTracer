@@ -221,8 +221,9 @@ class TransformationTest {
     @Test
     fun timesShapes() {
         val T = Transformation()
-        //Sphere
         val translation = T.translation(Vector(10.0F, 0.0F, 0.0F))
+
+        //Sphere
         val s = Sphere(translation)
         val s2 = translation * Sphere()
 

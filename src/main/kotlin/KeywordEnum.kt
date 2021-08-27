@@ -1,6 +1,7 @@
 enum class KeywordEnum() {
     NEW,
     MATERIAL,
+    SHAPE,
     PLANE,
     SPHERE,
     BOX,
@@ -27,6 +28,7 @@ enum class KeywordEnum() {
 val KEYWORDS = mapOf(
                 "new" to KeywordEnum.NEW, "New" to KeywordEnum.NEW,
                 "material" to KeywordEnum.MATERIAL, "Material" to KeywordEnum.MATERIAL,
+                "shape" to KeywordEnum.SHAPE, "Shape" to KeywordEnum.SHAPE,
                 "plane" to KeywordEnum.PLANE, "Plane" to KeywordEnum.PLANE,
                 "sphere" to KeywordEnum.SPHERE, "Sphere" to KeywordEnum.SPHERE,
                 "diffuse" to KeywordEnum.DIFFUSE, "Diffuse" to KeywordEnum.DIFFUSE,

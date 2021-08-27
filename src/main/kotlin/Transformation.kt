@@ -118,10 +118,27 @@ class Transformation(
         )
     }
 
+    /**
+     * This is only a wrapper for implementing operator times with abstract shapes.
+     * In real life situation only multiplication with concrete shapes is allowed, and this is checked by the function
+     * If operator * is not used with concrete shape, then a RuntimeException is raised
+     */
+    operator fun times (other: Shape) : Shape {
+        return when(other){
+            is Sphere -> this * other
+            is Box -> this * other
+            is Plane -> this * other
+            is Cylinder -> this * other
+            is CSGDifference -> this * other
+            is CSGUnion -> this * other
+            is CSGIntersection -> this * other
+            else -> throw RuntimeException("This should be unreachable")
+        }
+    }
+
     operator fun times(other: Sphere): Sphere {
         return Sphere(this * other.T, other.material)
     }
-
     operator fun times(other: Box): Box {
         return Box(min = other.min, max = other.max, T = this * other.T, material = other.material)
     }
