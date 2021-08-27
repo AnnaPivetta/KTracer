@@ -118,6 +118,29 @@ class Transformation(
         )
     }
 
+    operator fun times(other: Sphere): Sphere {
+        return Sphere(this * other.T, other.material)
+    }
+
+    operator fun times(other: Box): Box {
+        return Box(min = other.min, max = other.max, T = this * other.T, material = other.material)
+    }
+    operator fun times(other: Plane): Plane {
+        return Plane(this*other.T, other.material)
+    }
+    operator fun times(other: Cylinder): Cylinder {
+        return Cylinder(this*other.T, other.material)
+    }
+    operator fun times(other: CSGDifference): CSGDifference {
+        return CSGDifference(other.s1, other.s2, this*other.T)
+    }
+    operator fun times(other: CSGUnion): CSGUnion {
+        return CSGUnion(other.s1, other.s2, this*other.T)
+    }
+    operator fun times(other: CSGIntersection): CSGIntersection {
+        return CSGIntersection(other.s1, other.s2, this*other.T)
+    }
+
     /*
     Transformations
         inverse     --> returns the inverse of this Transformation
@@ -156,7 +179,7 @@ class Transformation(
     }
 
     fun rotationX(angle: Float): Transformation { //angle must be in radians
-        var radAngle = angle*(PI.toFloat()/180.0F)
+        var radAngle = angle * (PI.toFloat() / 180.0F)
         val COS = cos(radAngle)
         val SIN = sin(radAngle)
         val m = arrayOf(
@@ -171,7 +194,7 @@ class Transformation(
     }
 
     fun rotationY(angle: Float): Transformation { //angle must be in radians
-        var radAngle = angle*(PI.toFloat()/180.0F)
+        var radAngle = angle * (PI.toFloat() / 180.0F)
         val COS = cos(radAngle)
         val SIN = sin(radAngle)
         val m = arrayOf(
@@ -186,7 +209,7 @@ class Transformation(
     }
 
     fun rotationZ(angle: Float): Transformation { //angle must be in radians
-        var radAngle = angle*(PI.toFloat()/180.0F)
+        var radAngle = angle * (PI.toFloat() / 180.0F)
         val COS = cos(radAngle)
         val SIN = sin(radAngle)
         val m = arrayOf(

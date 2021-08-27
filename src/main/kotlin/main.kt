@@ -39,7 +39,7 @@ class Demo : CliktCommand(name = "demo") {
         val world = World()
         //Set a transformation for future use
         val T = Transformation()
-        world.add(Plane(material=Material(DiffuseBRDF(p=UniformPigment(GREEN.copy())))))
+/*        world.add(Plane(material=Material(DiffuseBRDF(p=UniformPigment(GREEN.copy())))))
         val sphereR = 50.0F
         world.add(Sphere(
                 T = Transformation().scaling(Vector(sphereR, sphereR, sphereR)),
@@ -108,6 +108,77 @@ class Demo : CliktCommand(name = "demo") {
          CSGDifference(
                 cubeS,
             tripleCross
+            )
+        )
+*/
+
+        world.add(Plane(material=Material(DiffuseBRDF(p=UniformPigment(GREEN.copy())))))
+        val sphereR = 50.0F
+        world.add(Transformation().scaling(Vector(sphereR, sphereR, sphereR)) * Sphere(
+            material = Material(
+                DiffuseBRDF(UniformPigment(SKYBLUE.copy())),
+                UniformPigment(SKYBLUE.copy())
+            )
+        )
+        )
+
+        world.add(Transformation().translation(Vector(5.0F, -3.0F, 8.0F)) *Sphere(
+            material = Material(DiffuseBRDF(p=UniformPigment(color= GOLD.copy())))))
+        val firstCross = CSGUnion(
+            T.translation(2F * VECZ + VECY * 1.3F) *
+                    T.rotationY(180.0F * 0.5F) *
+                    T.scaling(Vector(0.3F, 0.3F, 2.0F)) * Cylinder(
+                material = Material(
+                    brdf = DiffuseBRDF(UniformPigment(OLIVE.copy())),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            ),
+            T.translation(2F * VECZ + VECY * 1.3F) *
+                    T.scaling(Vector(0.3F, 0.3F, 2.0F)) * Cylinder(
+                material = Material(
+                    brdf = DiffuseBRDF(UniformPigment(OLIVE.copy())),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            )
+
+        )
+
+
+        val tripleCross = CSGUnion(
+            firstCross,
+            Cylinder(
+                T = T.translation(2F * VECZ + VECY * 1.3F) *
+                        T.rotationX(180.0F * 0.5F) *
+                        T.scaling(Vector(0.3F, 0.3F, 2.0F)),
+                material = Material(
+                    brdf = DiffuseBRDF(UniformPigment(OLIVE.copy())),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            )
+        )
+
+        val cubeS = CSGIntersection(
+            Box(
+                T = T.translation(2F * VECZ + VECY * 1.3F),
+                material = Material(
+                    brdf = DiffuseBRDF(UniformPigment(DARKRED.copy())),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            ),
+            Sphere(
+                T = T.translation(2F * VECZ + VECY * 1.3F) *
+                        T.scaling(Vector(0.65F,0.65F,0.65F)),
+                material = Material(
+                    brdf = DiffuseBRDF(UniformPigment(NAVY.copy())),
+                    emittedRad = UniformPigment(BLACK.copy())
+                )
+            )
+        )
+
+        world.add(
+            CSGDifference(
+                cubeS,
+                tripleCross
             )
         )
 
