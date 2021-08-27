@@ -9,6 +9,7 @@ import com.github.ajalt.clikt.parameters.types.int
 
 import java.io.FileInputStream
 import java.io.FileReader
+import kotlin.system.measureNanoTime
 import kotlin.system.measureTimeMillis
 
 class KTracer : CliktCommand() {
@@ -232,6 +233,8 @@ class Render : CliktCommand(name = "render") {
     private val variables : Map<String, String> by option("--declare-float", "-D").associate()
     @kotlin.ExperimentalUnsignedTypes
     override fun run() {
+
+        printInitMex()
         val map : MutableMap<String, Float> = mutableMapOf()
         for (i in variables.keys) {
             map[i]=variables[i]!!.toFloat()
@@ -257,12 +260,12 @@ class Render : CliktCommand(name = "render") {
 
         if (scene.camera == null) {
             print("no camera defined. A default camera will be used")}
-        val elapsed = measureTimeMillis { ImageTracer(
+        val elapsed = measureNanoTime { ImageTracer(
             im,
             scene.camera ?: PerspectiveCamera(T = Transformation().translation(-VECX + VECZ), dist=1.0F, AR=width/height.toFloat())
         ).fireAllRays(computeColor, AAgrid, pcg, nCores)
         }
-        println ("Total tracing time $elapsed ms")
+        println ("Total tracing time $elapsed ns = ${elapsed*1E-9} s")
 
         //Save HDR Image
         im.saveHDRImg(pfmoutput)
@@ -280,3 +283,13 @@ class Render : CliktCommand(name = "render") {
 fun main(args: Array<String>) = KTracer().subcommands(Demo(), Conversion(), Render()).main(args)
 
 
+fun printInitMex () {
+    val message =
+        "******************************************\n" +
+        "*                KTracer                 *\n" +
+        "*       M. Martinelli, A. Pivetta        *\n" +
+        "* https://github.com/AnnaPivetta/KTracer *\n" +
+        "******************************************"
+
+    println(message)
+}

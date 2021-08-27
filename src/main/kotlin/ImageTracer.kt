@@ -1,5 +1,4 @@
 import java.util.concurrent.ForkJoinPool
-
 /**
  * Ray Tracer
  * This class sends light rays through each pixel of the screen and computes the associated radiance
