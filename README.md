@@ -60,8 +60,8 @@ In this mode, the program is able to accept an input file containing a descripti
 Input file syntax has to follow some very simple rules. You can learn how to write a suitable input file 
 looking at these [basic instructions](https://github.com/AnnaPivetta/KTracer/blob/master/examples/BasicInstruction.md) and these tutorials:
 * [Tutorial 1](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex1/tutorial1.txt) (result: [image 1](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex1/image1.png))
-* [Tutorial 2](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex2/tutorial2.txt) (result: [image 1](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex2/image2.png))
-* [Tutorial 3](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex2/tutorial3.txt) (result: [image 1](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex3/image3.png))
+* [Tutorial 2](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex2/tutorial2.txt) (result: [image 2](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex2/image2.png))
+* [Tutorial 3](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex3/tutorial3.txt) (result: [image 3](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex3/image3.png))
 
 Once your input file is ready in order to create your image you can use the command:
 
