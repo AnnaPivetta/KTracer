@@ -303,7 +303,7 @@ class InStream(
      * @return A [String] that is the name of Identifier
      */
     private fun expectIdentifier(): String {
-        val token = this.readToken()
+        val token = readToken()
         if (token !is IdentifierToken) throw GrammarError(token.location, "Got '$token' instead of an identifier")
         else return token.identifier
     }
@@ -595,7 +595,6 @@ private fun parseShape(scene: Scene): Shape {
             KeywordEnum.CSGINTERSECTION
         )
     )
-
     return when (s) {
         is KeywordEnum -> shape2Parser[s]!!(scene)
         is IdentifierToken -> {

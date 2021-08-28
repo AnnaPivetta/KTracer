@@ -1,5 +1,15 @@
 # CHANGELOG
 
+### v1.1.0
+##### New Features
+ - [16](https://github.com/AnnaPivetta/KTracer/pull/16) New Pigments are available, thanks to Pocedural Texturing. Being more specific new
+   Marble, Wood and Lava style pigment can be added to every shape.
+ - [19](https://github.com/AnnaPivetta/KTracer/pull/19) Shapes variable can be defined in the input file. In this way complicated objects 
+   may be defined with a name, created wherever is convenient,  and then called back with the name and eventually transformed 
+   to be placed as desired.
+   Follow tutorial 4 for more information
+   
+
 ### v1.0.1
 ##### Fixes
 - bug fixed in box (u,v) mapping
