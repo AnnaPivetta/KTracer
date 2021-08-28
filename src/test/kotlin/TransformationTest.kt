@@ -217,4 +217,97 @@ class TransformationTest {
             val expectedN = Normal(-8.75F, 7.75F, -3.0F)
             assertTrue(expectedN.isClose(m * Normal(3.0F, 2.0F, 4.0F)))
         }
+
+    @Test
+    fun timesShapes() {
+        val T = Transformation()
+        val translation = T.translation(Vector(10.0F, 0.0F, 0.0F))
+
+        //Sphere
+        val s = Sphere(translation)
+        val s2 = translation * Sphere()
+
+        val ray1 = Ray(origin = Point(10.0F, 0.0F, 2.0F), dir=-VECZ)
+        val int1 = s.rayIntersection(ray1)
+        val int2 = s2.rayIntersection(ray1)
+
+        assertTrue(int1?.worldPoint!!.isClose(int2?.worldPoint!!))
+        assertTrue(int1.normal.isClose(int2.normal))
+        assertTrue(int1.t.isClose(int2.t))
+        assertTrue(int1.surfacePoint.isClose(int2.surfacePoint))
+
+        //Box
+        val trans = translation * T.rotationX(0.25F * PI.toFloat())
+        val b = Box(T = trans)
+        val b2 = trans* Box()
+
+        val intb1 = b.rayIntersection(ray1)
+        val intb2 = b2.rayIntersection(ray1)
+
+        assertTrue(intb1?.worldPoint!!.isClose(intb2?.worldPoint!!))
+        assertTrue(intb1.normal.isClose(intb2.normal))
+        assertTrue(intb1.t.isClose(intb2.t))
+        assertTrue(intb1.surfacePoint.isClose(intb2.surfacePoint))
+
+        //Cylinder
+        val c = Cylinder(T = trans)
+        val c2 = trans* Cylinder()
+
+        val intc1 = c.rayIntersection(ray1)
+        val intc2 = c2.rayIntersection(ray1)
+
+        assertTrue(intc1?.worldPoint!!.isClose(intc2?.worldPoint!!))
+        assertTrue(intc1.normal.isClose(intc2.normal))
+        assertTrue(intc1.t.isClose(intc2.t))
+        assertTrue(intc1.surfacePoint.isClose(intc2.surfacePoint))
+
+        //Plane
+        val p = Plane(T = trans)
+        val p2 = trans* Plane()
+
+        val intp1 = p.rayIntersection(ray1)
+        val intp2 = p2.rayIntersection(ray1)
+
+        assertTrue(intp1?.worldPoint!!.isClose(intp2?.worldPoint!!))
+        assertTrue(intp1.normal.isClose(intp2.normal))
+        assertTrue(intp1.t.isClose(intp2.t))
+        assertTrue(intp1.surfacePoint.isClose(intp2.surfacePoint))
+
+        //Difference
+        val cyl = Cylinder(T.rotationY(0.5F*PI.toFloat()) * T.scaling(3.0F*VECZ+0.5F*(VECX+VECY)))
+        val d = CSGDifference(cyl, Sphere(), trans)
+        val d2 = trans* CSGDifference(cyl, Sphere())
+
+        val intd1 = d.rayIntersection(ray1)
+        val intd2 = d2.rayIntersection(ray1)
+
+        assertTrue(intd1?.worldPoint!!.isClose(intd2?.worldPoint!!))
+        assertTrue(intd1.normal.isClose(intd2.normal))
+        assertTrue(intd1.t.isClose(intd2.t))
+        assertTrue(intd1.surfacePoint.isClose(intd2.surfacePoint))
+
+        //Union
+        val u = CSGDifference(cyl, Sphere(), trans)
+        val u2 = trans* CSGDifference(cyl, Sphere())
+
+        val intu1 = u.rayIntersection(ray1)
+        val intu2 = u2.rayIntersection(ray1)
+
+        assertTrue(intu1?.worldPoint!!.isClose(intu2?.worldPoint!!))
+        assertTrue(intu1.normal.isClose(intu2.normal))
+        assertTrue(intu1.t.isClose(intu2.t))
+        assertTrue(intu1.surfacePoint.isClose(intu2.surfacePoint))
+
+        //Intersection
+        val i = CSGDifference(cyl, Sphere(), trans)
+        val i2 = trans* CSGDifference(cyl, Sphere())
+
+        val inti1 = i.rayIntersection(ray1)
+        val inti2 = i2.rayIntersection(ray1)
+
+        assertTrue(inti1?.worldPoint!!.isClose(inti2?.worldPoint!!))
+        assertTrue(inti1.normal.isClose(inti2.normal))
+        assertTrue(inti1.t.isClose(inti2.t))
+        assertTrue(inti1.surfacePoint.isClose(inti2.surfacePoint))
+    }
 }

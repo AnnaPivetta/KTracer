@@ -66,6 +66,7 @@ class SphereTest {
         assertTrue(s.rayIntersection(rayNot1)==null)
 
 
+
         val ray2 = Ray(origin = Point(13.0F, 0.0F, 0.0F), dir=-VECX)
         val expectedHitPoint2 = Point(11.0F, 0.0F, 0.0F)
         val expectedNormal2 = VECX.toNormal()

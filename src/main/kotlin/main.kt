@@ -205,7 +205,7 @@ class Render : CliktCommand(name = "render") {
     private val initSeq by option("--initSeq", help= "initial sequence of random number generator").convert { it.toULong() }.default(54UL)
 
     val filename by option(
-        "--inputfile", "--file",
+        "--inputfile", "--file", "-i",
         help = "File describing the scene to render"
     ).required()
     val variables : Map<String, String> by option("--declare-float", "-D").associate()
