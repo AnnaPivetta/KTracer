@@ -23,6 +23,7 @@ The contributors to the project are [Matteo Martinelli](https://github.com/Matte
 
 ### Requirements
 KTracers uses [Kotlin](https://github.com/JetBrains/kotlin) version 1.4.31. It is built with [Gradle](https://github.com/gradle/gradle).  
+For Java, JDK 11 or greater is required.  
 The only external library needed is [clikt](https://github.com/ajalt/clikt/), whose dependency can be added with:
    
     dependencies {
@@ -126,3 +127,6 @@ In order to use this script, you have to install [ffmpeg](https://github.com/FFm
 <img src="./images/mirrors.png" height="300" />
 </p>
 
+<p float="center">
+<img src="./images/CornellBox.png" height="300" />
+</p>
