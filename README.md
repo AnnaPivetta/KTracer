@@ -2,7 +2,7 @@
 ![release](https://img.shields.io/github/v/release/AnnaPivetta/KTracer)
 ![Top Language](https://img.shields.io/github/languages/top/AnnaPivetta/KTracer)
 
-<img align="right" src="images/logoKT.png" width="250"/>
+<img align="right" src="images/logoKT.png" width="240"/>
 
 # KTracer
 
@@ -62,10 +62,13 @@ looking at these [basic instructions](https://github.com/AnnaPivetta/KTracer/blo
 * [Tutorial 1](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex1/tutorial1.txt) (result: [image 1](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex1/image1.png))
 * [Tutorial 2](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex2/tutorial2.txt) (result: [image 2](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex2/image2.png))
 * [Tutorial 3](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex3/tutorial3.txt) (result: [image 3](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex3/image3.png))
+* (from v1.1.0) [Tutorial 4](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex4/tutorial4.txt) (result: [image 4](https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex4/image4.png))
 
 Once your input file is ready in order to create your image you can use the command:
-
+      
     ./KTracer render --inputfile <FILE IN>
+
+
 The name of the input file is the only required option, but you can also specify some other useful parameters, as:
 
 - `--width | -h <WIDTH>` the width of the image (default is 480)
