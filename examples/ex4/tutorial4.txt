@@ -1,0 +1,97 @@
+#TUTORIAL 4
+#Congratulations! If you have made it so far, you must enjoy raytracing quite a lot.
+#In this tutorial we'll learn how to define shape variables, and how to use them to create
+#complex objects.
+#We'll also learn how to use new kind of pigments, that are generated from pseudo-random numbers and can be
+#customized from users.
+#Let's start to play!
+
+#As usual we begin defining all materials we will need in the following tutorial
+    material grass(diffuse(uniform(<green>)), uniform(<black>))
+    material sky(diffuse(uniform(<skyblue>)), uniform(<white>))
+
+#This are three new pigments:
+    #For all this advanced pigments, a default setting is provided by simply using the keyword followed by ()
+    material marbleMat1 (
+        diffuse(
+            marble()
+        ),
+        uniform(<black>)
+    )
+
+    #But one may wants to customize the settings, so...
+    material marbleMat2 (
+            diffuse(
+                marble(
+                <white>,        #c1 Background Color of Marble (recommended is white)
+                <black>,        #c2 Veining Color of Marble. Change this to slightly modify the marble look
+                1.0,            #xPeriod Number of vertical lines. The marble is made using a sine like pattern,
+                                #with repetition along both direction
+                2.0,            #yPeriod Number of horizontal lines
+                3.0,            #turbPower Intensity of the twists to apply to the lines to make veins more realistic
+                512             #octaves Number of octaves summed. Must be a power of 2. More octaves mean blurrier texture
+                )
+            ),
+            uniform(<black>)
+        )
+    #Wood parameters are similar to the Marble one. Only difference are in the period
+        material woodMat (
+                    diffuse(
+                        wood(
+                        <darkbrown>,     #c1 Background Color of Wood
+                        <black>,        #c2 Veining Color of Wood. Change this to slightly modify the kind of wood
+                        13.0,           #xyPeriod Number of circles in the wood veins
+                        0.15,            #turbPower Intensity of the twists to apply to the lines to make veins more realistic
+                        512             #octaves Number of octaves summed. Must be a power of 2. More octaves mean blurrier texture
+                        )
+                    ),
+                    uniform(<black>)
+                )
+
+    #The last pigment is much simpler, only 2 parameters are allowed
+        material lavaMat (
+                            diffuse(
+                                lava(
+                                4.0,            #scale Sets the detail of the noise. Higher value reflects in more detailed noise and therefore
+                                                #into more fragmented lava style. Explore different values to understand better ;)
+                                512             #octaves Number of octaves summed. Must be a power of 2. More octaves mean blurrier texture
+                                )
+                            ),
+                            #uniform(<black>)
+                            lava(4.0, 512)
+                        )
+
+#Set the stage objects (sky, ground...)
+
+    plane(grass, identity)
+    sphere(sky, scaling([20,20,20]))
+
+#Now we define 3 shapes variable
+#Definition syntax is:
+# shape [variableName] [shape definition]
+# where the [shape definition] is the usual syntax for placing an object into the world
+
+    shape woodBall sphere(woodMat, identity)
+    shape marbleBall1 sphere(marbleMat1, translation([2.0, 0.0, 3.5]))
+    shape marbleBall2 sphere(marbleMat1, identity)
+
+#Now we put this shapes in the world, by using their name.
+#We may also apply transformation if we want to change the one set
+#in the definition process
+
+    woodBall(translation([0.0, 2.0, 1.0]))
+    marbleBall1(identity)
+    marbleBall2(translation([2.0, 0.0, 1.0]))
+
+#We may still want to use "classic" shape setting
+    sphere(lavaMat, translation([0.0, -2.0, 1.0]))
+
+
+camera(perspective, translation([-3,0,1.5]), 1.0, 1.0)
+
+#you can use this input file to create an image, typing:
+# ./KTracer render --inputfile tutorial4.txt
+#the result is in image4.png
+#if you type:
+# ./KTracer render --inputfile tutorial4.txt --AA 4
+#you will use antialiasing (dividing each size of s pixel in 4 parts) and the result is in image1AA.png

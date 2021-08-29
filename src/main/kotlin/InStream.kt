@@ -51,7 +51,9 @@ class InStream(
         "red" to RED.copy(),
         "grey" to GRAY.copy(),
         "darkgray" to DARKGRAY.copy(),
-        "dimgray" to DIMGRAY.copy()
+        "dimgray" to DIMGRAY.copy(),
+        "darkbrown" to DARKBROWN.copy(),
+        "saddlebrown" to SADDLEBROWN.copy()
     )
 
     //Variables for read/unread and location
