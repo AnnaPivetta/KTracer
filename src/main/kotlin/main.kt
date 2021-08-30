@@ -234,6 +234,7 @@ class Render : CliktCommand(name = "render") {
             else -> throw RuntimeException()
         }
 
+
         if (scene.camera == null) {
             print("no camera defined. A default camera will be used")}
         ImageTracer(
