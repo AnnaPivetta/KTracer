@@ -49,9 +49,9 @@ class InStream(
         "darkorange" to DARKORANGE.copy(),
         "purple" to PURPLE.copy(),
         "red" to RED.copy(),
-        "grey" to GRAY.copy(),
-        "darkgray" to DARKGRAY.copy(),
-        "dimgray" to DIMGRAY.copy(),
+        "grey" to GRAY.copy(), "gray" to GRAY.copy(),
+        "darkgrey" to DARKGRAY.copy(), "darkgray" to DARKGRAY.copy(),
+        "dimgrey" to DIMGRAY.copy(), "dimgray" to DIMGRAY.copy(),
         "darkbrown" to DARKBROWN.copy(),
         "saddlebrown" to SADDLEBROWN.copy()
     )

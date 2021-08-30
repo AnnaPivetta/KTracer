@@ -5,4 +5,8 @@ data class Scene (
     var floatVariables: MutableMap<String, Float> = mutableMapOf(),
     val shapeVariables: MutableMap<String, Shape> = mutableMapOf(),
     var overriddenVariables: Set<String> = setOf()
-    )
+    ) {
+    init{
+        shapeVariables["KTArmchair"] = KTArmchair
+    }
+}
