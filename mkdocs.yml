@@ -32,7 +32,7 @@ theme:
   features:
     - content.code.annotate
     - content.tabs.link
-    #- header.autohide
+    - header.autohide
     # - navigation.expand
     # - navigation.indexes
     # - navigation.instant
@@ -61,7 +61,7 @@ theme:
   font:
     text: Roboto
     code: Roboto Mono
-  favicon: assets/favicon.png
+  favicon: images/favicon.png
   icon:
     logo: logo
     repo: fontawesome/brands/github
@@ -74,3 +74,46 @@ extra:
   social:
     - icon: fontawesome/brands/github
       link: https://github.com/MatteoMartinelli97
+
+# Extensions
+markdown_extensions:
+  - admonition
+  - abbr
+  - attr_list
+  - def_list
+  - footnotes
+  - meta
+  - md_in_html
+  - toc:
+      permalink: true
+  - pymdownx.arithmatex:
+      generic: true
+  - pymdownx.betterem:
+      smart_enable: all
+  - pymdownx.caret
+  - pymdownx.details
+  - pymdownx.highlight
+  - pymdownx.inlinehilite
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.smartsymbols
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid-experimental
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.tilde
+
+
+#Page tree
+nav:
+  - Getting started:
+      - Installation: index.md
+      - Basic Usage: basic-usage.md
+      - Input File: input-file.md
+  - Pigments: Pigments/pigments.md
+  - Shapes: Shapes/shapes.md
+  - Renderers: Renderers/renderers.md
