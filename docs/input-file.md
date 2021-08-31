@@ -63,7 +63,7 @@ Here are two examples of different material definitions:
 
 
 <figure>
-  <img src="./io.png" width="480" align="center"/>
+  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
   <figcaption>Here I must put an image with both brdfs </figcaption>
 </figure>
 
@@ -110,7 +110,7 @@ box ( (-0.5, -0.5, -0.5),
 ...
 ```
 <figure>
-  <img src="./io.png" width="480" align="center"/>
+  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
   <figcaption>Here is the result of the code above (left) vs what will result by the swapping of the 2 transformations (right) </figcaption>
 </figure>
 
@@ -125,7 +125,7 @@ sphere ( mirror, scaling([1.0, 3.0, 1.0]) )
 ...
 ```
 <figure>
-  <img src="./io.png" width="480" align="center"/>
+  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
   <figcaption> Inhomogeneous scaling of a sphere leads to an ellipsoid </figcaption>
 </figure>
 
@@ -169,7 +169,7 @@ There are two different projections available: `orthogonal` and `perspective`:
     )
     ```
 <figure>
-  <img src="./io.png" width="480" align="center"/>
+  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
   <figcaption> Orthogonal projection </figcaption>
 </figure>
 === "Perspective"
@@ -184,6 +184,6 @@ There are two different projections available: `orthogonal` and `perspective`:
     )
     ```
 <figure>
-  <img src="./io.png" width="480" align="center"/>
+  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
   <figcaption> Perspective projection </figcaption>
 </figure>
