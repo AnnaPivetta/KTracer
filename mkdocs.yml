@@ -75,15 +75,7 @@ extra:
     - icon: fontawesome/brands/github
       link: https://github.com/MatteoMartinelli97
 
-# Extensions
-markdown_extensions:
-  - toc:
-      permalink: true
-  - pymdownx.tabbed
-  - pymdownx.superfences
-  - pymdownx.tasklist:
-      custom_checkbox: true
-  - pymdownx.tilde
+
 
 
 #Page tree
