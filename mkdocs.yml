@@ -78,10 +78,10 @@ extra:
 # Extensions
 markdown_extensions:
   - pymdownx.tabbed
-      - pymdownx.superfences
-      - pymdownx.tasklist:
+  - pymdownx.superfences
+  - pymdownx.tasklist:
       custom_checkbox: true
-      - pymdownx.tilde
+  - pymdownx.tilde
 
 
 #Page tree
