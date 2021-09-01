@@ -90,8 +90,8 @@ class CylinderTest {
         val expectedHitPoint0 = Point(0.0F, 0.0F, 0.5F)
         val expectedHitPoint1 = Point(0.0F, 0.0F, -0.5F)
         val expectedNormal = VECZ.toNormal()
-        val expectedUV0 = Vector2d(0.5F, 0.5F)
-        val expectedUV1 = Vector2d(0.5F, 0.5F)
+        val expectedUV0 = Vector2d(0.75F, 0.25F)
+        val expectedUV1 = Vector2d(0.25F, 0.25F)
         val expectedT0 = 1.5F
         val expectedT1 = 2.5F
         val int0 = c.rayIntersectionList(ray)?.get(0)
@@ -112,13 +112,12 @@ class CylinderTest {
         val expectedHitPoint02 = Point(1.0F, 0.0F, 0.2F)
         val expectedHitPoint12 = Point(-1.0F, 0.0F, 0.4F)
         val expectedNormal2 = VECX.toNormal()
-        val expectedUV02 = Vector2d(0.5F, 0.5F)
-        val expectedUV12 = Vector2d(0.5F, 0.5F)
+        val expectedUV02 = Vector2d(0.0F, 0.65F)
+        val expectedUV12 = Vector2d(0.5F, 0.55F)
         val expectedT02 = 2.0F
         val expectedT12 = 4.0F
         val int02 = c.rayIntersectionList(ray2)?.get(0)
         val int12 = c.rayIntersectionList(ray2)?.get(1)
-
 
 
         assertTrue(int02?.worldPoint!!.isClose(expectedHitPoint02))
