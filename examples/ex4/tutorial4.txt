@@ -57,7 +57,6 @@
                                 512             #octaves Number of octaves summed. Must be a power of 2. More octaves mean blurrier texture
                                 )
                             ),
-                            #uniform(<black>)
                             lava(4.0, 512)
                         )
 
