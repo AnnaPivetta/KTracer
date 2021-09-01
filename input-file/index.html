@@ -233,11 +233,15 @@
   
 
 
-  <li class="md-tabs__item">
-    <a href="../Pigments/pigments/" class="md-tabs__link">
-      Pigments
-    </a>
-  </li>
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../In-depth/pigments/" class="md-tabs__link">
+        In-Depth
+      </a>
+    </li>
+  
 
       
         
@@ -246,20 +250,8 @@
 
 
   <li class="md-tabs__item">
-    <a href="../Shapes/shapes/" class="md-tabs__link">
-      Shapes
-    </a>
-  </li>
-
-      
-        
-  
-  
-
-
-  <li class="md-tabs__item">
-    <a href="../Renderers/renderers/" class="md-tabs__link">
-      Renderers
+    <a href="../gallery/" class="md-tabs__link">
+      Gallery
     </a>
   </li>
 
@@ -484,6 +476,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#definitions" class="md-nav__link">
+    Definitions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -504,6 +503,113 @@
   
 
           
+            
+  
+  
+  
+    
+      
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_1_4" type="checkbox" id="__nav_1_4" >
+      
+      <label class="md-nav__link" for="__nav_1_4">
+        Releases
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="Releases" data-md-level="2">
+        <label class="md-nav__title" for="__nav_1_4">
+          <span class="md-nav__icon md-icon"></span>
+          Releases
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CHANGELOG/" class="md-nav__link">
+        Changelog
+      </a>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+        <input class="md-nav__toggle md-toggle" data-md-toggle="__nav_2" type="checkbox" id="__nav_2" >
+      
+      <label class="md-nav__link" for="__nav_2">
+        In-Depth
+        <span class="md-nav__icon md-icon"></span>
+      </label>
+      <nav class="md-nav" aria-label="In-Depth" data-md-level="1">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          In-Depth
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../In-depth/pigments/" class="md-nav__link">
+        Pigments
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../In-depth/shapes/" class="md-nav__link">
+        Shapes
+      </a>
+    </li>
+  
+
+          
+            
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../In-depth/renderers/" class="md-nav__link">
+        Renderers
+      </a>
+    </li>
+  
+
+          
         </ul>
       </nav>
     </li>
@@ -518,38 +624,8 @@
   
   
     <li class="md-nav__item">
-      <a href="../Pigments/pigments/" class="md-nav__link">
-        Pigments
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../Shapes/shapes/" class="md-nav__link">
-        Shapes
-      </a>
-    </li>
-  
-
-    
-      
-      
-      
-
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../Renderers/renderers/" class="md-nav__link">
-        Renderers
+      <a href="../gallery/" class="md-nav__link">
+        Gallery
       </a>
     </li>
   
@@ -667,6 +743,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#definitions" class="md-nav__link">
+    Definitions
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -696,7 +779,7 @@
                 
                 <p>The scenes to render are described in an <code>input file</code>, which is the only mandatory parameter
 for <a href="../basic-usage/#render-mode">Render mode</a>.<br />
-Input file is provided also with comments, identified by the key symbol <code>#</code>
+Input file is provided also with comments, identified by the key symbol <code>#</code>.<br />
 The three main ingredients for a scene are:</p>
 <ul>
 <li><a href="#materials">materials</a></li>
@@ -717,9 +800,9 @@ thus making the object totally opaque.</p>
 <h4 id="specular">Specular<a class="headerlink" href="#specular" title="Permanent link">&para;</a></h4>
 <p>As the name suggests, this <a href="https://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function">BRDF</a> describes a total reflecting surface, such as the one of 
 an ideal mirror. When the light hits, the ray follows the <a href="https://en.wikipedia.org/wiki/Specular_reflection">law of reflection</a>.</p>
-<p>Both <a href="https://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function">BRDF</a>s needs also a parameter: the color of the object, which is represented by a <a href="../Pigments/pigments/">Pigment</a></p>
+<p>Both <a href="https://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function">BRDF</a>s needs also a parameter: the color of the object, which is represented by a <a href="../In-depth/pigments/">Pigment</a>.</p>
 <h3 id="emitted-radiance">Emitted Radiance<a class="headerlink" href="#emitted-radiance" title="Permanent link">&para;</a></h3>
-<p>Emitted radiance too is defined by a <a href="../Pigments/pigments/">Pigment</a>. This value is the color in which the objects,
+<p>Emitted radiance too is defined by a <a href="../In-depth/pigments/">Pigment</a>. This value is the color in which the objects,
 eventually, radiate.<br />
 For diffusive objects, it is set as <code>uniform(&lt;black&gt;)</code>, but a different choice leads to
 creating a source of lights in the scene.
@@ -727,29 +810,29 @@ It is always necessary to have at least one source of lights in order to see the
 <p>Here are two examples of different material definitions:</p>
 <div class="tabbed-set" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">Diffusive (radiating)</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>material sky ( 
-        diffusive ( uniform(&lt;skyblue&gt;) ), 
-        uniform(&lt;skyblue&gt;)
-    )
+    diffuse ( uniform(&lt;skyblue&gt;) ), 
+    uniform(&lt;skyblue&gt;)
+)
 ...
 </code></pre></div>
 </div>
 <input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">Specular (not radiating)</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>material mirror (
-        specular ( uniform(&lt;silver&gt;) ),
-        uniform(&lt;black&gt;)
-    )
+    specular ( uniform(&lt;silver&gt;) ),
+    uniform(&lt;black&gt;)
+)
 ...
 </code></pre></div>
 </div>
 </div>
 <figure>
-  <img src="./io.png" width="480" align="center"/>
+  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
   <figcaption>Here I must put an image with both brdfs </figcaption>
 </figure>
 
 <h2 id="shapes">Shapes<a class="headerlink" href="#shapes" title="Permanent link">&para;</a></h2>
 <p>After having defined the materials, it's now time to build the scene you want to render.
-This is made by placing the available <a href="../Shapes/shapes/">shapes</a> wherever you like, assigning them the material
+This is made by placing the available <a href="../In-depth/shapes/">shapes</a> wherever you like, assigning them the material
 they're made of.<br />
 Not only the material is important, but also transformations play great role in the setting of the stage.
 By default, each shape is placed with its center in the point (0.0, 0.0, 0.0) of the world and has a default dimension.
@@ -782,7 +865,7 @@ box ( (-0.5, -0.5, -0.5),
 ...
 </code></pre></div></p>
 <figure>
-  <img src="./io.png" width="480" align="center"/>
+  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
   <figcaption>Here is the result of the code above (left) vs what will result by the swapping of the 2 transformations (right) </figcaption>
 </figure>
 
@@ -795,60 +878,56 @@ sphere ( mirror, scaling([1.0, 3.0, 1.0]) )
 ...
 </code></pre></div></p>
 <figure>
-  <img src="./io.png" width="480" align="center"/>
+  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
   <figcaption> Inhomogeneous scaling of a sphere leads to an ellipsoid </figcaption>
 </figure>
 
+<h3 id="definitions">Definitions<a class="headerlink" href="#definitions" title="Permanent link">&para;</a></h3>
 <p>One may also want to define a variable that represents a shape, so that this can be
 called multiple times in the input file with the use of a simple name. This is extremely useful
-in the creation of complex <a href="../Shapes/shapes/#csg">CSG</a> shapes.
+in the creation of complex <a href="../In-depth/shapes/#csg">CSG</a> shapes.
 The syntax is similar to the one used for defining materials, and to call the object 
 in the file it is sufficient to write the name, and the transformation to apply:
 <div class="highlight"><pre><span></span><code>...
-shape minecraftCube box (                    #Defining the shape
-                          (-0.5, -0.5, -0.5),
-                          (0.5, 0.5, 0.5),
-                          minecraft,
-                          identity 
-                    )
+shape minecraftCube box (           #Defining the shape
+    (-0.5, -0.5, -0.5),
+    (0.5, 0.5, 0.5),
+    minecraft,
+    identity 
+)
 
-mincraft ( rotation_z(45) )                  #Placing the shape into the world
+minecraftCube ( rotation_z(45) )    #Placing the shape into the world
 ...
 </code></pre></div></p>
 <h2 id="camera">Camera<a class="headerlink" href="#camera" title="Permanent link">&para;</a></h2>
-<p>The last ingredient for rendering your first image is a camera from which the world is observed.
+<p>The last ingredient, before rendering your first image, is a camera from which the world is observed.
 Cameras accept a transformation parameter that sets its position and orientation. It also need to know the
 aspect ratio of the image, and the distance from the camera and the scree onto which the scene is projected (recommended is 1.0).<br />
-There are two different projections available: <code>orthogonal</code> and <code>perspective</code>:</p>
-<div class="tabbed-set" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Orthogonal</label><div class="tabbed-content">
+There are two different projections available: <code>orthogonal</code> and <code>perspective</code></p>
+<div class="tabbed-set" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><label for="__tabbed_2_1">Orthogonal</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>...
 camera(
-    perspective,            
+    orthogonal,         
     translation([-4,0,1]),
     1.0,                #Aspect Ratio
     1.0                 #Distance from screen
 )
 </code></pre></div>
 </div>
-</div>
-<figure>
-  <img src="./io.png" width="480" align="center"/>
-  <figcaption> Orthogonal projection </figcaption>
-</figure>
-<div class="tabbed-set" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><label for="__tabbed_3_1">Perspective</label><div class="tabbed-content">
+<input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><label for="__tabbed_2_2">Perspective</label><div class="tabbed-content">
 <div class="highlight"><pre><span></span><code>...
 camera(
     perspective,            
     translation([-4,0,1]),
-    1.0,                #Aspect Ratio
-    1.0                 #Distance from screen
+    1.0,                
+    1.0                 
 )
 </code></pre></div>
 </div>
 </div>
 <figure>
-  <img src="./io.png" width="480" align="center"/>
-  <figcaption> Perspective projection </figcaption>
+  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
+  <figcaption> Orthogonal VS Perspective projection </figcaption>
 </figure>
                 
               
@@ -890,13 +969,13 @@ camera(
       
       
         
-        <a href="../Pigments/pigments/" class="md-footer__link md-footer__link--next" aria-label="Next: Pigments" rel="next">
+        <a href="../CHANGELOG/" class="md-footer__link md-footer__link--next" aria-label="Next: Changelog" rel="next">
           <div class="md-footer__title">
             <div class="md-ellipsis">
               <span class="md-footer__direction">
                 Next
               </span>
-              Pigments
+              Changelog
             </div>
           </div>
           <div class="md-footer__button md-icon">
