@@ -13,9 +13,9 @@ class PathTracer(
     world: World = World(),
     backgroundColor: Color = NAVY.copy(),
     val pcg: PCG = PCG(),
-    val nRays: Int = 100,
-    val maxDepth: Int = 10,
-    val rrTrigger: Int = 6
+    val nRays: Int = 10,
+    val maxDepth: Int = 3,
+    val rrTrigger: Int = 2
 ) :
     Renderer(world = world, backgroundColor = backgroundColor) {
 
