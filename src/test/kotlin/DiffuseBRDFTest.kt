@@ -19,7 +19,7 @@ class DiffuseBRDFTest {
         val hitPoint = Point()
         val n = VECZ.toNormal()
         val d = 0
-
+        println(System.getProperty("user.dir"))
         val expectedR = File("src/Rays.txt").readLines()
             for (i in 0..10) {
                 val r = brdf.scatterRay(pcg, inDir, hitPoint, n, d)
