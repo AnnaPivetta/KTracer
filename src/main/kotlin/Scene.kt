@@ -7,6 +7,6 @@ data class Scene (
     var overriddenVariables: Set<String> = setOf()
     ) {
     init{
-        shapeVariables["KTArmchair"] = KTArmchair
+        //shapeVariables["KTArmchair"] = KTArmchair
     }
 }
