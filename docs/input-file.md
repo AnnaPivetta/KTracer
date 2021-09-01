@@ -152,7 +152,7 @@ mincraft ( rotation_z(45) )                  #Placing the shape into the world
 [6]: Shapes/shapes.md#csg
 
 ## Camera
-The last ingredient for rendering your first image is a camera from which the world is observed.
+The last ingredient, before rendering your first image, is a camera from which the world is observed.
 Cameras accept a transformation parameter that sets its position and orientation. It also need to know the
 aspect ratio of the image, and the distance from the camera and the scree onto which the scene is projected (recommended is 1.0).  
 There are two different projections available: `orthogonal` and `perspective`:
