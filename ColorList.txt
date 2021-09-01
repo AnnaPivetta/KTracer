@@ -19,3 +19,5 @@ red
 gray
 darkgray
 dimgray
+darkbrown
+saddlebrown
