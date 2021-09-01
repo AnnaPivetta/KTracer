@@ -276,10 +276,35 @@ class Cylinder(
     }
 
     /**
-     * Still not implemented for real UV mapping, it's just a fake map,
-     * letting us to have only uniform surfaces
+     * U, V mapping for cylinder
+     * (0,0)     (0.5, 0)         (1,0)
+     * +---------------------------+
+     * |             |             |
+     * |    bottom   |     top     |
+     * |     face    |    face     |
+     * |             |             |
+     * +---------------------------+ (1, 0.5)
+     * |                           |
+     * |        lateral face       |
+     * |                           |
+     * |                           |
+     * +---------------------------+
+     * (0,1)                        (1,1)
      */
     private fun toSurPoint(hit: Point): Vector2d {
-        return Vector2d(0.5F, 0.5F)
+        return when {
+            hit.z.isClose(0.5F) -> Vector2d( //Top face
+                u = 0.5F + (hit.x + 1.0F) / 4.0F,    // x is in [-1,1] -> x+1 in [0,2] -> (x+1)/4 in [0,0.5]
+                v = (hit.y + 1.0F) / 4.0F           //same as x
+            )
+            hit.z.isClose(-0.5F) -> Vector2d(    //Bottom face
+                u = (hit.x + 1.0F) / 4.0F,    // x is in [-1,1] -> x+1 in [0,2] -> (x+1)/4 in [0,0.5]
+                v = (hit.y + 1.0F) / 4.0F           //same as x
+            )
+            else -> Vector2d(        //Lateral Face
+                u = ((atan2(hit.y, hit.x) + (2.0F * PI.toFloat())) % (2.0F * PI.toFloat())) / (2.0F * PI.toFloat()),
+                v = 1.0F - (hit.z + 0.5F) / 2.0F
+            )
+        }
     }
 }
