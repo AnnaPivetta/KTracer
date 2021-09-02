@@ -46,7 +46,7 @@ class Demo : CliktCommand(name = "demo") {
                 )
             )
         )
-        /*
+
         world.add(Sphere(T=Transformation().translation(Vector(5.0F, -3.0F, 8.0F)),
                         material = Material(DiffuseBRDF(p=UniformPigment(color= GOLD.copy())))))
         val firstCross = CSGUnion(
@@ -109,30 +109,11 @@ class Demo : CliktCommand(name = "demo") {
             )
         )
 
-         */
-
-        world.add(
-            Hyperboloid(
-                T = T.translation(2f*VECX),
-                material= Material (
-                    brdf = DiffuseBRDF( UniformPigment(RED.copy()) ),
-                    emittedRad = UniformPigment(BLACK.copy())
-                )
-            )
-        )
-
         val cameraT = T.translation(-2.0F * VECX + 3.0F * VECZ)
         val camera = PerspectiveCamera(AR = 1.0F, T = cameraT)
         val im = HdrImage(width, height)
         val computeColor = FlatRenderer(world).computeRadiance()
-        /*val pt = PathTracer(
-            world = world,
-            nRays = 10,
-            maxDepth = 3,
-            rrTrigger = 2
-            )
 
-         */
         ImageTracer(im, camera).fireAllRays(computeColor)
 
         //Save HDR Image

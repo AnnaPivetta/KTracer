@@ -2,14 +2,31 @@ import kotlin.math.PI
 import kotlin.math.atan2
 import kotlin.math.sqrt
 
+/**
+ * Shape implementing an Hyperboloid
+ *
+ * This class inherits from abstract class Shape and implements an hyperboloid, which equation is
+ * x^2 + y^2 - z^2 = 1, with height from [minZ] to [maxZ]
+
+ *
+ * Other class properties:
+ * - [T] - (optional) The [Transformation] to apply to the Cylinder
+ * - [material] - The [Material] of which the [Cylinder] is made of
+ *
+ * @see Shape
+ */
+
+
 class Hyperboloid (
+    val minZ : Float = -0.5F,
+    val maxZ : Float = 0.5F,
     T : Transformation = Transformation(),
     material: Material = Material()
     ) : Shape(T, material) {
 
     override fun isPointInternal(p: Point): Boolean {
         val realP = T.inverse() * p
-        return realP.x*realP.x + realP.y*realP.y - realP.z * realP.z < -1.0F && realP.z in -0.5F..0.5F
+        return realP.x*realP.x + realP.y*realP.y - realP.z * realP.z <= 1.0F && realP.z in minZ..maxZ
     }
 
 
@@ -33,10 +50,10 @@ class Hyperboloid (
         val t2 = (-b + sqrt(det4)) / a
 
         val tHit = when {
-            t1 in r.tmin..r.tmax && ir.at(t1).z in -0.5F..0.5F -> {
+            t1 in r.tmin..r.tmax && ir.at(t1).z in minZ..maxZ -> {
                 t1
             }
-            t2 in r.tmin..r.tmax && ir.at(t2).z in -0.5F..0.5F -> {
+            t2 in r.tmin..r.tmax && ir.at(t2).z in minZ..maxZ -> {
                 t2
             }
             else -> {
@@ -73,16 +90,16 @@ class Hyperboloid (
         val ir = T.inverse() * r
         //Compute intersection
         //Determinant/4 ( -b +/- sqrt(b*b - ac) )/a
-        val a = ir.dir.norm2()
+        val a = ir.dir.x*ir.dir.x + ir.dir.y*ir.dir.y - ir.dir.z*ir.dir.z
         val b = ir.origin.x*ir.dir.x + ir.origin.y*ir.dir.y - ir.origin.z*ir.dir.z
-        val c = ir.origin.x*ir.origin.x + ir.origin.y*ir.origin.y - ir.origin.z*ir.origin.z + 1.0F
+        val c = ir.origin.x*ir.origin.x + ir.origin.y*ir.origin.y - ir.origin.z*ir.origin.z - 1.0F
         val det4 = b * b - a*c
         //Intersections
         val t1 = (-b - sqrt(det4)) / a
         val t2 = (-b + sqrt(det4)) / a
 
         val hits = mutableListOf<HitRecord>()
-        if (t1 in r.tmin..r.tmax && ir.at(t1).z in -0.5F..0.5F) {
+        if (t1 in r.tmin..r.tmax && ir.at(t1).z in minZ..maxZ) {
             val hit = ir.at(t1)
             hits.add(
                 HitRecord(
@@ -95,7 +112,7 @@ class Hyperboloid (
                 )
             )
         }
-        if (t2 in r.tmin..r.tmax && ir.at(t2).z in -0.5F..0.5F) {
+        if (t2 in r.tmin..r.tmax && ir.at(t2).z in minZ..maxZ) {
             val hit = ir.at(t2)
             hits.add(
                 HitRecord(
