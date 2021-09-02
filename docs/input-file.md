@@ -63,8 +63,8 @@ Here are two examples of different material definitions:
 
 
 <figure>
-  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
-  <figcaption>Here I must put an image with both brdfs </figcaption>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/brdfs.png?raw=true" width="480" align="center"/>
+  <figcaption> An image with both specular and diffusive BRDF </figcaption>
 </figure>
 
 [2]: https://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function
@@ -109,10 +109,15 @@ box ( (-0.5, -0.5, -0.5),
     )
 ...
 ```
+
 <figure>
-  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
-  <figcaption>Here is the result of the code above (left) vs what will result by the swapping of the 2 transformations (right) </figcaption>
+    <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/transf3.png?raw=true" width="47%" align="left"/>
+    <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/transf4.png?raw=true" width="47%"align="right">
+
+  <figcaption> On the left the cylinder has been first translated and then rotated. On the right the order of transformations is the opposite </figcaption>
+
 </figure>
+
 
 
 #### Scaling
@@ -125,7 +130,7 @@ sphere ( mirror, scaling([1.0, 3.0, 1.0]) )
 ...
 ```
 <figure>
-  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/ellipsoid.png?raw=true" width="480" align="center"/>
   <figcaption> Inhomogeneous scaling of a sphere leads to an ellipsoid </figcaption>
 </figure>
 
@@ -180,7 +185,10 @@ There are two different projections available: `orthogonal` and `perspective`
         1.0			        
     )
     ```
+
 <figure>
-  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
-  <figcaption> Orthogonal VS Perspective projection </figcaption>
+    <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/cupOrtho.png?raw=true" width="47%" align="left"/>
+    <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/cupPersp.png?raw=true" width="47%"align="right">
+
+  <figcaption> Orthogonal VS Perspective projection. Camera is in the same position for both images </figcaption>
 </figure>

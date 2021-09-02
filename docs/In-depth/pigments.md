@@ -20,8 +20,8 @@ The list of the available names is updated [here][4].
     ...
 
 <figure>
-  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
-  <figcaption> Uniform shapes </figcaption>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/uniform.png?raw=true" width="480" align="center"/>
+  <figcaption> Uniform shapes, ground and sky </figcaption>
 </figure>
 
 [2]: https://en.wikipedia.org/wiki/RGB_color_model
@@ -43,8 +43,8 @@ apply to the shape and define your material.
 
 
 <figure>
-  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
-  <figcaption> Earth and moon are spheres with image texture </figcaption>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/universe.png?raw=true" width="480" align="center"/>
+  <figcaption> Earth is placed in the universe, both textured with image pigments </figcaption>
 </figure>
 
 ## Procedural Pigments
@@ -73,7 +73,7 @@ as you like.
     ...
 
 <figure>
-  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
+  <img src="https://github.com/AnnaPivetta/KTracer/raw/master/images/chair.png" width="480" align="center"/>
   <figcaption> The checkered ground makes the object more visible </figcaption>
 </figure>
 
@@ -186,6 +186,6 @@ For lava pigment only two parameters are customizable:
     ```
 
 <figure>
-  <img src="https://raw.githubusercontent.com/AnnaPivetta/KTracer/master/images/demo.png" width="480" align="center"/>
-  <figcaption> Marble, Wood and Lava pigment </figcaption>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/master/examples/ex4/image4.png?raw=true" width="480" align="center"/>
+  <figcaption> Wood, Marble and Lava pigments </figcaption>
 </figure>
