@@ -60,6 +60,44 @@ CSG object, we recommend to give a look to its documentation in the [input file]
 [3]: ../input-file.md#definitions
 
 ### Difference
+Difference is the operation that, given 2 shapes, builds the object where all the point belonging
+to the first shape and not to the second are considered.  
+In the following example from a box, two other boxes are removed, each with a different rotation, giving 
+birth to a triangular shape.
+
+    shape baseBox box (
+        (-0.05, 0.0 , 0.0),
+        (0.05, 1.0 , 1.0),
+        marble,
+        identity
+    )
+
+    shape cutBox box (
+        (-1.0, -3.0 , 0.0),
+        (1.0, 3.0 , 1.0),
+        marble,
+        identity
+    )
+
+    shape baseCrossUnit difference(
+        baseBox(identity),
+        cutBox(rotation_x(63),
+        identity
+    )
+
+    shape crossUnit difference (
+        baseCrossUnit(identity),
+        cutBox( translation([0, 1.0, 0]) * rotation_x(-63) ),
+        translation([0, -0.5, -0.5)
+    )
+
+    crossUnit(identity)
+
+<figure>
+  <img src="../assets/images/diffKing.png" width="480" align="center"/>
+  <figcaption> With the difference it is possible to obtain a triangular shape, which will be 
+    useful for the top of the final figure </figcaption>
+</figure>
 
 ### Union
 ### Intersection
