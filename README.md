@@ -20,6 +20,8 @@ The contributors to the project are [Matteo Martinelli](https://github.com/Matte
   - [Converter](#conversion-mode-arrows_counterclockwise)
 * [Animation](#animation-movie_camera)
 * [Gallery](#gallery-fireworks)
+* [Licence](#licence)
+* [Contribution](#contribution)
 
 ### Requirements
 KTracers uses [Kotlin](https://github.com/JetBrains/kotlin) version 1.4.31. It is built with [Gradle](https://github.com/gradle/gradle).  
@@ -133,3 +135,9 @@ In order to use this script, you have to install [ffmpeg](https://github.com/FFm
 <p float="center">
 <img src="./images/CornellBox.png" height="300" />
 </p>
+
+### Licence :page_with_curl:
+KTracer is released under Apache Licence, see the [LICENCE.txt](https://github.com/AnnaPivetta/KTracer/blob/master/LICENSE.txt) for further informations.
+
+### Contribution
+Feel free to help us developing this tool either using the issue tracker, opening pull requests or contacting us via [mail](teo.martinelli97@gmail.com). We will really appreaciate any contribution!
