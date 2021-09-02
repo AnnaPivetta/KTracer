@@ -25,6 +25,7 @@ class InStream(
         KeywordEnum.PLANE to ::parsePlane,
         KeywordEnum.BOX to ::parseBox,
         KeywordEnum.CYLINDER to ::parseCylinder,
+        KeywordEnum.HYPERBOLOID to :: parseHyperboloid,
         KeywordEnum.CSGUNION to ::parseCSGUnion,
         KeywordEnum.CSGDIFFERENCE to ::parseCSGDifference,
         KeywordEnum.CSGINTERSECTION to ::parseCSGIntersection
@@ -671,6 +672,23 @@ private fun parseBox(scene: Scene): Box {
         expectSymbol(')')
 
         return Cylinder(T = transformation, material = scene.materials[materialName]!!)
+    }
+
+    private fun parseHyperboloid(scene: Scene): Hyperboloid {
+        expectSymbol('(')
+        val minZ = expectNumber(scene)
+        expectSymbol(',')
+        val maxZ = expectNumber(scene)
+        expectSymbol(',')
+        val materialName = expectIdentifier()
+        if (materialName !in scene.materials) {
+            throw GrammarError(location, "unknown material $materialName")
+        }
+        expectSymbol(',')
+        val transformation = parseTransformation(scene)
+        expectSymbol(')')
+
+        return Hyperboloid(minZ = minZ, maxZ = maxZ, T = transformation, material = scene.materials[materialName]!!)
     }
 
     private fun parseCSGUnion(scene: Scene): CSGUnion {

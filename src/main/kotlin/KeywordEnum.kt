@@ -6,6 +6,7 @@ enum class KeywordEnum() {
     SPHERE,
     BOX,
     CYLINDER,
+    HYPERBOLOID,
     CSGUNION,
     CSGDIFFERENCE,
     CSGINTERSECTION,
@@ -54,6 +55,7 @@ val KEYWORDS = mapOf(
                 "float" to KeywordEnum.FLOAT, "Float" to KeywordEnum.FLOAT,
                 "box" to KeywordEnum.BOX, "Box" to KeywordEnum.BOX,
                 "cylinder" to KeywordEnum.CYLINDER, "Cylinder" to KeywordEnum.CYLINDER,
+                "hyperboloid" to KeywordEnum.HYPERBOLOID, "Hyperboloid" to KeywordEnum.HYPERBOLOID,
                 "union" to KeywordEnum.CSGUNION, "Union" to KeywordEnum.CSGUNION,
                 "difference" to KeywordEnum.CSGDIFFERENCE, "Difference" to KeywordEnum.CSGDIFFERENCE,
                 "intersection" to KeywordEnum.CSGINTERSECTION, "intersection" to KeywordEnum.CSGINTERSECTION)

@@ -8,5 +8,6 @@ data class Scene (
     ) {
     init{
         shapeVariables["KTArmchair"] = KTArmchair
+        shapeVariables["KTKing"] = KTKing
     }
 }
