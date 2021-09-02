@@ -94,10 +94,63 @@ birth to a triangular shape.
     crossUnit(identity)
 
 <figure>
-  <img src="../assets/images/diffKing.png" width="480" align="center"/>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/diffKing.png?raw=true" width="480" align="center"/>
   <figcaption> With the difference it is possible to obtain a triangular shape, which will be 
     useful for the top of the final figure </figcaption>
 </figure>
 
 ### Union
+Union is the operation that combines two shapes into an object resulting from taking all the points of both shapes.
+It is useful to build together shapes into a unique structure, as in the example.
+
+    shape base cylinder (
+        marble,
+        scaling([1.15, 1.15, 0.2]) * translation([0, 0, 0.5])
+    )
+
+    shape base2 union (
+        base,
+        base ( scaling([0.85, 0.85, 1.5]) * translation([0, 0, 0.2]) )
+    )
+
+    shape body union (
+        base2,
+        hyperboloid (
+            0.5, 
+            0.5,
+            marble,
+            translation([0, 0, 2.0]) * scaling([0.55, 0.55, 3.0])
+    )
+
+    body (identity)
+
+<figure>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/baseKing.png?raw=true" width="480" align="center"/>
+  <figcaption> With the union some cylinders and an hyperboloid can be built up together </figcaption>
+</figure>
+
+
 ### Intersection
+Intersection is the last [CSG][2] operation available, and builds the object considering
+all the points that belong to both the shapes. For example, intersecting a Cylinder and a Sphere will result in: 
+    
+    intersection(
+        sphere( marble, scaling([3.0, 3.0, 3.0]) ),
+        cylinder( marble, translation([0, 0, 2.9]) * scaling([0.5, 0.5, 0.2]) ),
+        identity
+    )
+
+<figure>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/interKing.png?raw=true" width="480" align="center"/>
+  <figcaption> Intersection is what we need for the top of our figure </figcaption>
+</figure>
+
+And here is the result of a complex CSG object, build up of several combinations, and available in [KTracer][4]
+as a variable of name `KTKing`.
+
+<figure>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/kingChess.png?raw=true" width="480" align="center"/>
+  <figcaption> The King of a chess set, with marble procedural texture </figcaption>
+</figure>
+
+[4]: https://github.com/AnnaPivetta/KTracer
