@@ -6,7 +6,7 @@
       <meta charset="utf-8">
       <meta name="viewport" content="width=device-width,initial-scale=1">
       
-        <meta name="description" content="Create a branded static site from a set of Markdown files to host the documentation of your Open Source or commercial project">
+        <meta name="description" content="Create your own images with this Ray Tracer!">
       
       
       
@@ -518,6 +518,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#hyperboloid" class="md-nav__link">
+    Hyperboloid
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -548,6 +555,13 @@
           <li class="md-nav__item">
   <a href="#intersection" class="md-nav__link">
     Intersection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-csg" class="md-nav__link">
+    Advanced CSG
   </a>
   
 </li>
@@ -657,6 +671,13 @@
   
 </li>
         
+          <li class="md-nav__item">
+  <a href="#hyperboloid" class="md-nav__link">
+    Hyperboloid
+  </a>
+  
+</li>
+        
       </ul>
     </nav>
   
@@ -687,6 +708,13 @@
           <li class="md-nav__item">
   <a href="#intersection" class="md-nav__link">
     Intersection
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#advanced-csg" class="md-nav__link">
+    Advanced CSG
   </a>
   
 </li>
@@ -748,6 +776,17 @@ possible. Then the usual <code>material</code> and <code>transformation</code> p
     identity
 )
 </code></pre>
+<h3 id="hyperboloid">Hyperboloid<a class="headerlink" href="#hyperboloid" title="Permanent link">&para;</a></h3>
+<p><a href="https://en.wikipedia.org/wiki/Hyperboloid">Hyperboloids</a> are shapes defined by the quadratic equation: x<sup>2</sup> + y<sup>2</sup> - z<sup>2</sup> = 1.<br />
+The fragment of hyperboloid to be considered, is defined giving the minimum and the maximum values
+of <em>z</em> accepted. Then the usual <code>material</code> and <code>transformation</code> parameter are accepted.</p>
+<pre><code>hyperboloid (           
+    -0.5,   #Min Z
+    0.5,    #Max Z
+    marble,
+    identity
+)
+</code></pre>
 <h2 id="csg">CSG<a class="headerlink" href="#csg" title="Permanent link">&para;</a></h2>
 <p>Of course the infinite complexity of shapes cannot be captured by only basic shapes. <a href="https://en.wikipedia.org/wiki/Constructive_solid_geometry">Constructive Solid Geometry</a> (CSG), does 
 not provide a definitive answer to this problem, but offers a powerful tool for 
@@ -761,8 +800,102 @@ The combination of shapes is based on three logical operations:</p>
 <p>Remember that shape definitions can be of great help when trying to build a complex
 CSG object, we recommend to give a look to its documentation in the <a href="../../input-file/#definitions">input file</a> section.</p>
 <h3 id="difference">Difference<a class="headerlink" href="#difference" title="Permanent link">&para;</a></h3>
+<p>Difference is the operation that, given 2 shapes, builds the object where all the point belonging
+to the first shape and not to the second are considered.<br />
+In the following example from a box, two other boxes are removed, each with a different rotation, giving 
+birth to a triangular shape.</p>
+<pre><code>shape baseBox box (
+    (-0.05, 0.0 , 0.0),
+    (0.05, 1.0 , 1.0),
+    marble,
+    identity
+)
+
+shape cutBox box (
+    (-1.0, -3.0 , 0.0),
+    (1.0, 3.0 , 1.0),
+    marble,
+    identity
+)
+
+shape baseCrossUnit difference(
+    baseBox(identity),
+    cutBox(rotation_x(63),
+    identity
+)
+
+shape crossUnit difference (
+    baseCrossUnit(identity),
+    cutBox( translation([0, 1.0, 0]) * rotation_x(-63) ),
+    translation([0, -0.5, -0.5)
+)
+
+crossUnit(identity)
+</code></pre>
+<figure>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/diffKing.png?raw=true" width="480" align="center"/>
+  <figcaption> With the difference it is possible to obtain a triangular shape, which will be 
+    useful for the top of the final figure </figcaption>
+</figure>
+
 <h3 id="union">Union<a class="headerlink" href="#union" title="Permanent link">&para;</a></h3>
+<p>Union is the operation that combines two shapes into an object resulting from taking all the points of both shapes.
+It is useful to build together shapes into a unique structure, as in the example.</p>
+<pre><code>shape base cylinder (
+    marble,
+    scaling([1.15, 1.15, 0.2]) * translation([0, 0, 0.5])
+)
+
+shape base2 union (
+    base,
+    base ( scaling([0.85, 0.85, 1.5]) * translation([0, 0, 0.2]) )
+)
+
+shape body union (
+    base2,
+    hyperboloid (
+        0.5, 
+        0.5,
+        marble,
+        translation([0, 0, 2.0]) * scaling([0.55, 0.55, 3.0])
+)
+
+body (identity)
+</code></pre>
+<figure>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/baseKing.png?raw=true" width="480" align="center"/>
+  <figcaption> With the union some cylinders and an hyperboloid can be built up together </figcaption>
+</figure>
+
 <h3 id="intersection">Intersection<a class="headerlink" href="#intersection" title="Permanent link">&para;</a></h3>
+<p>Intersection is the last <a href="https://en.wikipedia.org/wiki/Constructive_solid_geometry">CSG</a> operation available, and builds the object considering
+all the points that belong to both the shapes. For example, intersecting a Cylinder and a Sphere will result in: </p>
+<pre><code>intersection(
+    sphere( marble, scaling([3.0, 3.0, 3.0]) ),
+    cylinder( marble, translation([0, 0, 2.9]) * scaling([0.5, 0.5, 0.2]) ),
+    identity
+)
+</code></pre>
+<figure>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/interKing.png?raw=true" width="480" align="center"/>
+  <figcaption> Intersection is what we need for the top of our figure </figcaption>
+</figure>
+
+<p>And here is the result of a complex <a href="https://en.wikipedia.org/wiki/Constructive_solid_geometry">CSG</a> object, build up of several combinations, and available in <a href="https://github.com/AnnaPivetta/KTracer">KTracer</a>
+as a variable of name <code>KTKing</code>.</p>
+<figure>
+  <img src="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/kingChess.png?raw=true" width="480" align="center"/>
+  <figcaption> The King of a chess set, with marble procedural texture </figcaption>
+</figure>
+
+<h3 id="advanced-csg">Advanced CSG<a class="headerlink" href="#advanced-csg" title="Permanent link">&para;</a></h3>
+<p>Some fascinating shapes have been made available to programmers for their images:</p>
+<ul>
+<li><a href="https://github.com/AnnaPivetta/KTracer/raw/master/images/chair.png"><code>KTArmchair</code></a> A nice armchair for your living room</li>
+<li><a href="https://github.com/AnnaPivetta/KTracer/blob/gh-pages/docs/assets/images/kingChess.png?raw=true"><code>KTKing</code></a> The most important piece in the chess board</li>
+</ul>
+<p>If you have some interesting creations, let us know via <a href="https://github.com/AnnaPivetta/KTracer">issues</a> via <a href="teo.martinelli97@gmail.com">e-mail</a>. 
+If you like to share it with the community, we will provide to extend the available shapes.</p>
                 
               
               
