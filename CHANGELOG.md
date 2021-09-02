@@ -1,5 +1,11 @@
 # CHANGELOG
 
+### v1.2.0
+##### New Features
+- [20](https://github.com/AnnaPivetta/KTracer/pull/20) Finally also Cylinder has its own UV mapping. Now Textures different from uniform one can be applied
+- [21](https://github.com/AnnaPivetta/KTracer/pull/21) New shape Hyperboloid has been added to available ones
+
+
 ### v1.1.0
 ##### New Features
  - [16](https://github.com/AnnaPivetta/KTracer/pull/16) New Pigments are available, thanks to Pocedural Texturing. Being more specific new
