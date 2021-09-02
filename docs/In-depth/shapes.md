@@ -42,7 +42,19 @@ possible. Then the usual `material` and `transformation` parameter are accepted.
         identity
     )
 
+### Hyperboloid
+[Hyperboloids][5] are shapes defined by the quadratic equation: x<sup>2</sup> + y<sup>2</sup> - z<sup>2</sup> = 1.  
+The fragment of hyperboloid to be considered, is defined giving the minimum and the maximum values
+of _z_ accepted. Then the usual `material` and `transformation` parameter are accepted.
 
+    hyperboloid (           
+        -0.5,   #Min Z
+        0.5,    #Max Z
+        marble,
+        identity
+    )
+
+[5]: https://en.wikipedia.org/wiki/Hyperboloid
 ## CSG
 Of course the infinite complexity of shapes cannot be captured by only basic shapes. [Constructive Solid Geometry][2] (CSG), does 
 not provide a definitive answer to this problem, but offers a powerful tool for 
