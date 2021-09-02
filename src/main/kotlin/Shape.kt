@@ -14,17 +14,18 @@
  * - [Box]
  * - [Plane]
  * - [Cylinder]
+ * - [Hyperboloid]
  * - CSGs
  *
  *
  * @see Sphere
  * @see Box
  * @see Plane
+ * @see Cylinder
+ * @see Hyperboloid
  * @see CSGDifference
  * @see CSGUnion
  * @see CSGIntersection
- * @see Cylinder
-
  */
 
 

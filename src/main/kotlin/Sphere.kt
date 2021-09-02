@@ -38,7 +38,6 @@ class Sphere (T : Transformation = Transformation(), material: Material = Materi
         val t1 = ( -b - sqrt(det4) )/d2
         val t2 = ( -b + sqrt(det4) )/d2
 
-
         val tHit = when {
             t1 in r.tmin..r.tmax -> {
                 t1
