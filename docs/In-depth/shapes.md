@@ -145,7 +145,7 @@ all the points that belong to both the shapes. For example, intersecting a Cylin
   <figcaption> Intersection is what we need for the top of our figure </figcaption>
 </figure>
 
-And here is the result of a complex CSG object, build up of several combinations, and available in [KTracer][4]
+And here is the result of a complex [CSG][2] object, build up of several combinations, and available in [KTracer][4]
 as a variable of name `KTKing`.
 
 <figure>
