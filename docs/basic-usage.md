@@ -48,7 +48,7 @@ Some of the most useful parameters are:
 
 - `--width | -w <WIDTH>` The width of the image
 - `--height | -h <HEIGTH>` The height of the image
-- `--algorithm | -a <ALGORITHM>` The algorithm used to render the image. See later for further information
+- `--algorithm | -a <ALGORITHM>` The algorithm used to render the image. See [later](In-depth/renderers.md) for further information
 - `--ldr-o | --ldroutput <FILE OUT>` The name of the LDR output file
 - `--nr | -n <NUMBER OF RAYS>` Number of rays generated at each surface-ray interaction
 - `--maxDepth | -Md <NUMBER OF REFLECTIONS>` Maximum number of reflections per ray

@@ -173,7 +173,7 @@ Some fascinating shapes have been made available to programmers for their images
 - [`KTArmchair`][6] A nice armchair for your living room
 - [`KTKing`][7] The most important piece in the chess board
 
-If you have some interesting creations, let us know via [issues][4] via [e-mail](teo.martinelli97@gmail.com). 
+If you have some interesting creations, let us know via [issues][4] or via [e-mail](teo.martinelli97@gmail.com). 
 If you like to share it with the community, we will provide to extend the available shapes.
 
 
