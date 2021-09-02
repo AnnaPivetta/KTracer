@@ -25,7 +25,7 @@ class Box(
         for (i in 0 until 3) {
             if (min[i] > max[i]) {
                 println(
-                    VIDEORED + "Warning: Box has no consistent minimum and maximum vertices. " +
+                    VIDEORED + "Warning: Box has no consistent minimum and maximum vertices (component $i)." +
                             "Default values will be used" + VIDEORESET
                 )
                 min = Point(-0.5F, -0.5F, -0.5F)
