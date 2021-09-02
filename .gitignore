@@ -12,6 +12,10 @@
 /build/classes/java/main/BRDF.class
 /build/classes/kotlin/main/BRDF.class
 /build/classes/java/main/Camera.class
+build/classes/kotlin/main/InStream.class
+build/classes/kotlin/main/KeywordEnum.class
+build/classes/kotlin/main/KeywordEnumKt.class
+build/classes/kotlin/main/Shape.class
 /build/classes/java/main/CheckeredPigment.class
 /build/classes/kotlin/main/CheckeredPigment.class
 /build/classes/java/test/CheckeredPigmentTest.class
